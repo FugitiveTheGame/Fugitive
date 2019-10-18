@@ -7,7 +7,6 @@
 [ext_resource path="res://actors/hider/Hider.tscn" type="PackedScene" id=5]
 [ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=6]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "TestHiderMover"
 length = 10.0
@@ -75,10 +74,12 @@ position = Vector2( 270, 350 )
 position = Vector2( 220, 470 )
 
 [node name="hider_test" parent="." instance=ExtResource( 5 )]
+editor/display_folded = true
 margin_left = 484.513
 margin_top = 283.683
 margin_right = 524.511
 margin_bottom = 323.684
+color = Color( 0.894118, 0.129412, 0.129412, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hider_test"]
 autoplay = "TestHiderMover"
