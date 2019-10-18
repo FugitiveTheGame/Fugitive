@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/light.png-3ca3b62e434fad555747039a0633fe9a.stex"
+path="res://.import/caster.png-2e6cddfef5c1c664957aa01d89b8d849.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://seeker/light.png"
-dest_files=[ "res://.import/light.png-3ca3b62e434fad555747039a0633fe9a.stex" ]
+source_file="res://actors/test_wall/caster.png"
+dest_files=[ "res://.import/caster.png-2e6cddfef5c1c664957aa01d89b8d849.stex" ]
 
 [params]
 

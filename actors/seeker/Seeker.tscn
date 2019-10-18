@@ -1,8 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://seeker/Seeker.gd" type="Script" id=1]
-[ext_resource path="res://seeker/spot.png" type="Texture" id=2]
-[ext_resource path="res://seeker/light.png" type="Texture" id=3]
+[ext_resource path="res://actors/seeker/Seeker.gd" type="Script" id=1]
+[ext_resource path="res://actors/seeker/spot.png" type="Texture" id=2]
+[ext_resource path="res://actors/seeker/light.png" type="Texture" id=3]
+
 
 
 [sub_resource type="CircleShape2D" id=1]

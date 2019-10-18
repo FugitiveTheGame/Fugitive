@@ -1,6 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://test_wall/caster.png" type="Texture" id=1]
+[ext_resource path="res://actors/test_wall/caster.png" type="Texture" id=1]
+
 
 
 [sub_resource type="OccluderPolygon2D" id=1]

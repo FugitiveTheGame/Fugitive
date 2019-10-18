@@ -2,10 +2,11 @@
 
 [ext_resource path="res://maps/map_00/main.gd" type="Script" id=1]
 [ext_resource path="res://maps/map_00/bg.png" type="Texture" id=2]
-[ext_resource path="res://test_wall/test_wall.tscn" type="PackedScene" id=3]
-[ext_resource path="res://seeker/Seeker.tscn" type="PackedScene" id=4]
-[ext_resource path="res://hider/Hider.tscn" type="PackedScene" id=5]
+[ext_resource path="res://actors/test_wall/test_wall.tscn" type="PackedScene" id=3]
+[ext_resource path="res://actors/seeker/Seeker.tscn" type="PackedScene" id=4]
+[ext_resource path="res://actors/hider/Hider.tscn" type="PackedScene" id=5]
 [ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=6]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "TestHiderMover"
