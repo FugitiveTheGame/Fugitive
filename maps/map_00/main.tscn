@@ -30,7 +30,7 @@ script = ExtResource( 1 )
 [node name="ambient" type="CanvasModulate" parent="."]
 color = Color( 0.27451, 0.27451, 0.27451, 1 )
 
-[node name="bg" type="Sprite" parent="."]
+[node name="ground" type="Sprite" parent="."]
 position = Vector2( 401.251, 301.906 )
 scale = Vector2( 6.39454, 4.82665 )
 texture = ExtResource( 2 )
@@ -73,17 +73,26 @@ position = Vector2( 270, 350 )
 [node name="seeker" parent="." instance=ExtResource( 4 )]
 position = Vector2( 220, 470 )
 
-[node name="hider_test" parent="." instance=ExtResource( 5 )]
+[node name="hider_test_00" parent="." groups=[
+"hiders",
+] instance=ExtResource( 5 )]
 editor/display_folded = true
 margin_left = 484.513
 margin_top = 283.683
 margin_right = 524.511
 margin_bottom = 323.684
-color = Color( 0.894118, 0.129412, 0.129412, 1 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="hider_test"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="hider_test_00"]
 autoplay = "TestHiderMover"
 anims/TestHiderMover = SubResource( 1 )
+
+[node name="hider_test_01" parent="." groups=[
+"hiders",
+] instance=ExtResource( 5 )]
+margin_left = 244.211
+margin_top = 55.2635
+margin_right = 284.211
+margin_bottom = 95.2635
 
 [node name="TestDetectionLabel" type="Label" parent="."]
 margin_left = 231.0

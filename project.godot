@@ -41,7 +41,8 @@ ui_left={
 [layer_names]
 
 2d_physics/layer_1="walls"
-2d_physics/layer_2="players"
+2d_physics/layer_2="seekers"
+2d_physics/layer_3="hiders"
 
 [physics]
 
