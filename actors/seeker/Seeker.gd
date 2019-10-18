@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Seeker
 
 export (int) var speed = 200
 export (float) var rotation_speed = 1.5
