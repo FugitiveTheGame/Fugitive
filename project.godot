@@ -21,8 +21,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Fugitive"
-run/main_scene="res://maps/map_00/main.tscn"
+run/main_scene="res://screens/mainmenu/MainMenu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Network="*res://global/Network.gd"
 
 [display]
 
