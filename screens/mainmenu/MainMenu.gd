@@ -11,7 +11,7 @@ func _on_HostGameButton_pressed():
 	
 	var success = Network.hostGame(playerName)
 	if success:
-		get_tree().change_scene('res://screens/lobby/Lobby.tscn')
+		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
 
 func _on_JoinGameButton_pressed():
 	if playerName == "":
@@ -31,9 +31,9 @@ func _on_ConnectButton_pressed():
 	if serverIp == "":
 		return
 	
-	var success = Network.joinGame(serverIp, playerName)
+	var success = Network.joinGame(playerName, serverIp)
 	if success:
-		get_tree().change_scene('res://screens/lobby/Lobby.tscn')
+		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
 
 func _on_CancelButton_pressed():
 	joinDialog.hide()

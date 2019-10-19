@@ -6,12 +6,15 @@ const MIN_PLAYERS = 1
 
 func _ready():
 	update_player_list()
-	get_tree().connect("network_peer_connected", self, "player_connected")
+	assert(Network.connect("players_updated", self, "players_updated") == OK)
 
-func player_connected():
+func players_updated():
 	update_player_list()
 
 func update_player_list():
+	for child in playerListControl.get_children():
+		playerListControl.remove_child(child)
+	
 	for player_id in Network.players:
 		var player = Network.players[player_id]
 		var playerControl = Label.new()

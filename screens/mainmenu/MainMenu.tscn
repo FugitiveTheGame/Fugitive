@@ -45,7 +45,6 @@ margin_bottom = 203.473
 text = "Your Name:"
 
 [node name="JoinGameDialog" type="PopupDialog" parent="."]
-visible = true
 margin_left = 230.0
 margin_top = 380.0
 margin_right = 550.0
@@ -83,6 +82,5 @@ text = "Cancel"
 [connection signal="pressed" from="JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="text_changed" from="PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="about_to_show" from="JoinGameDialog" to="." method="_on_JoinGameDialog_about_to_show"]
-[connection signal="popup_hide" from="JoinGameDialog" to="." method="_on_JoinGameDialog_popup_hide"]
 [connection signal="pressed" from="JoinGameDialog/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
