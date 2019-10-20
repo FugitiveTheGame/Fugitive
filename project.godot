@@ -9,12 +9,24 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Player",
+"class": "Hider",
+"language": "GDScript",
+"path": "res://actors/hider/Hider.gd"
+}, {
 "base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://actors/player/Player.gd"
+}, {
+"base": "Player",
 "class": "Seeker",
 "language": "GDScript",
 "path": "res://actors/seeker/Seeker.gd"
 } ]
 _global_script_class_icons={
+"Hider": "",
+"Player": "",
 "Seeker": ""
 }
 

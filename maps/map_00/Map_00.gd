@@ -1,8 +1,6 @@
 extends Node2D
 
 onready var detectionLabel := get_node("TestDetectionLabel")
-#onready var seeker := get_node("seeker")
-#onready var seeker_ray_caster := get_node("seeker/RayCast2D")
 onready var players := $players
 
 var cone_width = deg2rad(45.0)
@@ -37,7 +35,7 @@ func create_hider(id, player):
 	node.set_name(str(id))
 	node.set_network_master(id)
 	
-	node.rect_global_position = Vector2(480, 290)
+	node.global_position = Vector2(480, 290)
 	
 	players.add_child(node)
 

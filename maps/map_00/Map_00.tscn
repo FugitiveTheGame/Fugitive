@@ -1,28 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://maps/map_00/Map_00.gd" type="Script" id=1]
 [ext_resource path="res://maps/map_00/bg.png" type="Texture" id=2]
 [ext_resource path="res://actors/test_wall/test_wall.tscn" type="PackedScene" id=3]
-[ext_resource path="res://actors/seeker/Seeker.tscn" type="PackedScene" id=4]
-[ext_resource path="res://actors/hider/Hider.tscn" type="PackedScene" id=5]
-[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=6]
-
-[sub_resource type="Animation" id=1]
-resource_name = "TestHiderMover"
-length = 10.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 3, 6, 10 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 480, 290 ), Vector2( 701.113, 179.895 ), Vector2( 514.295, 17.445 ), Vector2( 484.513, 283.683 ) ]
-}
+[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=4]
 
 [node name="base" type="Node2D"]
 script = ExtResource( 1 )
@@ -70,38 +51,12 @@ position = Vector2( 609.636, 330 )
 [node name="wall_10" parent="walls" instance=ExtResource( 3 )]
 position = Vector2( 270, 350 )
 
-[node name="seeker" parent="." instance=ExtResource( 4 )]
-visible = false
-position = Vector2( 220, 470 )
-
-[node name="hider_test_00" parent="." groups=[
-"hiders",
-] instance=ExtResource( 5 )]
-visible = false
-margin_left = 484.513
-margin_top = 283.683
-margin_right = 524.511
-margin_bottom = 323.684
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="hider_test_00"]
-autoplay = "TestHiderMover"
-anims/TestHiderMover = SubResource( 1 )
-
-[node name="hider_test_01" parent="." groups=[
-"hiders",
-] instance=ExtResource( 5 )]
-visible = false
-margin_left = 244.211
-margin_top = 55.2635
-margin_right = 284.211
-margin_bottom = 95.2635
-
 [node name="TestDetectionLabel" type="Label" parent="."]
 margin_left = 231.0
 margin_top = 243.0
 margin_right = 450.0
 margin_bottom = 312.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 4 )
 text = "I see you!!!"
 autowrap = true
 

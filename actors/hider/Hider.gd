@@ -1,0 +1,2 @@
+extends Player
+class_name Hider
