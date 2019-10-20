@@ -6,14 +6,21 @@ const DEFAULT_IP := '127.0.0.1'
 const DEFAULT_PORT := 31400
 const MAX_PLAYERS := 5
 
+enum PlayerType {Hider, Seeker, Unset = -1}
+
 var players = {}
-var selfData = { name = "", position = Vector2() }
+var selfData = {
+	name = "",
+	position = Vector2(),
+	type = PlayerType.Unset
+}
 
 func _ready():
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
 
 func hostGame(playerName: String) -> bool:
 	selfData.name = playerName
+	selfData.type = PlayerType.Seeker
 	players[1] = selfData
 	
 	var peer = NetworkedMultiplayerENet.new()
@@ -27,6 +34,7 @@ func hostGame(playerName: String) -> bool:
 	
 func joinGame(playerName: String, serverIp: String) -> bool:
 	selfData.name = playerName
+	selfData.type = PlayerType.Hider
 	
 	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
 	

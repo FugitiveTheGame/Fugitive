@@ -1,14 +1,45 @@
 extends Node2D
 
 onready var detectionLabel := get_node("TestDetectionLabel")
-onready var seeker := get_node("seeker")
-onready var seeker_ray_caster := get_node("seeker/RayCast2D")
+#onready var seeker := get_node("seeker")
+#onready var seeker_ray_caster := get_node("seeker/RayCast2D")
+onready var players := $players
 
 var cone_width = deg2rad(45.0)
 var max_detect_distance := 300.0
 
 func _ready():
 	detectionLabel.hide()
+	create_players(Network.players)
+
+func create_players(players):
+	for player_id in players:
+		var player = players[player_id]
+		match player.type:
+			Network.PlayerType.Seeker:
+				create_seeker(player_id, player)
+			Network.PlayerType.Hider:
+				create_hider(player_id, player)
+
+func create_seeker(id, player):
+	var scene = preload("res://actors/seeker/Seeker.tscn")
+	var node = scene.instance()
+	node.set_name(str(id))
+	node.set_network_master(id)
+	
+	node.global_position = Vector2(200, 470)
+	
+	players.add_child(node)
+
+func create_hider(id, player):
+	var scene = preload("res://actors/hider/Hider.tscn")
+	var node = scene.instance()
+	node.set_name(str(id))
+	node.set_network_master(id)
+	
+	node.rect_global_position = Vector2(480, 290)
+	
+	players.add_child(node)
 
 # warning-ignore:unused_argument
 func _physics_process(delta):
@@ -31,7 +62,7 @@ func _physics_process(delta):
 # seeker can see them.
 func process_hider(hider) -> bool:
 	var isSeen = false
-	
+	"""
 	# Cast a ray between the seeker and this hider
 	var look_vec = seeker.to_local(hider.rect_global_position)
 	seeker_ray_caster.cast_to = look_vec
@@ -70,5 +101,6 @@ func process_hider(hider) -> bool:
 	# This makes sense to me, but if we add it, the Hider flickers like crazy... why...
 	#else:
 		#hider.modulate.a = 0.0
+	"""
 	
 	return isSeen

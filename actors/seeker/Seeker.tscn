@@ -4,8 +4,6 @@
 [ext_resource path="res://actors/seeker/spot.png" type="Texture" id=2]
 [ext_resource path="res://actors/seeker/light.png" type="Texture" id=3]
 
-
-
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
 
@@ -13,7 +11,6 @@ radius = 20.0
 blend_mode = 1
 
 [node name="Seeker" type="KinematicBody2D"]
-position = Vector2( 390, 270 )
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 1 )

@@ -14,6 +14,7 @@ func players_updated():
 func update_player_list():
 	for child in playerListControl.get_children():
 		playerListControl.remove_child(child)
+		child.queue_free()
 	
 	for player_id in Network.players:
 		var player = Network.players[player_id]
@@ -22,5 +23,14 @@ func update_player_list():
 		playerListControl.add_child(playerControl)
 
 func _on_StartGameButton_pressed():
-	if Network.players >= MIN_PLAYERS:
-		get_tree().change_scene('res://maps/map_00/main.tscn')
+	# Only the host can start the game
+	if not is_network_master():
+		return
+	
+	var selectedMap = 'res://maps/map_00/Map_00.tscn'
+	
+	if Network.players.size() >= MIN_PLAYERS:
+		rpc('startGame', selectedMap)
+
+sync func startGame(map):
+	assert(get_tree().change_scene(map) == OK)

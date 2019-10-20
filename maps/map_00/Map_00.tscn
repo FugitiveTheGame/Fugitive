@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://maps/map_00/main.gd" type="Script" id=1]
+[ext_resource path="res://maps/map_00/Map_00.gd" type="Script" id=1]
 [ext_resource path="res://maps/map_00/bg.png" type="Texture" id=2]
 [ext_resource path="res://actors/test_wall/test_wall.tscn" type="PackedScene" id=3]
 [ext_resource path="res://actors/seeker/Seeker.tscn" type="PackedScene" id=4]
@@ -71,12 +71,13 @@ position = Vector2( 609.636, 330 )
 position = Vector2( 270, 350 )
 
 [node name="seeker" parent="." instance=ExtResource( 4 )]
+visible = false
 position = Vector2( 220, 470 )
 
 [node name="hider_test_00" parent="." groups=[
 "hiders",
 ] instance=ExtResource( 5 )]
-editor/display_folded = true
+visible = false
 margin_left = 484.513
 margin_top = 283.683
 margin_right = 524.511
@@ -89,6 +90,7 @@ anims/TestHiderMover = SubResource( 1 )
 [node name="hider_test_01" parent="." groups=[
 "hiders",
 ] instance=ExtResource( 5 )]
+visible = false
 margin_left = 244.211
 margin_top = 55.2635
 margin_right = 284.211
@@ -102,3 +104,5 @@ margin_bottom = 312.0
 custom_fonts/font = ExtResource( 6 )
 text = "I see you!!!"
 autowrap = true
+
+[node name="players" type="Node" parent="."]
