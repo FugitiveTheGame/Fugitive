@@ -43,10 +43,13 @@ func create_hider(id, player):
 func _physics_process(delta):
 	var anySeen := false
 	
+	var seekers = get_tree().get_nodes_in_group("seekers")
+	var seeker = seekers[0] # Just grav the first one for now, support multiple later
+	
 	# Process each hider, find if any have been seen
 	var hiders = get_tree().get_nodes_in_group("hiders")
 	for hider in hiders:
-		if(process_hider(hider)):
+		if(process_hider(hider, seeker)):
 			anySeen = true
 	
 	# Debug: show the label if any hiders were seen
@@ -58,11 +61,12 @@ func _physics_process(delta):
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the
 # seeker can see them.
-func process_hider(hider) -> bool:
+func process_hider(hider, seeker) -> bool:
 	var isSeen = false
-	"""
+	
+	var seeker_ray_caster = seeker.get_node('RayCast2D')
 	# Cast a ray between the seeker and this hider
-	var look_vec = seeker.to_local(hider.rect_global_position)
+	var look_vec = seeker.to_local(hider.global_position)
 	seeker_ray_caster.cast_to = look_vec
 	seeker_ray_caster.force_raycast_update()
 	
@@ -74,10 +78,9 @@ func process_hider(hider) -> bool:
 	if(seeker_ray_caster.is_colliding()):
 		
 		var bodySeen = seeker_ray_caster.get_collider()
-		var hiderBody = hider.get_node("Body")
 		
 		# If the ray hits a wall or something else first, then this Hider is fully occluded
-		if(bodySeen == hiderBody):
+		if(bodySeen == hider):
 			# If hider is in the center of Seeker's FOV, they are fully visible
 			# otherwise, they will gradually fade out the further out to the edges
 			# of the FOV they are. Outside the FOV cone, they are invisible.
@@ -86,7 +89,7 @@ func process_hider(hider) -> bool:
 			#print("visible: %f" % percent_visible)
 			
 			# Distance between Hider and Seeker
-			var distance = seeker.global_position.distance_to(hider.rect_global_position)
+			var distance = seeker.global_position.distance_to(hider.global_position)
 			
 			# To be detected, the Hider must be inside the Seeker's FOV cone.
 			#
@@ -99,6 +102,5 @@ func process_hider(hider) -> bool:
 	# This makes sense to me, but if we add it, the Hider flickers like crazy... why...
 	#else:
 		#hider.modulate.a = 0.0
-	"""
 	
 	return isSeen
