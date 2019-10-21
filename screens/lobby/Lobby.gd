@@ -5,25 +5,37 @@ onready var playerListControl := get_node('PlayerList')
 const MIN_PLAYERS = 1
 
 func _ready():
-	update_player_list()
-	assert(Network.connect("players_updated", self, "players_updated") == OK)
+	players_initialize(Network.players)
+	assert(Network.connect("player_updated", self, "player_updated") == OK)
+	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
+	assert(Network.connect("players_initialize", self, "players_initialize") == OK)
+	assert(Network.connect("player_removed", self, "player_removed") == OK)
 
-func players_updated():
-	update_player_list()
-
-func update_player_list():
-	for child in playerListControl.get_children():
-		playerListControl.remove_child(child)
-		child.queue_free()
+func player_updated(playerId: int, playerData: PlayerLobbyData):
+	var playerControl = playerListControl.get_node(str(playerId))
+	playerControl.setPlayerId(playerId)
+	playerControl.setPlayerName(playerData.name)
+	playerControl.setPlayerType(playerData.type)
 	
-	for player_id in Network.players:
-		var player = Network.players[player_id]
-		var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
-		var playerControl = scene.instance()
-		playerControl.setPlayerId(player_id)
-		playerControl.setPlayerName(player.name)
-		playerControl.setPlayerType(player.type)
-		playerListControl.add_child(playerControl)
+func new_player_registered(playerId: int, playerData: PlayerLobbyData):
+	var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
+	var playerControl = scene.instance()
+	playerControl.set_name(str(playerId))
+	playerControl.setPlayerId(playerId)
+	playerControl.setPlayerName(playerData.name)
+	playerControl.setPlayerType(playerData.type)
+	playerListControl.add_child(playerControl)
+
+func players_initialize(newPlayers: Dictionary):
+	var playersInOrder = newPlayers.keys()
+	playersInOrder.sort()
+	
+	for playerId in playersInOrder:
+		new_player_registered(playerId, newPlayers[playerId])
+		
+func player_removed(playerId: int):
+	var childToRemove = playerListControl.get_node(str(playerId))
+	playerListControl.remove_child(childToRemove)
 
 func _on_StartGameButton_pressed():
 	# Only the host can start the game
