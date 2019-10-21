@@ -1,0 +1,2 @@
+output\Fugitive.exe
+exit
