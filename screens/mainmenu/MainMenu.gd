@@ -1,9 +1,12 @@
-extends Control
+extends Node
 
-onready var joinDialog := get_node("JoinGameDialog")
-onready var serverIpEditText := get_node("JoinGameDialog/ServerIpTextEdit")
+onready var joinDialog := $JoinGameDialog
+onready var serverIpEditText := $JoinGameDialog/Center/Verticle/ServerIpTextEdit
 
 var playerName: String = ""
+
+func _ready():
+	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
 
 func _on_HostGameButton_pressed():
 	if playerName == "":
@@ -31,12 +34,13 @@ func _on_ConnectButton_pressed():
 	if serverIp == "":
 		return
 	
-	var success = Network.joinGame(playerName, serverIp)
-	if success:
-		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+	assert(Network.joinGame(playerName, serverIp))
 
 func _on_CancelButton_pressed():
 	joinDialog.hide()
 
 func _on_JoinGameDialog_about_to_show():
 	serverIpEditText.text = Network.DEFAULT_IP
+
+func on_server_joined():
+	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)

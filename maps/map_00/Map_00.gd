@@ -39,15 +39,21 @@ func create_players(players: Dictionary):
 	
 	for player_id in playerIds:
 		var player = players[player_id]
+		
+		var playerNode: Player
 		match player.type:
 			Network.PlayerType.Seeker:
-				create_seeker(player_id, player)
+				playerNode = create_seeker(player_id, player)
 			Network.PlayerType.Hider:
-				create_hider(player_id, player)
+				playerNode = create_hider(player_id, player)
+		
+		# If this is our current player, set the node as such
+		if get_tree().get_network_unique_id() == player_id:
+			playerNode.set_current_player()
 
 var seekersCount = 0
 
-func create_seeker(id, player):
+func create_seeker(id, player) -> Player:
 	var scene = preload("res://actors/seeker/Seeker.tscn")
 	var node = scene.instance()
 	node.set_name(str(id))
@@ -55,15 +61,14 @@ func create_seeker(id, player):
 	
 	node.global_position = Vector2(200 + (seekersCount * 200), 470 - (seekersCount * 200))
 	
-	if get_tree().get_network_unique_id() == id:
-		node.set_current_player()
-	
 	seekersCount = seekersCount + 1
 	players.add_child(node)
+	
+	return node
 
 var hidersCount = 0
 
-func create_hider(id, player):
+func create_hider(id, player) -> Player:
 	var scene = preload("res://actors/hider/Hider.tscn")
 	var node = scene.instance()
 	node.set_name(str(id))
@@ -73,6 +78,8 @@ func create_hider(id, player):
 	hidersCount = hidersCount + 1
 	
 	players.add_child(node)
+	
+	return node
 
 # warning-ignore:unused_argument
 func _physics_process(delta):

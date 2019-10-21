@@ -25,6 +25,8 @@ margin_right = 505.0
 margin_bottom = 505.0
 
 [node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer"]
+margin_right = 498.0
+margin_bottom = 46.0
 custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
 

@@ -1,6 +1,7 @@
 extends Control
 
 onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
+onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
 
 const MIN_PLAYERS = 1
 
@@ -13,7 +14,7 @@ func _ready():
 	
 	# Only server should see start button
 	if not get_tree().is_network_server():
-		$StartGameButton.hide()
+		startGameButton.hide()
 
 func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
