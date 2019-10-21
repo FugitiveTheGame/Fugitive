@@ -3,35 +3,94 @@
 [ext_resource path="res://screens/lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=2]
 
-[node name="Control" type="Control"]
+[node name="LobbyRoot" type="CenterContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="."]
-margin_right = 114.0
-margin_bottom = 46.0
+[node name="MainPanel" type="PanelContainer" parent="."]
+margin_left = 144.0
+margin_top = 44.0
+margin_right = 656.0
+margin_bottom = 556.0
+rect_min_size = Vector2( 512, 512 )
+
+[node name="OuterContainer" type="VBoxContainer" parent="MainPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 505.0
+margin_bottom = 505.0
+
+[node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer"]
 custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
 
-[node name="Label2" type="Label" parent="."]
-margin_left = 580.0
-margin_top = 71.0
-margin_right = 626.0
-margin_bottom = 102.0
-text = "Players
-"
+[node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+margin_top = 50.0
+margin_right = 498.0
+margin_bottom = 474.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="PlayerList" type="VBoxContainer" parent="."]
-margin_left = 462.105
-margin_top = 102.421
-margin_right = 787.105
-margin_bottom = 502.421
+[node name="PlayersContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
+margin_right = 247.0
+margin_bottom = 424.0
+size_flags_horizontal = 3
 
-[node name="StartGameButton" type="Button" parent="."]
-margin_left = 360.0
-margin_top = 560.0
-margin_right = 443.0
-margin_bottom = 580.0
+[node name="PlayersTitle" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+margin_right = 247.0
+margin_bottom = 14.0
+size_flags_vertical = 1
+text = "Players:"
+
+[node name="SeekersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+margin_top = 18.0
+margin_right = 247.0
+margin_bottom = 32.0
+text = "Seekers: 0/2"
+align = 1
+
+[node name="HidersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+margin_top = 36.0
+margin_right = 247.0
+margin_bottom = 50.0
+text = "Hiders: 0/4"
+align = 1
+
+[node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+margin_top = 54.0
+margin_right = 247.0
+margin_bottom = 424.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerList" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
+margin_right = 247.0
+margin_bottom = 370.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionsContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
+margin_left = 251.0
+margin_right = 498.0
+margin_bottom = 424.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="OptionsLabel" type="Label" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+margin_right = 247.0
+margin_bottom = 14.0
+text = "Options:"
+
+[node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
+margin_top = 478.0
+margin_right = 498.0
+margin_bottom = 498.0
 text = "Start Game"
-[connection signal="pressed" from="StartGameButton" to="." method="_on_StartGameButton_pressed"]
+[connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]

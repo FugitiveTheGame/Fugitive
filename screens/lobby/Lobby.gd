@@ -1,6 +1,6 @@
 extends Control
 
-onready var playerListControl := get_node('PlayerList')
+onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
 
 const MIN_PLAYERS = 1
 
@@ -10,6 +10,10 @@ func _ready():
 	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
 	assert(Network.connect("players_initialize", self, "players_initialize") == OK)
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
+	
+	# Only server should see start button
+	if not get_tree().is_network_server():
+		$StartGameButton.hide()
 
 func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
