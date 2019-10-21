@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://maps/map_00/Map_00.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/seeker/Seeker.tscn" type="PackedScene" id=2]
+[ext_resource path="res://actors/hider/Hider.tscn" type="PackedScene" id=3]
+[ext_resource path="res://maps/map_00/Map_00_dev.gd" type="Script" id=4]
+
+[node name="base" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+
+[node name="Seeker00" parent="players" index="0" instance=ExtResource( 2 )]
+position = Vector2( -180.975, 247.95 )
+
+[node name="Hider00" parent="players" index="1" instance=ExtResource( 3 )]
+position = Vector2( 560.024, 101.175 )
+
+[node name="Hider01" parent="players" index="2" instance=ExtResource( 3 )]
