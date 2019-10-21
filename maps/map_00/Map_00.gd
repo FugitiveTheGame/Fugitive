@@ -6,7 +6,30 @@ onready var players := $players
 
 func _ready():
 	detectionLabel.hide()
+	pre_configure_game()
+	
+func pre_configure_game():
+	get_tree().set_pause(true)
 	create_players(Network.players)
+	rpc_id(1, "done_preconfiguring", get_tree().get_network_unique_id())
+	
+var players_done = []
+
+remotesync func done_preconfiguring(playerIdDone):
+	assert(get_tree().is_network_server())
+	assert(not playerIdDone in players_done) # Was not added yet
+	
+	players_done.append(playerIdDone)
+	
+	print("%d players registered, %d total" % [players_done.size(), Network.players.keys().size()])
+	
+	if (players_done.size() == Network.players.keys().size()):
+		print("*** UNPAUSING ***")
+		rpc("post_configure_game")
+
+remotesync func post_configure_game():
+	get_tree().set_pause(false)
+	print("*** UNPAUSED ***")
 
 func create_players(players: Dictionary):
 	# Make sure players are spawned in order on every client,
