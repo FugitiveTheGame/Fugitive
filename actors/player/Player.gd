@@ -7,13 +7,12 @@ export (float) var rotation_speed = 1.5
 var velocity = Vector2()
 var rotation_dir = 0
 
-puppet func setVelocity(vel):
-	velocity = vel
-
-puppet func setRotation(rot):
-	if is_inside_tree():
-		rotation = rot
-
+puppet func setNetworkPosition(pos: Vector2):
+	self.position = pos
+	
+puppet func setNetworkRotation(rot: float):
+	self.rotation = rot
+	
 func get_input(delta):
 	if not is_network_master():
 		return
@@ -28,12 +27,14 @@ func get_input(delta):
 		velocity = Vector2(-speed, 0).rotated(rotation)
 	if Input.is_action_pressed('ui_up'):
 		velocity = Vector2(speed, 0).rotated(rotation)
-	rpc_unreliable("setVelocity",velocity)
 	
 	rotation += rotation_dir * rotation_speed * delta
-	rpc_unreliable("setRotation",rotation)
 
 func _physics_process(delta):
 	get_input(delta)
 	
-	velocity = move_and_slide(velocity)
+	if is_network_master():
+		velocity = move_and_slide(velocity)
+		
+		rpc_unreliable("setNetworkPosition", position)
+		rpc_unreliable("setNetworkRotation", rotation)
