@@ -1,11 +1,10 @@
 [gd_resource type="DynamicFont" load_steps=2 format=2]
 
-[ext_resource path="res://fonts/Content/Ubuntu-Medium.ttf" type="DynamicFontData" id=1]
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://fonts/content/Ubuntu-Medium.ttf"
 
 [resource]
-size = 40
-outline_size = 2
+size = 46
+outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
+font_data = SubResource( 1 )
