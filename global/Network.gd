@@ -18,6 +18,9 @@ var selfData = {
 func _ready():
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
 
+func setPlayerType(playerId: int, playerType: int):
+	self.players[playerId].type = playerType
+
 func hostGame(playerName: String) -> bool:
 	selfData.name = playerName
 	selfData.type = PlayerType.Seeker

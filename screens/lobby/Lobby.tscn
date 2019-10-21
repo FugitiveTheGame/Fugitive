@@ -23,10 +23,10 @@ text = "Players
 "
 
 [node name="PlayerList" type="VBoxContainer" parent="."]
-margin_left = 520.0
-margin_top = 114.0
-margin_right = 560.0
-margin_bottom = 154.0
+margin_left = 462.105
+margin_top = 102.421
+margin_right = 787.105
+margin_bottom = 502.421
 
 [node name="StartGameButton" type="Button" parent="."]
 margin_left = 360.0

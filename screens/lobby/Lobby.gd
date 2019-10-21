@@ -18,8 +18,10 @@ func update_player_list():
 	
 	for player_id in Network.players:
 		var player = Network.players[player_id]
-		var playerControl = Label.new()
-		playerControl.text = player.name
+		var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
+		var playerControl = scene.instance()
+		playerControl.setPlayerId(player_id)
+		playerControl.setPlayerName(player.name)
 		playerListControl.add_child(playerControl)
 
 func _on_StartGameButton_pressed():
