@@ -20,8 +20,11 @@ func setPlayerName(text: String):
 	
 func getPlayerName() -> String:
 	return self.get_node("LabelPlayerName").text
+	
+func setPlayerType(playerType: int):
+	self.get_node("OptionPlayerRole").selected = playerType
 
-func getPlayerRole() -> int:
+func getPlayerType() -> int:
 	match self.get_node("OptionPlayerRole").get_selected_id():
 		0:
 			return Network.PlayerType.Hider
@@ -31,4 +34,4 @@ func getPlayerRole() -> int:
 			return Network.PlayerType.Hider
 
 func _on_OptionPlayerRole_item_selected(ID):
-	Network.setPlayerType(self.playerId, self.getPlayerRole())
+		Network.broadcastSetPlayerType(self.playerId, self.getPlayerType())

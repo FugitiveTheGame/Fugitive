@@ -22,6 +22,7 @@ func update_player_list():
 		var playerControl = scene.instance()
 		playerControl.setPlayerId(player_id)
 		playerControl.setPlayerName(player.name)
+		playerControl.setPlayerType(player.type)
 		playerListControl.add_child(playerControl)
 
 func _on_StartGameButton_pressed():

@@ -18,8 +18,12 @@ var selfData = {
 func _ready():
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
 
-func setPlayerType(playerId: int, playerType: int):
+func broadcastSetPlayerType(playerId: int, playerType: int):
+	rpc('setPlayerType', playerId, playerType)
+	
+remotesync func setPlayerType(playerId: int, playerType: int):
 	self.players[playerId].type = playerType
+	emit_signal('players_updated')
 
 func hostGame(playerName: String) -> bool:
 	selfData.name = playerName
@@ -71,7 +75,7 @@ remote func send_player_info(id, info):
 				rpc_id(player_id, 'send_player_info', playerInfoId, playerInfo)
 	
 	# This is the common code that runs on all clients
-	emit_signal('players_updated')
+	emit_signal('players_updated')	
 
 sync func create_players():
 	pass

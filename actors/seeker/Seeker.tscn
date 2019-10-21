@@ -12,7 +12,6 @@ blend_mode = 1
 
 [node name="Seeker" type="KinematicBody2D"]
 collision_layer = 2
-collision_mask = 3
 script = ExtResource( 1 )
 
 [node name="ToolsTester" type="ColorRect" parent="."]
