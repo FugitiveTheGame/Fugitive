@@ -95,3 +95,5 @@ func _physics_process(delta):
 	else:
 		detectionLabel.hide()
 
+func _on_WinZone_body_entered(body):
+	pass
