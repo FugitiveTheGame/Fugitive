@@ -44,3 +44,5 @@ shadow_filter_smooth = 11.1
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 collide_with_areas = true
+
+[node name="Camera" type="Camera2D" parent="."]

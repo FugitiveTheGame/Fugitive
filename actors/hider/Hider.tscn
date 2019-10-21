@@ -21,3 +21,5 @@ margin_right = 20.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 20, 20 )
 color = Color( 1, 0, 0, 1 )
+
+[node name="Camera" type="Camera2D" parent="."]

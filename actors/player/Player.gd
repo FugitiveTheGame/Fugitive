@@ -38,3 +38,6 @@ func _physics_process(delta):
 		
 		rpc_unreliable("setNetworkPosition", position)
 		rpc_unreliable("setNetworkRotation", rotation)
+
+func set_current_player():
+	$Camera.current = true

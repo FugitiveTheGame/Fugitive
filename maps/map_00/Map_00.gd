@@ -54,6 +54,10 @@ func create_seeker(id, player):
 	node.set_network_master(id)
 	
 	node.global_position = Vector2(200 + (seekersCount * 200), 470 - (seekersCount * 200))
+	
+	if get_tree().get_network_unique_id() == id:
+		node.set_current_player()
+	
 	seekersCount = seekersCount + 1
 	players.add_child(node)
 
