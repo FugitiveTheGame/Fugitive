@@ -7,3 +7,5 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+output/Fugitive.exe
+output/Fugitive.pck
