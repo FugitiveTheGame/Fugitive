@@ -10,6 +10,11 @@ func _ready():
 	var peer = NetworkedMultiplayerENet.new()
 	assert(peer.create_server(Network.DEFAULT_PORT, Network.MAX_PLAYERS) == OK)
 	get_tree().set_network_peer(peer)
+	
+	self.gracePeriodTimer.wait_time = 0.5
+	
+	rpc("post_configure_game")
 
 func pre_configure_game():
+	# Skip the parent impl, we dont want none of that code in dev
 	pass

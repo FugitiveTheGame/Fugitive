@@ -2,7 +2,7 @@ extends Player
 class_name Seeker
 
 var cone_width = deg2rad(45.0)
-var max_detect_distance := 300.0
+var max_detect_distance := 100.0
 
 func _ready():
 	add_to_group("seekers")
