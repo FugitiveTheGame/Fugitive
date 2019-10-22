@@ -36,14 +36,14 @@ remotesync func post_configure_game():
 	gracePeriodTimer.start()
 	print("*** UNPAUSED ***")
 
-func create_players(players: Dictionary):
+func create_players(newPlayers: Dictionary):
 	# Make sure players are spawned in order on every client,
 	# or else their positions might misalign
-	var playerIds := players.keys()
+	var playerIds := newPlayers.keys()
 	playerIds.sort()
 	
 	for player_id in playerIds:
-		var player = players[player_id]
+		var player = newPlayers[player_id]
 		
 		var playerNode: Player
 		match player.type:
@@ -64,6 +64,7 @@ func create_seeker(id, player) -> Player:
 	node.set_name(str(id))
 	node.set_network_master(id)
 	
+	node.playerName = player.name
 	node.global_position = Vector2(200 + (seekersCount * 200), 470 - (seekersCount * 200))
 	
 	seekersCount = seekersCount + 1
@@ -79,6 +80,7 @@ func create_hider(id, player) -> Player:
 	node.set_name(str(id))
 	node.set_network_master(id)
 	
+	node.playerName = player.name
 	node.global_position = Vector2(480, 290 - (hidersCount * 200))
 	hidersCount = hidersCount + 1
 	
@@ -147,9 +149,6 @@ func handleHiderWin():
 	self.winner = Network.PlayerType.Hider
 	detectionLabel.text = "Hiders win!"
 	detectionLabel.show()
-
-func _on_WinZone_body_entered(body):
-	pass
 
 func _on_GracePeriodTimer_timeout():
 	var seekers = get_tree().get_nodes_in_group("seekers")

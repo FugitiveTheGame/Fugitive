@@ -3,14 +3,19 @@ class_name Player
 
 export (int) var speed = 200
 export (float) var rotation_speed = 1.5
+export (String) var playerName: String
 
 onready var camera := $Camera
 onready var footStepAudio := $FootStepAudio
+onready var playerNameLabel := $PlayerNameLabel
 
 var velocity := Vector2()
 var rotation_dir := 0
 
 var frozen := false
+
+func _ready():
+	playerNameLabel.text = playerName
 
 puppet func setNetworkPosition(pos: Vector2):
 	self.position = pos

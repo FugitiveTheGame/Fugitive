@@ -2,7 +2,6 @@ extends Node
 
 signal player_updated
 signal new_player_registered
-signal players_initialize
 signal player_removed
 
 const DEFAULT_IP := '127.0.0.1'

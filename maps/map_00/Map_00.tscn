@@ -52,5 +52,4 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="body_entered" from="WinZone" to="." method="_on_WinZone_body_entered"]
 [connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]

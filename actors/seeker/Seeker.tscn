@@ -51,3 +51,13 @@ zoom = Vector2( 1.5, 1.5 )
 
 [node name="FootStepAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
+
+[node name="PlayerNameLabel" type="Label" parent="."]
+margin_left = -35.0
+margin_top = 34.0
+margin_right = 40.0
+margin_bottom = 48.0
+text = "Player Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}

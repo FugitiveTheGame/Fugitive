@@ -9,7 +9,6 @@ func _ready():
 	players_initialize(Network.players)
 	assert(Network.connect("player_updated", self, "player_updated") == OK)
 	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
-	assert(Network.connect("players_initialize", self, "players_initialize") == OK)
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
 	
 	# Only server should see start button
