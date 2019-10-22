@@ -1,8 +1,12 @@
 extends Node2D
 
-onready var detectionLabel := $CanvasLayer/TestDetectionLabel
+onready var detectionLabel : Label = $CanvasLayer/TestDetectionLabel
 onready var players := $players
 onready var timer := $Timer
+onready var winZone : Area2D = $WinZone
+
+var gameOver : bool = false
+var winner : int = Network.PlayerType.Unset
 
 func _ready():
 	detectionLabel.hide()
@@ -84,6 +88,16 @@ func create_hider(id, player) -> Player:
 
 # warning-ignore:unused_argument
 func _physics_process(delta):
+	if (!self.gameOver):
+		checkForFoundHiders()
+		handleBeginGameTimer()
+		checkWinConditions()
+	
+func handleBeginGameTimer():
+	if (self.timer.time_left > 0.0):
+		$CanvasLayer/TimerLabel.text = "Starting game in %d..." % self.timer.time_left
+
+func checkForFoundHiders():
 	var anySeen := false
 	
 	var seekers = get_tree().get_nodes_in_group("seekers")
@@ -102,13 +116,38 @@ func _physics_process(delta):
 		detectionLabel.show()
 	else:
 		detectionLabel.hide()
+
+func checkWinConditions():
+	var allHidersFrozen := true
+	var allUnfrozenSeekersInWinZone := true
+	var hiders = get_tree().get_nodes_in_group("hiders")
+	for hiderNode in hiders:
+		var hider: Hider = hiderNode
+		if (!hider.frozen):
+			allHidersFrozen = false
+			# Now, check if this hider is in the win zone.
+			if (!winZone.overlaps_area(hider)):
+				allUnfrozenSeekersInWinZone = false
 	
-	if (self.timer.time_left > 0.0):
-		$CanvasLayer/TimerLabel.text = "Starting game in %d..." % self.timer.time_left
+	if (allHidersFrozen):
+		handleSeekerWin()
+	elif (allUnfrozenSeekersInWinZone):
+		handleHiderWin()
+
+func handleSeekerWin():
+	self.gameOver = true
+	self.winner = Network.PlayerType.Seeker
+	detectionLabel.text = "Seekers win!"
+	detectionLabel.show()
+	
+func handleHiderWin():
+	self.gameOver = true
+	self.winner = Network.PlayerType.Hider
+	detectionLabel.text = "Hiders win!"
+	detectionLabel.show()
 
 func _on_WinZone_body_entered(body):
 	pass
-
 
 func _on_Timer_timeout():
 	var seekers = get_tree().get_nodes_in_group("seekers")
