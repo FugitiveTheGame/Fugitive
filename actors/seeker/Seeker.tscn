@@ -46,3 +46,4 @@ enabled = true
 collide_with_areas = true
 
 [node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2( 3, 3 )

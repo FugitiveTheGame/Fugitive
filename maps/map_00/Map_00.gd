@@ -154,3 +154,4 @@ func _on_Timer_timeout():
 	for seekerNode in seekers:
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
+	$CanvasLayer/TimerLabel.hide()
