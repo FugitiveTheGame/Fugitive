@@ -15,6 +15,10 @@ puppet func setNetworkPosition(pos: Vector2):
 puppet func setNetworkRotation(rot: float):
 	self.rotation = rot
 	
+func unfreeze():
+	self.frozen = false
+	self.modulate = Color(1, 1, 1, 1)
+	
 func freeze():
 	self.frozen = true
 	self.velocity = Vector2(0, 0)

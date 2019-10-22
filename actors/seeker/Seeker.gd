@@ -6,6 +6,7 @@ var max_detect_distance := 300.0
 
 func _ready():
 	add_to_group("seekers")
+	self.freeze()
 	
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the

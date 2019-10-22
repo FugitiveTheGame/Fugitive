@@ -19,15 +19,6 @@ tile_data = PoolIntArray( -4456446, -1073741810, 0, -4456444, 18, 0, -4456442, 1
 visible = false
 color = Color( 0.27451, 0.27451, 0.27451, 1 )
 
-[node name="TestDetectionLabel" type="Label" parent="."]
-margin_left = 231.0
-margin_top = 243.0
-margin_right = 450.0
-margin_bottom = 312.0
-custom_fonts/font = ExtResource( 3 )
-text = "I see you!!!"
-autowrap = true
-
 [node name="players" type="Node" parent="."]
 
 [node name="WinZone" type="Area2D" parent="."]
@@ -36,4 +27,30 @@ position = Vector2( 2575.95, -3877.21 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WinZone"]
 position = Vector2( 114.682, 36.5649 )
 shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TimerLabel" type="Label" parent="CanvasLayer"]
+margin_right = 403.0
+margin_bottom = 68.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TestDetectionLabel" type="Label" parent="CanvasLayer"]
+margin_left = 151.029
+margin_top = 136.372
+margin_right = 684.029
+margin_bottom = 243.372
+custom_fonts/font = ExtResource( 3 )
+text = "You're done like dinner!"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="body_entered" from="WinZone" to="." method="_on_WinZone_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

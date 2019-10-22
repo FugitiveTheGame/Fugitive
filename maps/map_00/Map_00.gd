@@ -1,8 +1,8 @@
 extends Node2D
 
-onready var detectionLabel := get_node("TestDetectionLabel")
+onready var detectionLabel := $CanvasLayer/TestDetectionLabel
 onready var players := $players
-
+onready var timer := $Timer
 
 func _ready():
 	detectionLabel.hide()
@@ -29,6 +29,7 @@ remotesync func done_preconfiguring(playerIdDone):
 
 remotesync func post_configure_game():
 	get_tree().set_pause(false)
+	timer.start()
 	print("*** UNPAUSED ***")
 
 func create_players(players: Dictionary):
@@ -101,6 +102,16 @@ func _physics_process(delta):
 		detectionLabel.show()
 	else:
 		detectionLabel.hide()
+	
+	if (self.timer.time_left > 0.0):
+		$CanvasLayer/TimerLabel.text = "Starting game in %d..." % self.timer.time_left
 
 func _on_WinZone_body_entered(body):
 	pass
+
+
+func _on_Timer_timeout():
+	var seekers = get_tree().get_nodes_in_group("seekers")
+	for seekerNode in seekers:
+		var seeker: Seeker = seekerNode
+		seeker.unfreeze()
