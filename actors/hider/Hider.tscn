@@ -26,3 +26,4 @@ __meta__ = {
 }
 
 [node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2( 1.5, 1.5 )

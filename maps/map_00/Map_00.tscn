@@ -28,7 +28,7 @@ position = Vector2( 2575.95, -3877.21 )
 position = Vector2( 114.682, 36.5649 )
 shape = SubResource( 1 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="GracePeriodTimer" type="Timer" parent="."]
 wait_time = 10.0
 one_shot = true
 
@@ -53,4 +53,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="body_entered" from="WinZone" to="." method="_on_WinZone_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
