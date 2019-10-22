@@ -1,6 +1,8 @@
 extends Player
 class_name Seeker
 
+onready var seeker_ray_caster := $RayCast2D
+
 var cone_width = deg2rad(45.0)
 var max_detect_distance := 100.0
 
@@ -14,7 +16,6 @@ func _ready():
 func process_hider(hider: Hider) -> bool:
 	var isSeen = false
 	
-	var seeker_ray_caster = get_node('RayCast2D')
 	# Cast a ray between the seeker and this hider
 	var look_vec = to_local(hider.global_position)
 	seeker_ray_caster.cast_to = look_vec
