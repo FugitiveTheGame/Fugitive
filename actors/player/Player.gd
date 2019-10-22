@@ -20,7 +20,7 @@ var rotation_dir := 0
 var stamina: float
 
 var frozen := false
-var frozenColor := Color.blue
+var frozenColor := Color(0, 0, 1, 1)
 
 func _ready():
 	stamina = max_stamina

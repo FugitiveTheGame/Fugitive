@@ -89,8 +89,8 @@ func create_hider(id, player) -> Player:
 	return node
 
 # warning-ignore:unused_argument
-func _physics_process(delta):
-	if (!self.gameOver):
+func _process(delta: float):
+	if (not self.gameOver):
 		checkForFoundHiders()
 		handleBeginGameTimer()
 		checkWinConditions()
