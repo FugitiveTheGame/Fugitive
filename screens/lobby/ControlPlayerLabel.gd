@@ -33,5 +33,6 @@ func getPlayerType() -> int:
 		_:
 			return Network.PlayerType.Hider
 
+# warning-ignore:unused_argument
 func _on_OptionPlayerRole_item_selected(ID):
 		Network.broadcastSetPlayerType(self.playerId, self.getPlayerType())
