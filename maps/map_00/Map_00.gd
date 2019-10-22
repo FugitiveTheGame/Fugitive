@@ -156,3 +156,4 @@ func _on_GracePeriodTimer_timeout():
 	for seekerNode in seekers:
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
+	$CanvasLayer/TimerLabel.hide()
