@@ -18,6 +18,10 @@ puppet func setNetworkRotation(rot: float):
 func freeze():
 	self.frozen = true
 	self.velocity = Vector2(0, 0)
+	self.modulate.b = 1.0
+	self.modulate.r = 0.0
+	self.modulate.g = 0.0
+	self.modulate.a = 1.0
 	
 func get_input(delta):
 	if not is_network_master():
