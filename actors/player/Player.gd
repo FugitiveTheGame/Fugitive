@@ -4,6 +4,9 @@ class_name Player
 export (int) var speed = 200
 export (float) var rotation_speed = 1.5
 
+onready var camera := $Camera
+onready var footStepAudio := $FootStepAudio
+
 var velocity := Vector2()
 var rotation_dir := 0
 
@@ -11,6 +14,9 @@ var frozen := false
 
 puppet func setNetworkPosition(pos: Vector2):
 	self.position = pos
+	
+puppet func setNetworkVelocity(vel: Vector2):
+	self.velocity = vel
 	
 puppet func setNetworkRotation(rot: float):
 	self.rotation = rot
@@ -54,7 +60,19 @@ func _physics_process(delta):
 		self.velocity = move_and_slide(self.velocity)
 		
 		rpc_unreliable("setNetworkPosition", self.position)
+		rpc_unreliable("setNetworkVelocity", self.velocity)
 		rpc_unreliable("setNetworkRotation", self.rotation)
+	
+	# Make movement noises if moving
+	if is_moving():
+		if not footStepAudio.playing:
+			footStepAudio.playing = true
+	else:
+		if footStepAudio.playing:
+			footStepAudio.playing = false
+
+func is_moving() -> bool:
+	return velocity.length() > 0.0
 
 func set_current_player():
-	$Camera.current = true
+	camera.current = true

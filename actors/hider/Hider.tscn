@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://actors/hider/Hider.gd" type="Script" id=1]
+[ext_resource path="res://actors/player/player_move.ogg" type="AudioStream" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 21.1303, 20 )
@@ -27,3 +28,6 @@ __meta__ = {
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2( 1.5, 1.5 )
+
+[node name="FootStepAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
