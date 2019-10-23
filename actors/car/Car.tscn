@@ -8,6 +8,8 @@
 extents = Vector2( 113.218, 121.901 )
 
 [node name="Car" type="KinematicBody2D"]
+collision_layer = 8
+collision_mask = 15
 script = ExtResource( 1 )
 
 [node name="CarCollisionShape" type="CollisionShape2D" parent="."]
@@ -51,6 +53,8 @@ __meta__ = {
 
 [node name="EnterArea" type="Area2D" parent="."]
 rotation = 1.57079
+collision_layer = 8
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnterArea"]
 shape = SubResource( 2 )

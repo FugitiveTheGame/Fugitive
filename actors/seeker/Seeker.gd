@@ -29,7 +29,6 @@ func process_hider(hider: Hider) -> bool:
 	# Only if ray is colliding. If it's not, and we try to do logic,
 	# wierd stuff happens
 	if(seeker_ray_caster.is_colliding()):
-		
 		var bodySeen = seeker_ray_caster.get_collider()
 		
 		# If the ray hits a wall or something else first, then this Hider is fully occluded
