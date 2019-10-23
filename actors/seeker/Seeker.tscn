@@ -25,7 +25,7 @@ margin_top = -270.0
 margin_right = 410.0
 margin_bottom = 330.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="BodySprite" type="Sprite" parent="."]

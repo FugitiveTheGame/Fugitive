@@ -13,7 +13,7 @@ onready var camera := $Camera as Camera2D
 onready var footStepAudio := $FootStepAudio as AudioStreamPlayer2D
 onready var playerNameLabel := $PlayerNameLabel as Label
 onready var staminaBar := $StaminaBar as ProgressBar
-onready var playerCollisionShape := $CollisionShape2D as CollisionShape2D
+onready var playerCollisionShape := $Collision as CollisionShape2D
 
 onready var playersNode = get_tree().get_root().get_node("base/players")
 
