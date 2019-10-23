@@ -34,16 +34,16 @@ func _ready():
 	staminaBar.max_value = max_stamina
 	playerNameLabel.text = playerName
 
-puppet func setNetworkPosition(pos: Vector2):
+remote func setNetworkPosition(pos: Vector2):
 	self.position = pos
 	
-puppet func setNetworkVelocity(vel: Vector2):
+remote func setNetworkVelocity(vel: Vector2):
 	self.velocity = vel
 	
-puppet func setNetworkRotation(rot: float):
+remote func setNetworkRotation(rot: float):
 	self.rotation = rot
 
-puppet func setNetworkStamina(stam: float):
+remote func setNetworkStamina(stam: float):
 	self.stamina = stam
 	
 func unfreeze():
@@ -130,12 +130,13 @@ func process_stamina(delta: float):
 
 func _physics_process(delta: float):
 	# If we're in a car, do nothing
-	if is_network_master() && self.car == null:
-		var new_rotation = get_input(delta)
-		process_stamina(delta)
-		self.velocity = move_and_slide(self.velocity)
-		rotate(new_rotation)
-	
+	if is_network_master():
+		if self.car == null:
+			var new_rotation = get_input(delta)
+			process_stamina(delta)
+			self.velocity = move_and_slide(self.velocity)
+			rotate(new_rotation)
+		
 		rpc_unreliable("setNetworkPosition", self.position)
 		rpc_unreliable("setNetworkVelocity", self.velocity)
 		rpc_unreliable("setNetworkRotation", self.rotation)
@@ -163,7 +164,7 @@ func on_car_enter(newCar):
 	
 	playerCollisionShape.disabled = true
 	
-	self.get_parent().remove_child(self) # error here  
+	playersNode.remove_child(self)
 	self.car.add_child(self)
 	
 	self.position = Vector2.ZERO
@@ -172,7 +173,7 @@ func on_car_enter(newCar):
 func on_car_exit():
 	print('Exit Car')
 	
-	self.get_parent().remove_child(self) # error here
+	car.remove_child(self)
 	playersNode.add_child(self)
 	
 	self.global_position = car.global_position

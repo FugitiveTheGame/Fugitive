@@ -15,13 +15,13 @@ var passengers = []
 
 const MAX_PASSENGERS = 3
 
-puppet func setNetworkPosition(pos: Vector2):
+remote func setNetworkPosition(pos: Vector2):
 	self.position = pos
 	
-puppet func setNetworkVelocity(vel: Vector2):
+remote func setNetworkVelocity(vel: Vector2):
 	self.velocity = vel
 	
-puppet func setNetworkRotation(rot: float):
+remote func setNetworkRotation(rot: float):
 	self.rotation = rot
 
 func _ready():
