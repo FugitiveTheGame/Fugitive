@@ -56,20 +56,33 @@ func freeze():
 	self.modulate = frozenColor
 
 func _input(event):
+	if not is_network_master():
+		return
+	
 	if(event.is_action_pressed("use")):
 		if self.car == null:
-			var cars = get_tree().get_nodes_in_group(Car.GROUP)
-			for car in cars:
-				car as Car
-				var area = car.enterArea as Area2D
-				if area.overlaps_body(self):
-					if car.get_in_car(self):
-						call_deferred("on_car_enter", car)
-					else:
-						print('Car was full')
-					break # We found our nearest car, stop looking
+			var new_car = find_car_inrange()
+			if new_car != null:
+				if new_car.get_in_car(self):
+					call_deferred("on_car_enter", new_car)
+					#on_car_enter(new_car)
+				else:
+					print('Car was full')
 		else:
 			call_deferred("on_car_exit")
+			#on_car_exit()
+
+func find_car_inrange() -> Car:
+	var nearest_car: Car = null
+	
+	var cars = get_tree().get_nodes_in_group(Car.GROUP)
+	for car in cars:
+		car as Car
+		var area = car.enterArea as Area2D
+		if area.overlaps_body(self):
+			nearest_car = car
+			break
+	return nearest_car
 
 # warning-ignore:unused_argument
 func _process(delta: float):
