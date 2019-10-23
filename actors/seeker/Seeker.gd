@@ -1,13 +1,15 @@
 extends Player
 class_name Seeker
 
+const GROUP = 'seekers'
+
 onready var seeker_ray_caster := $RayCast2D
 
 var cone_width = deg2rad(45.0)
 var max_detect_distance := 100.0
 
 func _ready():
-	add_to_group("seekers")
+	add_to_group(GROUP)
 	self.freeze()
 	
 # Detect if a particular hider has been seen by the seeker

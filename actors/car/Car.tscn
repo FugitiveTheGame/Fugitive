@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://actors/car/Car.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 113.218, 121.901 )
+
+[node name="Car" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="CarCollisionShape" type="CollisionShape2D" parent="."]
+rotation = 1.57079
+scale = Vector2( 4, 4.8 )
+shape = SubResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -40.0
+margin_top = -48.0
+margin_right = 40.0
+margin_bottom = 48.0
+rect_rotation = 89.9999
+rect_pivot_offset = Vector2( 40, 48 )
+color = Color( 0.345098, 0.341176, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftHeadlight" type="ColorRect" parent="ColorRect"]
+margin_left = 10.3276
+margin_top = -5.56102
+margin_right = 19.3276
+margin_bottom = 7.43898
+rect_pivot_offset = Vector2( 4.22285, 6.78254 )
+color = Color( 0.811765, 0.737255, 0.25098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightHeadlight" type="ColorRect" parent="ColorRect"]
+margin_left = 55.5422
+margin_top = -7.50275
+margin_right = 64.5422
+margin_bottom = 5.49725
+rect_pivot_offset = Vector2( 4.22285, 6.78254 )
+color = Color( 0.811765, 0.737255, 0.25098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnterArea" type="Area2D" parent="."]
+rotation = 1.57079
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterArea"]
+shape = SubResource( 2 )

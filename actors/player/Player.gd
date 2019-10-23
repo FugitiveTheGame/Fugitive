@@ -14,6 +14,8 @@ onready var footStepAudio := $FootStepAudio as AudioStreamPlayer2D
 onready var playerNameLabel := $PlayerNameLabel as Label
 onready var staminaBar := $StaminaBar as ProgressBar
 
+onready var playersNode = get_tree().get_root().get_node("base/players")
+
 var velocity := Vector2()
 var rotation_dir := 0
 
@@ -22,7 +24,12 @@ var stamina: float
 var frozen := false
 var frozenColor := Color(0, 0, 1, 1)
 
+# This is a car this player is driving
+var car: Car
+
 func _ready():
+	set_process_input(true)
+	
 	stamina = max_stamina
 	staminaBar.max_value = max_stamina
 	playerNameLabel.text = playerName
@@ -48,22 +55,53 @@ func freeze():
 	self.velocity = Vector2(0, 0)
 	self.modulate = frozenColor
 
+func _input(event):
+	if(event.is_action_pressed("use")):
+		if self.car == null:
+			var cars = get_tree().get_nodes_in_group(Car.GROUP)
+			for car in cars:
+				var area = car.enterArea as Area2D
+				if area.overlaps_body(self):
+					call_deferred("get_in_car", car)
+					break
+		else:
+			#call_deferred("get_out_of_car")
+			get_out_of_car()
+
 # warning-ignore:unused_argument
 func _process(delta: float):
 	staminaBar.value = stamina
 
-func get_input(delta: float):
-	if not is_network_master():
-		return
+# Returns the ammount to rotate by
+func get_input(delta: float) -> float:
+	var new_rotation := 0.0
 	
-	if (self.frozen):
-		return
+	if not is_network_master():
+		return new_rotation
+	
+	if self.frozen:
+		return new_rotation
 	
 	var curSpeed: float
-	if is_sprinting():
-		curSpeed = sprint_speed
+	if self.car == null:
+		if is_sprinting():
+			curSpeed = sprint_speed
+		else:
+			curSpeed = speed
 	else:
-		curSpeed = speed
+		curSpeed = car.speed
+	
+	var curRotationSpeed: float
+	if self.car == null:
+		curRotationSpeed = self.rotation_speed
+	else:
+		curRotationSpeed = car.rotation_speed
+	
+	var velocity_rotation: float
+	if self.car == null:
+		velocity_rotation = self.rotation
+	else:
+		velocity_rotation = car.rotation
 	
 	rotation_dir = 0
 	self.velocity = Vector2()
@@ -72,11 +110,12 @@ func get_input(delta: float):
 	if Input.is_action_pressed('ui_left'):
 		self.rotation_dir -= 1
 	if Input.is_action_pressed('ui_down'):
-		self.velocity = Vector2(-curSpeed, 0).rotated(self.rotation)
+		self.velocity = Vector2(-curSpeed, 0).rotated(velocity_rotation)
 	if Input.is_action_pressed('ui_up'):
-		self.velocity = Vector2(curSpeed, 0).rotated(self.rotation)
+		self.velocity = Vector2(curSpeed, 0).rotated(velocity_rotation)
 	
-	rotation += self.rotation_dir * self.rotation_speed * delta
+	new_rotation = self.rotation_dir * curRotationSpeed * delta
+	return new_rotation
 
 func is_sprinting():
 	return Input.is_action_pressed('sprint') and stamina > 0.0
@@ -89,27 +128,67 @@ func process_stamina(delta: float):
 	stamina = clamp(stamina, 0.0, max_stamina)
 
 func _physics_process(delta: float):
-	get_input(delta)
+	var new_rotation = get_input(delta)
 	
 	if is_network_master():
-		self.velocity = move_and_slide(self.velocity)
-		process_stamina(delta)
+		if car == null:
+			process_stamina(delta)
+			self.velocity = move_and_slide(self.velocity)
+			self.rotation += new_rotation
 		
-		rpc_unreliable("setNetworkPosition", self.position)
-		rpc_unreliable("setNetworkVelocity", self.velocity)
-		rpc_unreliable("setNetworkRotation", self.rotation)
-		rpc_unreliable("setNetworkStamina", self.stamina)
+			rpc_unreliable("setNetworkPosition", self.position)
+			rpc_unreliable("setNetworkVelocity", self.velocity)
+			rpc_unreliable("setNetworkRotation", self.rotation)
+			rpc_unreliable("setNetworkStamina", self.stamina)
+		else:
+			self.velocity = car.move_and_slide(self.velocity)
+			car.rotation += new_rotation
+		
+			rpc_unreliable("setNetworkPosition", car.position)
+			rpc_unreliable("setNetworkVelocity", self.velocity)
+			rpc_unreliable("setNetworkRotation", car.rotation)
 	
 	# Make movement noises if moving
-	if is_moving():
-		if not footStepAudio.playing:
-			footStepAudio.playing = true
+	if car == null:
+		if is_moving():
+			if not footStepAudio.playing:
+				footStepAudio.playing = true
+		else:
+			if footStepAudio.playing:
+				footStepAudio.playing = false
 	else:
-		if footStepAudio.playing:
-			footStepAudio.playing = false
+		# Play car audio here
+		pass
 
 func is_moving() -> bool:
 	return velocity.length() > 0.0
 
 func set_current_player():
 	camera.current = true
+
+func get_in_car(car):
+	print('Enter Car')
+	self.car = car
+	# Refil stamina instantly
+	self.stamina = max_stamina
+	
+	$CollisionShape2D.disabled = true
+	
+	self.get_parent().remove_child(self) # error here  
+	car.add_child(self)
+	
+	self.position = Vector2.ZERO
+	self.rotation = 0
+
+func get_out_of_car():
+	print('Exit Car')
+	
+	self.get_parent().remove_child(self) # error here
+	playersNode.add_child(self)
+	
+	self.global_position = car.global_position
+	self.rotation = car.rotation
+	
+	$CollisionShape2D.disabled = false
+	
+	self.car = null

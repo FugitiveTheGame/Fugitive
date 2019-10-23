@@ -7,6 +7,7 @@ onready var winZone : Area2D = $WinZone
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Unset
+var currentPlayer: Player
 
 func _ready():
 	detectionLabel.hide()
@@ -54,7 +55,7 @@ func create_players(newPlayers: Dictionary):
 		
 		# If this is our current player, set the node as such
 		if get_tree().get_network_unique_id() == player_id:
-			playerNode.set_current_player()
+			set_current_player(playerNode)
 
 var seekersCount = 0
 
@@ -88,6 +89,10 @@ func create_hider(id, player) -> Player:
 	
 	return node
 
+func set_current_player(playerNode: Player):
+	currentPlayer = playerNode
+	playerNode.set_current_player()
+
 # warning-ignore:unused_argument
 func _process(delta: float):
 	if (not self.gameOver):
@@ -104,10 +109,10 @@ func handleBeginGameTimer():
 func checkForFoundHiders():
 	var anySeen := false
 	
-	var seekers = get_tree().get_nodes_in_group("seekers")
+	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
 	for seeker in seekers:
 		# Process each hider, find if any have been seen
-		var hiders = get_tree().get_nodes_in_group("hiders")
+		var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
 		for hider in hiders:
 			if(seeker.process_hider(hider)):
 				anySeen = true
@@ -124,7 +129,7 @@ func checkForFoundHiders():
 func checkWinConditions():
 	var allHidersFrozen := true
 	var allUnfrozenSeekersInWinZone := true
-	var hiders = get_tree().get_nodes_in_group("hiders")
+	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
 	for hiderNode in hiders:
 		var hider: Hider = hiderNode
 		if (!hider.frozen):
