@@ -42,7 +42,10 @@ func process_hider(hider: Hider) -> bool:
 			# the Hider for gameplay purposes
 			if(look_angle < cone_width and look_angle  > -cone_width and distance <= max_detect_distance):
 				isSeen = true
-				hider.freeze()
+				if self.car != null:
+					print('Cant capture while in a car!')
+				else:
+					hider.freeze()
 			
 			if (Network.selfData.type == Network.PlayerType.Seeker):
 				# If hider is in the center of Seeker's FOV, they are fully visible
