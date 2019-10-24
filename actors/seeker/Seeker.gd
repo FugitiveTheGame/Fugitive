@@ -8,10 +8,13 @@ onready var seeker_ray_caster := $RayCast2D
 var cone_width = deg2rad(45.0)
 var max_detect_distance := 100.0
 
+func _get_player_group() -> String:
+	return GROUP
+
 func _ready():
-	add_to_group(GROUP)
+	._ready()
 	self.freeze()
-	
+
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the
 # seeker can see them.
@@ -42,9 +45,8 @@ func process_hider(hider: Hider) -> bool:
 			# the Hider for gameplay purposes
 			if(look_angle < cone_width and look_angle  > -cone_width and distance <= max_detect_distance):
 				isSeen = true
-				if self.car != null:
-					print('Cant capture while in a car!')
-				else:
+				# Don't allow capture while in a car
+				if self.car == null:
 					hider.freeze()
 			
 			if (Network.selfData.type == Network.PlayerType.Seeker):

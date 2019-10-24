@@ -73,14 +73,18 @@ remote func new_driver(network_id: int):
 
 func get_in_car(player) -> bool:
 	var success := false
+	
 	if driver == null:
 		driver = player
 		self.set_network_master(driver.get_network_master())
 		rpc('new_driver', driver.get_network_master())
 		success = true
 	elif passengers.size() < MAX_PASSENGERS:
-		passengers.push_back(player)
-		success = true
+		# Only let the player in if they are in the same group
+		# as the driver
+		if player.has_group(driver._get_player_group()):
+			passengers.push_back(player)
+			success = true
 	
 	return success
 

@@ -3,5 +3,5 @@ class_name Hider
 
 const GROUP = 'hiders'
 
-func _ready():
-	add_to_group(GROUP)
+func _get_player_group() -> String:
+	return GROUP

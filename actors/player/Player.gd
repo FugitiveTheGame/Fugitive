@@ -28,6 +28,8 @@ var frozenColor := Color(0, 0, 1, 1)
 var car: Car
 
 func _ready():
+	add_to_group(_get_player_group())
+	
 	set_process_input(true)
 	
 	stamina = max_stamina
@@ -189,3 +191,10 @@ remotesync func on_car_exit():
 	self.car = null
 	
 	oldCar.get_out_of_car(self)
+
+func _get_player_group() -> String:
+	assert(false) # Sub class MUST override this
+	return ''
+
+func has_group(group: String) -> bool:
+	return get_groups().has(group)
