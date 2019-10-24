@@ -15,13 +15,13 @@ var passengers = []
 
 const MAX_PASSENGERS = 3
 
-remote func setNetworkPosition(pos: Vector2):
+puppet func setNetworkPosition(pos: Vector2):
 	self.position = pos
-	
-remote func setNetworkVelocity(vel: Vector2):
+
+puppet func setNetworkVelocity(vel: Vector2):
 	self.velocity = vel
-	
-remote func setNetworkRotation(rot: float):
+
+puppet func setNetworkRotation(rot: float):
 	self.rotation = rot
 
 func _ready():
@@ -54,11 +54,11 @@ func _physics_process(delta: float):
 		
 		self.velocity = move_and_slide(self.velocity)
 		self.rotation += new_rotation
-	
+		
 		rpc_unreliable("setNetworkPosition", self.position)
 		rpc_unreliable("setNetworkVelocity", self.velocity)
 		rpc_unreliable("setNetworkRotation", self.rotation)
-	
+		
 	# Make movement noises if moving
 	#if is_moving():
 		#if not footStepAudio.playing:
@@ -67,11 +67,16 @@ func _physics_process(delta: float):
 		#if footStepAudio.playing:
 			#footStepAudio.playing = false
 
+remote func new_driver(network_id: int):
+	self.set_network_master(network_id)
+	print('rpc success')
+
 func get_in_car(player) -> bool:
 	var success := false
 	if driver == null:
 		driver = player
 		self.set_network_master(driver.get_network_master())
+		rpc('new_driver', driver.get_network_master())
 		success = true
 	elif passengers.size() < MAX_PASSENGERS:
 		passengers.push_back(player)
@@ -84,7 +89,8 @@ func get_out_of_car(player):
 	if driver == player:
 		driver = null
 		# player needs to be removed as a child before we do this
-		self.set_network_master(-1)
+		rpc('new_driver', 1)
+		self.set_network_master(1)
 		success = true
 	elif passengers.has(player):
 		passengers.erase(player)

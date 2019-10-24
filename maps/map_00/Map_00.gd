@@ -8,20 +8,23 @@ onready var winZone : Area2D = $WinZone
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Unset
 var currentPlayer: Player
+var seekersCount = 0
+var hidersCount = 0
+var players_done = []
 
 func _ready():
 	detectionLabel.hide()
 	pre_configure_game()
-	
+
 func pre_configure_game():
 	get_tree().set_pause(true)
 	create_players(Network.players)
-	rpc_id(1, "done_preconfiguring", get_tree().get_network_unique_id())
-	
-var players_done = []
+	rpc("done_preconfiguring", get_tree().get_network_unique_id())
 
-remotesync func done_preconfiguring(playerIdDone):
-	assert(get_tree().is_network_server())
+master func done_preconfiguring(playerIdDone):
+	if not get_tree().is_network_server():
+		return
+
 	assert(not playerIdDone in players_done) # Was not added yet
 	
 	players_done.append(playerIdDone)
@@ -38,6 +41,8 @@ remotesync func post_configure_game():
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
+	create_car()
+	
 	# Make sure players are spawned in order on every client,
 	# or else their positions might misalign
 	var playerIds := newPlayers.keys()
@@ -57,9 +62,17 @@ func create_players(newPlayers: Dictionary):
 		if get_tree().get_network_unique_id() == player_id:
 			set_current_player(playerNode)
 
-var seekersCount = 0
+func create_car():
+	var scene = preload("res://actors/car/Car.tscn")
+	var node = scene.instance()
+	node.set_name('car_1')
+	node.set_network_master(1)
+	
+	node.global_position = Vector2(240, 320)
+	
+	players.add_child(node)
 
-func create_seeker(id, player) -> Player:
+func create_seeker(id: int, player: Object) -> Player:
 	var scene = preload("res://actors/seeker/Seeker.tscn")
 	var node = scene.instance()
 	node.set_name(str(id))
@@ -73,9 +86,7 @@ func create_seeker(id, player) -> Player:
 	
 	return node
 
-var hidersCount = 0
-
-func create_hider(id, player) -> Player:
+func create_hider(id: int, player: Object) -> Player:
 	var scene = preload("res://actors/hider/Hider.tscn")
 	var node = scene.instance()
 	node.set_name(str(id))
@@ -99,7 +110,7 @@ func _process(delta: float):
 		checkForFoundHiders()
 		handleBeginGameTimer()
 		checkWinConditions()
-	
+
 func handleBeginGameTimer():
 	if (self.gracePeriodTimer.time_left > 0.0):
 		$CanvasLayer/TimerLabel.text = "Starting game in %d..." % self.gracePeriodTimer.time_left
@@ -148,7 +159,7 @@ func handleSeekerWin():
 	self.winner = Network.PlayerType.Seeker
 	detectionLabel.text = "Seekers win!"
 	detectionLabel.show()
-	
+
 func handleHiderWin():
 	self.gameOver = true
 	self.winner = Network.PlayerType.Hider

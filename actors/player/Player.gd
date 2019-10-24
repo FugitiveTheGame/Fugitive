@@ -34,16 +34,16 @@ func _ready():
 	staminaBar.max_value = max_stamina
 	playerNameLabel.text = playerName
 
-remote func setNetworkPosition(pos: Vector2):
+puppet func setNetworkPosition(pos: Vector2):
 	self.position = pos
 	
-remote func setNetworkVelocity(vel: Vector2):
+puppet func setNetworkVelocity(vel: Vector2):
 	self.velocity = vel
 	
-remote func setNetworkRotation(rot: float):
+puppet func setNetworkRotation(rot: float):
 	self.rotation = rot
 
-remote func setNetworkStamina(stam: float):
+puppet func setNetworkStamina(stam: float):
 	self.stamina = stam
 	
 func unfreeze():
@@ -63,21 +63,17 @@ func _input(event):
 		if self.car == null:
 			var new_car = find_car_inrange()
 			if new_car != null:
-				if new_car.get_in_car(self):
-					call_deferred("on_car_enter", new_car)
-					#on_car_enter(new_car)
-				else:
-					print('Car was full')
-		else:
-			call_deferred("on_car_exit")
-			#on_car_exit()
+				rpc('try_get_in_car', new_car.get_path())
+			else:
+				print('Nothing to use')
+		elif not self.car.is_moving():
+			rpc('on_car_exit')
 
 func find_car_inrange() -> Car:
 	var nearest_car: Car = null
 	
 	var cars = get_tree().get_nodes_in_group(Car.GROUP)
 	for car in cars:
-		car as Car
 		var area = car.enterArea as Area2D
 		if area.overlaps_body(self):
 			nearest_car = car
@@ -156,8 +152,16 @@ func is_moving() -> bool:
 func set_current_player():
 	camera.current = true
 
+remotesync func try_get_in_car(car_path: NodePath):
+	var new_car = get_tree().get_root().get_node(car_path)
+	if new_car.get_in_car(self):
+		on_car_enter(new_car)
+	else:
+		print('Car was full')
+
 func on_car_enter(newCar):
 	print('Enter Car')
+	
 	self.car = newCar
 	# Refil stamina instantly
 	self.stamina = max_stamina
@@ -170,7 +174,7 @@ func on_car_enter(newCar):
 	self.position = Vector2.ZERO
 	self.rotation = 0
 
-func on_car_exit():
+remotesync func on_car_exit():
 	print('Exit Car')
 	
 	car.remove_child(self)

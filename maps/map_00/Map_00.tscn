@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://maps/map_00/Map_00.gd" type="Script" id=1]
 [ext_resource path="res://maps/tilesets/neighborhood/tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=3]
-[ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 130.245, 470.83 )
@@ -33,6 +32,7 @@ wait_time = 10.0
 one_shot = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="TimerLabel" type="Label" parent="CanvasLayer"]
 margin_right = 403.0
@@ -42,6 +42,7 @@ __meta__ = {
 }
 
 [node name="TestDetectionLabel" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 151.029
 margin_top = 136.372
 margin_right = 684.029
@@ -53,6 +54,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Car" parent="." instance=ExtResource( 4 )]
-position = Vector2( 275.899, 320.774 )
+[node name="cars" type="Node" parent="."]
 [connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
