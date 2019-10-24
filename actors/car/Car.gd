@@ -4,6 +4,7 @@ class_name Car
 const GROUP = 'cars'
 
 onready var enterArea := $EnterArea
+onready var drivingAudio := $DrivingAudio
 
 export (int) var speed = 500
 export (float) var rotation_speed = 2.5
@@ -61,12 +62,12 @@ func _physics_process(delta: float):
 		rpc_unreliable("setNetworkRotation", self.rotation)
 		
 	# Make movement noises if moving
-	#if is_moving():
-		#if not footStepAudio.playing:
-			#footStepAudio.playing = true
-	#else:
-		#if footStepAudio.playing:
-			#footStepAudio.playing = false
+	if is_moving():
+		if not drivingAudio.playing:
+			drivingAudio.playing = true
+	else:
+		if drivingAudio.playing:
+			drivingAudio.playing = false
 
 remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id)
