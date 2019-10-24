@@ -167,8 +167,13 @@ func handleHiderWin():
 	detectionLabel.show()
 
 func _on_GracePeriodTimer_timeout():
-	var seekers = get_tree().get_nodes_in_group("seekers")
+	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
 	for seekerNode in seekers:
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
+		
+	var cars = get_tree().get_nodes_in_group(Car.GROUP)
+	for car in cars:
+		car.locked = false
+	
 	$CanvasLayer/TimerLabel.hide()

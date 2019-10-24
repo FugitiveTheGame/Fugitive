@@ -7,6 +7,7 @@ onready var enterArea := $EnterArea
 
 export (int) var speed = 500
 export (float) var rotation_speed = 2.5
+export (bool) var locked := true
 
 var velocity := Vector2()
 
@@ -67,24 +68,23 @@ func _physics_process(delta: float):
 		#if footStepAudio.playing:
 			#footStepAudio.playing = false
 
-remote func new_driver(network_id: int):
+remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id)
-	print('rpc success')
 
 func get_in_car(player) -> bool:
 	var success := false
 	
-	if driver == null:
-		driver = player
-		self.set_network_master(driver.get_network_master())
-		rpc('new_driver', driver.get_network_master())
-		success = true
-	elif passengers.size() < MAX_PASSENGERS:
-		# Only let the player in if they are in the same group
-		# as the driver
-		if player.has_group(driver._get_player_group()):
-			passengers.push_back(player)
+	if not locked:
+		if driver == null:
+			driver = player
+			rpc('new_driver', driver.get_network_master())
 			success = true
+		elif passengers.size() < MAX_PASSENGERS:
+			# Only let the player in if they are in the same group
+			# as the driver
+			if player.has_group(driver._get_player_group()):
+				passengers.push_back(player)
+				success = true
 	
 	return success
 
@@ -94,7 +94,6 @@ func get_out_of_car(player):
 		driver = null
 		# player needs to be removed as a child before we do this
 		rpc('new_driver', 1)
-		self.set_network_master(1)
 		success = true
 	elif passengers.has(player):
 		passengers.erase(player)
