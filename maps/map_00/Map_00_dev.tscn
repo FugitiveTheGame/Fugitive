@@ -6,7 +6,7 @@
 [ext_resource path="res://actors/hider/Hider.tscn" type="PackedScene" id=4]
 [ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=5]
 
-[node name="base" instance=ExtResource( 1 )]
+[node name="base" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="Seeker00" parent="players" index="0" instance=ExtResource( 3 )]
@@ -20,5 +20,5 @@ playerName = "Stacy"
 [node name="Hider01" parent="players" index="2" instance=ExtResource( 4 )]
 playerName = "Alex"
 
-[node name="Car" parent="cars" index="0" instance=ExtResource( 5 )]
-position = Vector2( 240, 320 )
+[node name="Car" parent="players" index="3" instance=ExtResource( 5 )]
+position = Vector2( 257.617, 259.279 )

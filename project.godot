@@ -111,6 +111,7 @@ use={
 2d_physics/layer_2="seekers"
 2d_physics/layer_3="hiders"
 2d_physics/layer_4="cars"
+2d_physics/layer_5="car_walls"
 
 [physics]
 
