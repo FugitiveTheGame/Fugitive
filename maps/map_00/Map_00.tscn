@@ -31,22 +31,18 @@ shape = SubResource( 1 )
 wait_time = 10.0
 one_shot = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-editor/display_folded = true
+[node name="UiLayer" type="CanvasLayer" parent="."]
 
-[node name="TimerLabel" type="Label" parent="CanvasLayer"]
+[node name="TimerLabel" type="Label" parent="UiLayer"]
 margin_right = 403.0
 margin_bottom = 68.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TestDetectionLabel" type="Label" parent="CanvasLayer"]
-visible = false
-margin_left = 151.029
-margin_top = 136.372
-margin_right = 684.029
-margin_bottom = 243.372
+[node name="TestDetectionLabel" type="Label" parent="UiLayer"]
+margin_right = 512.0
+margin_bottom = 107.0
 custom_fonts/font = ExtResource( 3 )
 text = "You're done like dinner!"
 autowrap = true
@@ -54,5 +50,39 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="GameOverDialog" type="PopupDialog" parent="UiLayer"]
+visible = true
+margin_right = 512.0
+margin_bottom = 128.0
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/GameOverDialog"]
+margin_right = 512.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinnerLabel" type="Label" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_right = 512.0
+margin_bottom = 107.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Seekers Win!"
+align = 1
+valign = 1
+
+[node name="BackToLobbyButton" type="Button" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_top = 111.0
+margin_right = 512.0
+margin_bottom = 131.0
+text = "Back to Lobby"
+
 [node name="cars" type="Node" parent="."]
 [connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
+[connection signal="pressed" from="UiLayer/GameOverDialog/VBoxContainer/BackToLobbyButton" to="." method="_on_BackToLobbyButton_pressed"]

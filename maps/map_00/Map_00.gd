@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var detectionLabel : Label = $CanvasLayer/TestDetectionLabel
+onready var detectionLabel : Label = $UiLayer/TestDetectionLabel
 onready var players := $players
 onready var gracePeriodTimer := $GracePeriodTimer
 onready var winZone : Area2D = $WinZone
@@ -113,9 +113,9 @@ func _process(delta: float):
 
 func handleBeginGameTimer():
 	if (self.gracePeriodTimer.time_left > 0.0):
-		$CanvasLayer/TimerLabel.text = "Starting game in %d..." % self.gracePeriodTimer.time_left
+		$UiLayer/TimerLabel.text = "Starting game in %d..." % self.gracePeriodTimer.time_left
 	else:
-		$CanvasLayer/TimerLabel.hide()
+		$UiLayer/TimerLabel.hide()
 
 func checkForFoundHiders():
 	var anySeen := false
@@ -149,22 +149,19 @@ func checkWinConditions():
 			if (!winZone.overlaps_area(hider)):
 				allUnfrozenSeekersInWinZone = false
 	
-	if (allHidersFrozen):
-		handleSeekerWin()
-	elif (allUnfrozenSeekersInWinZone):
-		handleHiderWin()
-
-func handleSeekerWin():
-	self.gameOver = true
-	self.winner = Network.PlayerType.Seeker
-	detectionLabel.text = "Seekers win!"
-	detectionLabel.show()
-
-func handleHiderWin():
-	self.gameOver = true
-	self.winner = Network.PlayerType.Hider
-	detectionLabel.text = "Hiders win!"
-	detectionLabel.show()
+	if allHidersFrozen or allUnfrozenSeekersInWinZone:
+		self.gameOver = true
+		
+		for child in players.get_children():
+			players.remove_child(child)
+		
+		if (allHidersFrozen):
+			self.winner = Network.PlayerType.Seeker
+			$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Seekers win!"
+		elif (allUnfrozenSeekersInWinZone):
+			self.winner = Network.PlayerType.Hider
+			$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Hiders win!"
+		$UiLayer/GameOverDialog.popup_centered()
 
 func _on_GracePeriodTimer_timeout():
 	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
@@ -176,4 +173,7 @@ func _on_GracePeriodTimer_timeout():
 	for car in cars:
 		car.locked = false
 	
-	$CanvasLayer/TimerLabel.hide()
+	$UiLayer/TimerLabel.hide()
+
+func _on_BackToLobbyButton_pressed():
+	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
