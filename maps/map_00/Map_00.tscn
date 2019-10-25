@@ -70,7 +70,7 @@ __meta__ = {
 
 [node name="WinnerLabel" type="Label" parent="UiLayer/GameOverDialog/VBoxContainer"]
 margin_right = 512.0
-margin_bottom = 107.0
+margin_bottom = 104.0
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 3 )
 text = "Seekers Win!"
@@ -78,9 +78,9 @@ align = 1
 valign = 1
 
 [node name="BackToLobbyButton" type="Button" parent="UiLayer/GameOverDialog/VBoxContainer"]
-margin_top = 111.0
+margin_top = 108.0
 margin_right = 512.0
-margin_bottom = 131.0
+margin_bottom = 128.0
 text = "Back to Lobby"
 
 [node name="cars" type="Node" parent="."]

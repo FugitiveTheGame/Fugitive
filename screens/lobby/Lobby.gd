@@ -14,6 +14,9 @@ func _ready():
 	# Only server should see start button
 	if not get_tree().is_network_server():
 		startGameButton.hide()
+	else:
+		# Returning to the lobby, allow new players to join
+		get_tree().network_peer.refuse_new_connections = false
 
 func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
@@ -49,6 +52,9 @@ func _on_StartGameButton_pressed():
 	var selectedMap = 'res://maps/map_00/Map_00.tscn'
 	
 	if Network.players.size() >= MIN_PLAYERS:
+		# Starting the game, refuse any new player joins mid-game
+		if get_tree().is_network_server():
+			get_tree().network_peer.refuse_new_connections = true
 		rpc('startGame', selectedMap)
 
 sync func startGame(map):
