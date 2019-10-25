@@ -132,7 +132,7 @@ func _physics_process(delta: float):
 		rpc_unreliable("network_update", self.position, self.velocity, self.rotation, self.stamina)
 	
 	# Make movement noises if moving
-	if is_moving() && car == null:
+	if is_moving() && is_sprinting() && car == null:
 		if not footStepAudio.playing:
 			footStepAudio.playing = true
 	else:

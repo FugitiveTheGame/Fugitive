@@ -2,7 +2,7 @@ extends "res://maps/map_00/Map_00.gd"
 
 func _ready():
 	# Change this to false to play as a Hider
-	var be_seeker := false
+	var be_seeker := true
 	
 	if be_seeker:
 		$players/Seeker00.set_current_player()
