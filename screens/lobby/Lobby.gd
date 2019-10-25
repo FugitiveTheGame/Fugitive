@@ -2,14 +2,21 @@ extends Control
 
 onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
 onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
+onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/SeekersCount
+onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
 
 const MIN_PLAYERS = 1
+
+const MIN_SEEKERS = 1
+const MIN_HIDERS = 1
 
 func _ready():
 	players_initialize(Network.players)
 	assert(Network.connect("player_updated", self, "player_updated") == OK)
 	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
+	
+	update_player_counts()
 	
 	# Only server should see start button
 	if not get_tree().is_network_server():
@@ -24,6 +31,21 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	playerControl.setPlayerName(playerData.name)
 	playerControl.setPlayerType(playerData.type)
 	
+	update_player_counts()
+
+func update_player_counts():
+	var numSeekers := 0
+	var numHiders := 0
+	for player_id in Network.players:
+		var player = Network.players[player_id]
+		if player.type == Network.PlayerType.Seeker:
+			numSeekers += 1
+		elif player.type == Network.PlayerType.Hider:
+			numHiders += 1
+	
+	seekerCountLabel.text = 'Seekers: ' + str(numSeekers) + '/' + str(MIN_SEEKERS)
+	hiderCountLabel.text = 'Hiders: ' + str(numHiders) + '/' + str(MIN_HIDERS)
+
 func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
 	var playerControl = scene.instance()
@@ -32,6 +54,8 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerControl.setPlayerName(playerData.name)
 	playerControl.setPlayerType(playerData.type)
 	playerListControl.add_child(playerControl)
+	
+	update_player_counts()
 
 func players_initialize(newPlayers: Dictionary):
 	var playersInOrder = newPlayers.keys()
