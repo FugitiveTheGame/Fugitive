@@ -146,7 +146,7 @@ func checkWinConditions():
 		if (!hider.frozen):
 			allHidersFrozen = false
 			# Now, check if this hider is in the win zone.
-			if (!winZone.overlaps_area(hider)):
+			if (!winZone.overlaps_body(hider)):
 				allUnfrozenSeekersInWinZone = false
 	
 	if allHidersFrozen or allUnfrozenSeekersInWinZone:
