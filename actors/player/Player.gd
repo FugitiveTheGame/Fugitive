@@ -36,16 +36,10 @@ func _ready():
 	staminaBar.max_value = max_stamina
 	playerNameLabel.text = playerName
 
-puppet func setNetworkPosition(pos: Vector2):
+puppet func network_update(pos: Vector2, vel: Vector2, rot: float, stam: float):
 	self.position = pos
-	
-puppet func setNetworkVelocity(vel: Vector2):
 	self.velocity = vel
-	
-puppet func setNetworkRotation(rot: float):
 	self.rotation = rot
-
-puppet func setNetworkStamina(stam: float):
 	self.stamina = stam
 	
 func unfreeze():
@@ -135,10 +129,7 @@ func _physics_process(delta: float):
 			self.velocity = move_and_slide(self.velocity)
 			rotate(new_rotation)
 		
-		rpc_unreliable("setNetworkPosition", self.position)
-		rpc_unreliable("setNetworkVelocity", self.velocity)
-		rpc_unreliable("setNetworkRotation", self.rotation)
-		rpc_unreliable("setNetworkStamina", self.stamina)
+		rpc_unreliable("network_update", self.position, self.velocity, self.rotation, self.stamina)
 	
 	# Make movement noises if moving
 	if is_moving() && car == null:

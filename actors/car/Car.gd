@@ -17,13 +17,9 @@ var passengers = []
 
 const MAX_PASSENGERS = 3
 
-puppet func setNetworkPosition(pos: Vector2):
+puppet func network_update(pos: Vector2, vel: Vector2, rot: float):
 	self.position = pos
-
-puppet func setNetworkVelocity(vel: Vector2):
 	self.velocity = vel
-
-puppet func setNetworkRotation(rot: float):
 	self.rotation = rot
 
 func _ready():
@@ -57,9 +53,7 @@ func _physics_process(delta: float):
 		self.velocity = move_and_slide(self.velocity)
 		self.rotation += new_rotation
 		
-		rpc_unreliable("setNetworkPosition", self.position)
-		rpc_unreliable("setNetworkVelocity", self.velocity)
-		rpc_unreliable("setNetworkRotation", self.rotation)
+		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
 		
 	# Make movement noises if moving
 	if is_moving():
