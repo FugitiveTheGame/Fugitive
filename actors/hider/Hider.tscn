@@ -28,6 +28,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="ColorRect"]
+margin_left = 30.0
+margin_top = 10.0
+margin_right = 41.0
+margin_bottom = 30.0
+color = Color( 0.941176, 0.490196, 0.054902, 1 )
+
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2( 1.5, 1.5 )
 

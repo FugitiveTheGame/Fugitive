@@ -1,11 +1,22 @@
 extends "res://maps/map_00/Map_00.gd"
 
 func _ready():
-	$players/Seeker00.set_current_player()
-	$players/Seeker00.set_network_master(1)
-	Network.selfData.type = Network.PlayerType.Seeker
+	# Change this to false to play as a Hider
+	var be_seeker := false
 	
-	$players/Hider00.set_network_master(2)
+	if be_seeker:
+		$players/Seeker00.set_current_player()
+		$players/Seeker00.set_network_master(1)
+		Network.selfData.type = Network.PlayerType.Seeker
+		
+		$players/Hider00.set_network_master(2)
+	else:
+		$players/Seeker00.set_network_master(2)
+		
+		$players/Hider00.set_current_player()
+		$players/Hider00.set_network_master(1)
+		Network.selfData.type = Network.PlayerType.Hider
+	
 	$players/Hider01.set_network_master(2)
 	
 	var peer = NetworkedMultiplayerENet.new()
