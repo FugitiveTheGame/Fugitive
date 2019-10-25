@@ -40,6 +40,7 @@ zoom = Vector2( 1.5, 1.5 )
 
 [node name="FootStepAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )
+max_distance = 500.0
 
 [node name="PlayerNameLabel" type="Label" parent="."]
 margin_left = -40.8675

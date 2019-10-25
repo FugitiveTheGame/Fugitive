@@ -3,6 +3,8 @@ class_name Car
 
 const GROUP = 'cars'
 
+# warning-ignore:unused_class_variable
+# This really is used
 onready var enterArea := $EnterArea
 onready var drivingAudio := $DrivingAudio
 
