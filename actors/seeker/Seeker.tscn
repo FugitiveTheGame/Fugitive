@@ -15,6 +15,7 @@ blend_mode = 1
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 1 )
+speed = 210
 
 [node name="ToolsTester" type="ColorRect" parent="."]
 visible = false
