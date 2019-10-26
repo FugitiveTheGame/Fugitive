@@ -31,6 +31,10 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	playerControl.setPlayerName(playerData.name)
 	playerControl.setPlayerType(playerData.type)
 	
+	# If this is me, update my local player data
+	if playerId == get_tree().get_network_unique_id():
+		Network.selfData.type = playerData.type
+	
 	update_player_counts()
 
 func update_player_counts():
