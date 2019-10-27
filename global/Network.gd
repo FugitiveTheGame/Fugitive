@@ -37,7 +37,7 @@ func hostGame(playerName: String) -> bool:
 	players[1] = selfData
 	
 	var peer = NetworkedMultiplayerENet.new()
-	peer.allow_object_decoding = true
+	#peer.allow_object_decoding = true
 	var result = peer.create_server(DEFAULT_PORT, MAX_PLAYERS)
 	
 	if result == OK:
@@ -53,7 +53,7 @@ func joinGame(playerName: String, serverIp: String) -> bool:
 	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
 	
 	var peer = NetworkedMultiplayerENet.new()
-	peer.allow_object_decoding = true
+	#peer.allow_object_decoding = true
 	var result = peer.create_client(serverIp, DEFAULT_PORT)
 	
 	if result == OK:
