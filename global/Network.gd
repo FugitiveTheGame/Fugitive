@@ -12,6 +12,8 @@ enum PlayerType {Hider, Seeker, Unset = -1}
 
 var players = {}
 
+var playerName: String
+
 func _ready():
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
 
@@ -27,33 +29,36 @@ remotesync func setPlayerType(playerId: int, playerType: int):
 	emit_signal('player_updated', playerId, self.players[playerId])
 
 func hostGame(playerName: String) -> bool:
+	self.playerName = playerName
+	
 	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
 	selfData.type = PlayerType.Seeker
 	players[1] = selfData
 	
 	var peer = NetworkedMultiplayerENet.new()
+	peer.allow_object_decoding = true
 	var result = peer.create_server(DEFAULT_PORT, MAX_PLAYERS)
 	
 	if result == OK:
 		get_tree().set_network_peer(peer)
-		emit_signal('new_player_registered', 1, selfData)
+		emit_signal('new_player_registered', 1, get_current_player())
 		return true
 	else:
 		return false
 	
 func joinGame(playerName: String, serverIp: String) -> bool:
-	var selfData = PlayerLobbyData.new()
-	selfData.name = playerName
-	selfData.type = PlayerType.Hider
+	self.playerName = playerName
 	
 	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
 	
 	var peer = NetworkedMultiplayerENet.new()
+	peer.allow_object_decoding = true
 	var result = peer.create_client(serverIp, DEFAULT_PORT)
 	
 	if result == OK:
 		get_tree().set_network_peer(peer)
+		#players[get_tree().get_network_unique_id()] = selfData
 		return true
 	else:
 		return false
@@ -66,9 +71,13 @@ func on_player_disconnect(id):
 func on_connected_to_server():
 	var newPlayerId = get_tree().get_network_unique_id()
 	
+	var selfData = PlayerLobbyData.new()
+	selfData.name = playerName
+	selfData.type = PlayerType.Hider
+	
 	# Send the new player to the server for distribution,
 	# await other player info
-	rpc_id(1, 'on_new_player_server', newPlayerId, self.selfData.toDTO())
+	rpc_id(1, 'on_new_player_server', newPlayerId, selfData.toDTO())
 
 remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 	var orderedPlayers = self.players.keys()
@@ -88,7 +97,7 @@ remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 	var playerDataReal := fromDTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
-
+	
 static func fromDTO(dict: Dictionary) -> PlayerLobbyData:
 	var result := PlayerLobbyData.new()
 	result.name = dict.name

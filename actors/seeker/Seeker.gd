@@ -31,6 +31,7 @@ func process_hider(hider: Hider) -> bool:
 	# wierd stuff happens
 	if(seeker_ray_caster.is_colliding()):
 		var bodySeen = seeker_ray_caster.get_collider()
+		var currentPlayer = Network.get_current_player()
 		
 		# If the ray hits a wall or something else first, then this Hider is fully occluded
 		if(bodySeen == hider):
@@ -47,7 +48,7 @@ func process_hider(hider: Hider) -> bool:
 				if self.car == null:
 					hider.freeze()
 			
-			if (Network.selfData.type == Network.PlayerType.Seeker):
+			if (currentPlayer.type == Network.PlayerType.Seeker):
 				# If hider is in the center of Seeker's FOV, they are fully visible
 				# otherwise, they will gradually fade out the further out to the edges
 				# of the FOV they are. Outside the FOV cone, they are invisible.
@@ -55,7 +56,7 @@ func process_hider(hider: Hider) -> bool:
 				hider.modulate.a = percent_visible
 				#print("visible: %f" % percent_visible)
 		else:
-			if (Network.selfData.type == Network.PlayerType.Seeker):
+			if (currentPlayer.type == Network.PlayerType.Seeker):
 				hider.modulate.a = 0.0
 	# This makes sense to me, but if we add it, the Hider flickers like crazy... why...
 	#else:

@@ -77,7 +77,7 @@ func create_seeker(id: int, player: Object) -> Player:
 	node.set_network_master(id)
 	
 	node.playerName = player.name
-	node.global_position = Vector2(200 + (seekersCount * 200), 470 - (seekersCount * 200))
+	node.global_position = Vector2(200, 470 - (seekersCount * 200))
 	
 	seekersCount = seekersCount + 1
 	players.add_child(node)
@@ -138,13 +138,15 @@ func checkForFoundHiders():
 func checkWinConditions():
 	var allHidersFrozen := true
 	var allUnfrozenSeekersInWinZone := true
+	
+	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 	for hiderNode in hiders:
 		var hider: Hider = hiderNode
-		if (!hider.frozen):
+		if (not hider.frozen):
 			allHidersFrozen = false
 			# Now, check if this hider is in the win zone.
-			if (!winZone.overlaps_body(hider)):
+			if (not winZone.overlaps_body(hider)):
 				allUnfrozenSeekersInWinZone = false
 	
 	if allHidersFrozen or allUnfrozenSeekersInWinZone:
