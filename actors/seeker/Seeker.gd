@@ -19,6 +19,11 @@ func _ready():
 func process_hider(hider: Hider) -> bool:
 	var isSeen = false
 	
+	var currentPlayer = Network.get_current_player()
+	# Re-hide Hiders every frame for Seekers
+	if (currentPlayer.type == Network.PlayerType.Seeker):
+		hider.modulate.a = 0.0
+	
 	# Cast a ray between the seeker and this hider
 	var look_vec = to_local(hider.global_position)
 	seeker_ray_caster.cast_to = look_vec
@@ -31,7 +36,6 @@ func process_hider(hider: Hider) -> bool:
 	# wierd stuff happens
 	if(seeker_ray_caster.is_colliding()):
 		var bodySeen = seeker_ray_caster.get_collider()
-		var currentPlayer = Network.get_current_player()
 		
 		# If the ray hits a wall or something else first, then this Hider is fully occluded
 		if(bodySeen == hider):
@@ -53,11 +57,15 @@ func process_hider(hider: Hider) -> bool:
 				# otherwise, they will gradually fade out the further out to the edges
 				# of the FOV they are. Outside the FOV cone, they are invisible.
 				var percent_visible = 1.0 - clamp(abs(look_angle / cone_width), 0.0, 1.0)
-				hider.modulate.a = percent_visible
+				
+				# Never make a hider MORE invisible, if some one else can see the hider
+				# then leave them that visible for all Seekers
+				if percent_visible > hider.modulate.a:
+					hider.modulate.a = percent_visible
 				#print("visible: %f" % percent_visible)
-		else:
-			if (currentPlayer.type == Network.PlayerType.Seeker):
-				hider.modulate.a = 0.0
+		#else:
+			#if (currentPlayer.type == Network.PlayerType.Seeker):
+				#hider.modulate.a = 0.0
 	# This makes sense to me, but if we add it, the Hider flickers like crazy... why...
 	#else:
 		#hider.modulate.a = 0.0

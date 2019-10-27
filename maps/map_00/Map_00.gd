@@ -119,15 +119,14 @@ func checkForFoundHiders():
 	var anySeen := false
 	
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
-	for seeker in seekers:
-		# Process each hider, find if any have been seen
-		var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
-		for hider in hiders:
+	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
+	
+	# Process each hider, find if any have been seen
+	for hider in hiders:
+		for seeker in seekers:
 			if(seeker.process_hider(hider)):
 				anySeen = true
 				break
-		if (anySeen):
-			break
 	
 	# Debug: show the label if any hiders were seen
 	if(anySeen):
