@@ -4,6 +4,7 @@ onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/Playe
 onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
 onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/SeekersCount
 onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
+onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
 
 const MIN_PLAYERS = 3
 const MIN_SEEKERS = 2
@@ -90,6 +91,13 @@ func validate_game() -> bool:
 	else:
 		return true
 
+func getSelectedMap() -> String:
+	match mapSelectButton.get_selected_id():
+		0:
+			return 'res://maps/map_00/Map_00.tscn'
+		_:
+			return 'ERROR'
+
 func _on_StartGameButton_pressed():
 	# Only the host can start the game
 	if not is_network_master():
@@ -98,7 +106,7 @@ func _on_StartGameButton_pressed():
 	if not validate_game():
 		return
 	
-	var selectedMap = 'res://maps/map_00/Map_00.tscn'
+	var selectedMap = getSelectedMap()
 	
 	if Network.players.size() >= MIN_PLAYERS:
 		# Starting the game, refuse any new player joins mid-game

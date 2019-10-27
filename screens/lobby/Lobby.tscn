@@ -90,6 +90,20 @@ margin_right = 247.0
 margin_bottom = 14.0
 text = "Options:"
 
+[node name="MapSelectLabel" type="Label" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+margin_top = 18.0
+margin_right = 247.0
+margin_bottom = 32.0
+text = "Select Map:"
+
+[node name="MapSelectButton" type="OptionButton" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+margin_top = 36.0
+margin_right = 247.0
+margin_bottom = 56.0
+text = "Map 00"
+items = [ "Map 00", null, false, 0, null ]
+selected = 0
+
 [node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
 margin_top = 478.0
 margin_right = 498.0
