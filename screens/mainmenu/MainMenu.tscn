@@ -129,6 +129,16 @@ margin_left = 68.0
 margin_right = 122.0
 margin_bottom = 20.0
 text = "Cancel"
+
+[node name="DEBUG" type="Label" parent="."]
+margin_left = 400.902
+margin_top = 293.0
+margin_right = 400.902
+margin_bottom = 307.0
+text = "debug"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="text_changed" from="CenterContainer/PanelContainer/VBoxContainer/PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/HostGameButton" to="." method="_on_HostGameButton_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]

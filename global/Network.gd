@@ -34,7 +34,7 @@ func hostGame(playerName: String) -> bool:
 	
 	var peer = NetworkedMultiplayerENet.new()
 	var result = peer.create_server(DEFAULT_PORT, MAX_PLAYERS)
-	
+	print('test')
 	if result == OK:
 		get_tree().set_network_peer(peer)
 		emit_signal('new_player_registered', 1, selfData)

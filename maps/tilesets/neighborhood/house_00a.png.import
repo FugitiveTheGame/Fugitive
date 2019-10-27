@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/fence_00_corner.png-d4a4b29d9b69a2fe2e2a7d300ad82c2d.stex"
+path="res://.import/house_00a.png-ea450c8b5c2203449582b2ac35c91686.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://maps/tilesets/neighborhood/fence_00_corner.png"
-dest_files=[ "res://.import/fence_00_corner.png-d4a4b29d9b69a2fe2e2a7d300ad82c2d.stex" ]
+source_file="res://maps/tilesets/neighborhood/house_00a.png"
+dest_files=[ "res://.import/house_00a.png-ea450c8b5c2203449582b2ac35c91686.stex" ]
 
 [params]
 
@@ -21,8 +21,8 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=true
-flags/anisotropic=true
+flags/mipmaps=false
+flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
