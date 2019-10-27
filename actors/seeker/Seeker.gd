@@ -12,6 +12,9 @@ var min_vision_distance := 800.0
 func _get_player_group() -> String:
 	return Groups.SEEKERS
 
+func _get_player_type() -> int:
+	return Network.PlayerType.Seeker
+
 func _ready():
 	._ready()
 	self.freeze()
