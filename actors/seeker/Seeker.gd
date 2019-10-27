@@ -6,6 +6,9 @@ onready var seeker_ray_caster := $RayCast2D
 var cone_width = deg2rad(45.0)
 var max_detect_distance := 100.0
 
+var max_vision_distance := 1000.0
+var min_vision_distance := 800.0
+
 func _get_player_group() -> String:
 	return Groups.SEEKERS
 
@@ -49,21 +52,33 @@ func process_hider(hider: Hider) -> bool:
 			
 			var currentPlayer = Network.get_current_player()
 			if (currentPlayer.type == Network.PlayerType.Seeker):
+				
+				# At a given distance, fade the hider out
+				var distance_visibility: float
+				
+				# Hider is too far away, make invisible regardless of FOV visibility
+				if distance > max_vision_distance:
+					distance_visibility = 0.0
+				# Hider is at the edge of distance visibility, calculate how close to the edge they are
+				elif distance > min_vision_distance:
+					var x = distance - min_vision_distance
+					distance_visibility = 1.0 - (x / (max_vision_distance-min_vision_distance))
+				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
+				else:
+					distance_visibility = 1.0
+				
 				# If hider is in the center of Seeker's FOV, they are fully visible
 				# otherwise, they will gradually fade out the further out to the edges
 				# of the FOV they are. Outside the FOV cone, they are invisible.
-				var percent_visible = 1.0 - clamp(abs(look_angle / cone_width), 0.0, 1.0)
+				var fov_visibility = 1.0 - clamp(abs(look_angle / cone_width), 0.0, 1.0)
+				
+				# FOV visibility can be faded out if at edge of distance visibility
+				var percent_visible = fov_visibility * distance_visibility
 				
 				# Never make a hider MORE invisible, if some one else can see the hider
 				# then leave them that visible for all Seekers
 				if percent_visible > hider.modulate.a:
 					hider.modulate.a = percent_visible
 				#print("visible: %f" % percent_visible)
-		#else:
-			#if (currentPlayer.type == Network.PlayerType.Seeker):
-				#hider.modulate.a = 0.0
-	# This makes sense to me, but if we add it, the Hider flickers like crazy... why...
-	#else:
-		#hider.modulate.a = 0.0
 	
 	return isSeen

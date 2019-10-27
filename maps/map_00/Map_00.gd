@@ -127,7 +127,11 @@ func checkForFoundHiders():
 	for hider in hiders:
 		# Re-hide Hiders every frame for Seekers
 		if (currentPlayer.type == Network.PlayerType.Seeker):
-			hider.modulate.a = 0.0
+			if not hider.frozen:
+				hider.modulate.a = 0.0
+			# Frozen Hiders should always be vizible to Seekers
+			else:
+				hider.modulate.a = 1.0
 		
 		for seeker in seekers:
 			if(seeker.process_hider(hider)):
