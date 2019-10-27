@@ -7,7 +7,7 @@ onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/Players
 onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
 
 const MIN_PLAYERS = 3
-const MIN_SEEKERS = 2
+const MIN_SEEKERS = 1
 const MIN_HIDERS = 1
 
 func _ready():
