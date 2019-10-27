@@ -1,8 +1,6 @@
 extends KinematicBody2D
 class_name Car
 
-const GROUP = 'cars'
-
 # warning-ignore:unused_class_variable
 # This really is used
 onready var enterArea := $EnterArea
@@ -25,7 +23,7 @@ puppet func network_update(pos: Vector2, vel: Vector2, rot: float):
 	self.rotation = rot
 
 func _ready():
-	add_to_group(GROUP)
+	add_to_group(Groups.CARS)
 
 # Returns the ammount to rotate by
 func get_input(delta: float) -> float:
@@ -68,10 +66,14 @@ func _physics_process(delta: float):
 remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id)
 
+func is_driver(player) -> bool:
+	return driver == player
+
 func get_in_car(player) -> bool:
 	var success := false
 	
-	if not locked:
+	# The car is locked until a Seeker unlocks it by entering it
+	if not locked or player.has_group(Groups.SEEKERS):
 		if driver == null:
 			driver = player
 			rpc('new_driver', driver.get_network_master())

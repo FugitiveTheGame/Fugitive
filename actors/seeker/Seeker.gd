@@ -1,15 +1,13 @@
 extends Player
 class_name Seeker
 
-const GROUP = 'seekers'
-
 onready var seeker_ray_caster := $RayCast2D
 
 var cone_width = deg2rad(45.0)
 var max_detect_distance := 100.0
 
 func _get_player_group() -> String:
-	return GROUP
+	return Groups.SEEKERS
 
 func _ready():
 	._ready()

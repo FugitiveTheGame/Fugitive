@@ -25,7 +25,7 @@ var frozen := false
 var frozenColor := Color(0, 0, 1, 1)
 
 # This is a car this player is driving
-var car: Car
+var car = null
 
 func _ready():
 	add_to_group(_get_player_group())
@@ -65,10 +65,10 @@ func _input(event):
 		elif not self.car.is_moving():
 			rpc('on_car_exit')
 
-func find_car_inrange() -> Car:
-	var nearest_car: Car = null
+func find_car_inrange():
+	var nearest_car = null
 	
-	var cars = get_tree().get_nodes_in_group(Car.GROUP)
+	var cars = get_tree().get_nodes_in_group(Groups.CARS)
 	for car in cars:
 		var area = car.enterArea as Area2D
 		if area.overlaps_body(self):
@@ -127,6 +127,10 @@ func _physics_process(delta: float):
 			var new_rotation = get_input(delta)
 			process_stamina(delta)
 			self.velocity = move_and_slide(self.velocity)
+			rotate(new_rotation)
+		# Allow passengers to look around while in a car
+		elif not self.car.is_driver(self):
+			var new_rotation = get_input(delta)
 			rotate(new_rotation)
 		
 		rpc_unreliable("network_update", self.position, self.velocity, self.rotation, self.stamina)

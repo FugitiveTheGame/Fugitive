@@ -6,7 +6,6 @@ onready var serverIpEditText := $JoinGameDialog/Center/Verticle/ServerIpTextEdit
 var playerName: String = ""
 
 func _ready():
-	print('test__')
 	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
 
 func _on_HostGameButton_pressed():

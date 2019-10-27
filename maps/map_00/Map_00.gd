@@ -41,8 +41,6 @@ remotesync func post_configure_game():
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
-	create_car()
-	
 	# Make sure players are spawned in order on every client,
 	# or else their positions might misalign
 	var playerIds := newPlayers.keys()
@@ -120,10 +118,10 @@ func handleBeginGameTimer():
 func checkForFoundHiders():
 	var anySeen := false
 	
-	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
+	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	for seeker in seekers:
 		# Process each hider, find if any have been seen
-		var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
+		var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 		for hider in hiders:
 			if(seeker.process_hider(hider)):
 				anySeen = true
@@ -140,7 +138,7 @@ func checkForFoundHiders():
 func checkWinConditions():
 	var allHidersFrozen := true
 	var allUnfrozenSeekersInWinZone := true
-	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
+	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 	for hiderNode in hiders:
 		var hider: Hider = hiderNode
 		if (!hider.frozen):
@@ -164,14 +162,10 @@ func checkWinConditions():
 		$UiLayer/GameOverDialog.popup_centered()
 
 func _on_GracePeriodTimer_timeout():
-	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
+	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	for seekerNode in seekers:
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
-		
-	var cars = get_tree().get_nodes_in_group(Car.GROUP)
-	for car in cars:
-		car.locked = false
 	
 	$UiLayer/TimerLabel.hide()
 

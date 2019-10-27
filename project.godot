@@ -54,6 +54,7 @@ config/windows_native_icon="res://icon.ico"
 [autoload]
 
 Network="*res://global/Network.gd"
+Groups="*res://global/Groups.gd"
 
 [display]
 
