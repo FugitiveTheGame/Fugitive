@@ -91,7 +91,7 @@ func create_hider(id: int, player: Object) -> Player:
 	node.set_network_master(id)
 	
 	node.playerName = player.name
-	node.global_position = Vector2(480, 290 - (hidersCount * 200))
+	node.global_position = Vector2(480, 470 - (hidersCount * 200))
 	hidersCount = hidersCount + 1
 	
 	players.add_child(node)
@@ -118,11 +118,17 @@ func handleBeginGameTimer():
 func checkForFoundHiders():
 	var anySeen := false
 	
+	var currentPlayer = Network.get_current_player()
+	
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 	
 	# Process each hider, find if any have been seen
 	for hider in hiders:
+		# Re-hide Hiders every frame for Seekers
+		if (currentPlayer.type == Network.PlayerType.Seeker):
+			hider.modulate.a = 0.0
+		
 		for seeker in seekers:
 			if(seeker.process_hider(hider)):
 				anySeen = true

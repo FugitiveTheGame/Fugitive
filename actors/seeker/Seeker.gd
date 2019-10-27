@@ -19,11 +19,6 @@ func _ready():
 func process_hider(hider: Hider) -> bool:
 	var isSeen = false
 	
-	var currentPlayer = Network.get_current_player()
-	# Re-hide Hiders every frame for Seekers
-	if (currentPlayer.type == Network.PlayerType.Seeker):
-		hider.modulate.a = 0.0
-	
 	# Cast a ray between the seeker and this hider
 	var look_vec = to_local(hider.global_position)
 	seeker_ray_caster.cast_to = look_vec
@@ -52,6 +47,7 @@ func process_hider(hider: Hider) -> bool:
 				if self.car == null:
 					hider.freeze()
 			
+			var currentPlayer = Network.get_current_player()
 			if (currentPlayer.type == Network.PlayerType.Seeker):
 				# If hider is in the center of Seeker's FOV, they are fully visible
 				# otherwise, they will gradually fade out the further out to the edges
