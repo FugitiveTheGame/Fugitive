@@ -5,9 +5,8 @@ onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
 onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/SeekersCount
 onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
 
-const MIN_PLAYERS = 1
-
-const MIN_SEEKERS = 1
+const MIN_PLAYERS = 3
+const MIN_SEEKERS = 2
 const MIN_HIDERS = 1
 
 func _ready():
@@ -33,7 +32,7 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	
 	# If this is me, update my local player data
 	if playerId == get_tree().get_network_unique_id():
-		Network.selfData.type = playerData.type
+		Network.get_current_player().type = playerData.type
 	
 	update_player_counts()
 
@@ -72,9 +71,31 @@ func player_removed(playerId: int):
 	var childToRemove = playerListControl.get_node(str(playerId))
 	playerListControl.remove_child(childToRemove)
 
+func validate_game() -> bool:
+	var numSeekers := 0
+	var numHiders := 0
+	for player_id in Network.players:
+		var player = Network.players[player_id]
+		if player.type == Network.PlayerType.Seeker:
+			numSeekers += 1
+		elif player.type == Network.PlayerType.Hider:
+			numHiders += 1
+	
+	if Network.players.size() < MIN_PLAYERS:
+		return false
+	elif numSeekers < MIN_SEEKERS:
+		return false
+	elif numHiders < MIN_HIDERS:
+		return false
+	else:
+		return true
+
 func _on_StartGameButton_pressed():
 	# Only the host can start the game
 	if not is_network_master():
+		return
+	
+	if not validate_game():
 		return
 	
 	var selectedMap = 'res://maps/map_00/Map_00.tscn'

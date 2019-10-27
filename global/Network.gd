@@ -12,13 +12,12 @@ enum PlayerType {Hider, Seeker, Unset = -1}
 
 var players = {}
 
-var selfData : PlayerLobbyData
-
-func _init():
-	selfData = PlayerLobbyData.new()
-
 func _ready():
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
+
+func get_current_player():
+	var localId = get_tree().get_network_unique_id()
+	return players[localId]
 
 func broadcastSetPlayerType(playerId: int, playerType: int):
 	rpc('setPlayerType', playerId, playerType)
@@ -28,6 +27,7 @@ remotesync func setPlayerType(playerId: int, playerType: int):
 	emit_signal('player_updated', playerId, self.players[playerId])
 
 func hostGame(playerName: String) -> bool:
+	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
 	selfData.type = PlayerType.Seeker
 	players[1] = selfData
@@ -43,6 +43,7 @@ func hostGame(playerName: String) -> bool:
 		return false
 	
 func joinGame(playerName: String, serverIp: String) -> bool:
+	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
 	selfData.type = PlayerType.Hider
 	
