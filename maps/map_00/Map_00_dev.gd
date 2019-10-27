@@ -4,10 +4,13 @@ func _ready():
 	# Change this to false to play as a Hider
 	var be_seeker := true
 	
+	var playerData = PlayerLobbyData.new()
+	Network.players[1] = playerData
+	
 	if be_seeker:
 		$players/Seeker00.set_current_player()
 		$players/Seeker00.set_network_master(1)
-		Network.selfData.type = Network.PlayerType.Seeker
+		playerData.type = Network.PlayerType.Seeker
 		
 		$players/Hider00.set_network_master(2)
 	else:
@@ -15,7 +18,7 @@ func _ready():
 		
 		$players/Hider00.set_current_player()
 		$players/Hider00.set_network_master(1)
-		Network.selfData.type = Network.PlayerType.Hider
+		playerData.type = Network.PlayerType.Hider
 	
 	$players/Hider01.set_network_master(2)
 	

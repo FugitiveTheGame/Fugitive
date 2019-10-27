@@ -110,6 +110,9 @@ func get_input(delta: float) -> float:
 	new_rotation = rotation_dir * self.rotation_speed * delta
 	return new_rotation
 
+func is_moving_fast():
+	return velocity.length() > (speed * 1.1)
+
 func is_sprinting():
 	return Input.is_action_pressed('sprint') and stamina > 0.0
 
