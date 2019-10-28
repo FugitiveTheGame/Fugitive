@@ -2,6 +2,8 @@ extends Control
 
 onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
 onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
+onready var upnpButton := $MainPanel/OuterContainer/HBoxContainer/UPNPButton
+onready var serverIpLabel := $MainPanel/OuterContainer/ServerIpLabel
 onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/SeekersCount
 onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
 onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
@@ -18,12 +20,16 @@ func _ready():
 	
 	update_player_counts()
 	
-	# Only server should see start button
+	# Only server should see these buttons
 	if not get_tree().is_network_server():
 		startGameButton.hide()
+		upnpButton.hide()
+		serverIpLabel.hide()
 	else:
 		# Returning to the lobby, allow new players to join
 		get_tree().network_peer.refuse_new_connections = false
+		
+		serverIpLabel.text = Network.get_external_ip()
 
 func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
@@ -118,5 +124,9 @@ func _on_StartGameButton_pressed():
 sync func startGame(map):
 	assert(get_tree().change_scene(map) == OK)
 
-func _on_Button_pressed():
-	Network.disconnect_from_game();
+func _on_LeaveButton_pressed():
+	Network.disconnect_from_game()
+
+func _on_UPNPButton_pressed():
+	Network.enableUpnp()
+	serverIpLabel.text = Network.get_external_ip()

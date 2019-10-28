@@ -11,13 +11,17 @@ const MAX_PLAYERS := 5
 enum PlayerType {Hider, Seeker, Unset = -1}
 
 var players = {}
-
 var playerName: String
+
+onready var upnp = UPNP.new()
 
 func _ready():
 	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
 	assert(get_tree().connect('server_disconnected', self, 'on_server_disconnect') == OK)
+	
+	# Begin discovery asap
+	upnp.discover()
 
 func get_current_player() -> PlayerLobbyData:
 	return players[get_current_player_id()]
@@ -122,3 +126,12 @@ static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
 	result.position = dict.position
 	result.type = dict.type
 	return result
+
+func enableUpnp():
+	upnp.add_port_mapping(DEFAULT_PORT)
+
+func disableUpnp():
+	upnp.delete_port_mapping(DEFAULT_PORT)
+
+func get_external_ip() -> String:
+	return upnp.query_external_address()

@@ -30,28 +30,35 @@ margin_bottom = 505.0
 margin_right = 498.0
 margin_bottom = 52.0
 
-[node name="Button" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
+[node name="LeaveButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
 margin_right = 20.0
 margin_bottom = 52.0
 text = "X"
 
 [node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer/HBoxContainer"]
 margin_left = 24.0
-margin_right = 155.0
+margin_right = 391.0
 margin_bottom = 52.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
+
+[node name="UPNPButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
+margin_left = 395.0
+margin_right = 498.0
+margin_bottom = 52.0
+text = "Perform UPNP"
 
 [node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
 margin_top = 56.0
 margin_right = 498.0
-margin_bottom = 474.0
+margin_bottom = 456.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayersContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_right = 247.0
-margin_bottom = 418.0
+margin_bottom = 400.0
 size_flags_horizontal = 3
 
 [node name="PlayersTitle" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
@@ -77,13 +84,13 @@ align = 1
 [node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 54.0
 margin_right = 247.0
-margin_bottom = 418.0
+margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerList" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
 margin_right = 247.0
-margin_bottom = 364.0
+margin_bottom = 346.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 __meta__ = {
@@ -93,7 +100,7 @@ __meta__ = {
 [node name="OptionsContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_left = 251.0
 margin_right = 498.0
-margin_bottom = 418.0
+margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -117,9 +124,16 @@ items = [ "Map 00", null, false, 0, null ]
 selected = 0
 
 [node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
-margin_top = 478.0
+margin_top = 460.0
+margin_right = 498.0
+margin_bottom = 480.0
+text = "Start Game"
+
+[node name="ServerIpLabel" type="Label" parent="MainPanel/OuterContainer"]
+margin_top = 484.0
 margin_right = 498.0
 margin_bottom = 498.0
-text = "Start Game"
-[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/Button" to="." method="_on_Button_pressed"]
+text = "127.0.0.1"
+[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/UPNPButton" to="." method="_on_UPNPButton_pressed"]
 [connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
