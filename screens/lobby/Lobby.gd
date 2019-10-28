@@ -71,6 +71,7 @@ func players_initialize(newPlayers: Dictionary):
 func player_removed(playerId: int):
 	var childToRemove = playerListControl.get_node(str(playerId))
 	playerListControl.remove_child(childToRemove)
+	update_player_counts()
 
 func validate_game() -> bool:
 	var numSeekers := 0
@@ -116,7 +117,6 @@ func _on_StartGameButton_pressed():
 
 sync func startGame(map):
 	assert(get_tree().change_scene(map) == OK)
-
 
 func _on_Button_pressed():
 	Network.disconnect_from_game();
