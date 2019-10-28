@@ -9,13 +9,13 @@
 script = ExtResource( 2 )
 
 [node name="Seeker00" parent="players" index="0" instance=ExtResource( 3 )]
-position = Vector2( -125.457, 394.051 )
+position = Vector2( -86.7255, 367.524 )
 playerName = "Adam"
 
 [node name="Hider00" parent="players" index="1" instance=ExtResource( 4 )]
-position = Vector2( 571.712, 437.208 )
+position = Vector2( 369.646, 62.5992 )
 playerName = "Stacy"
 
 [node name="Hider01" parent="players" index="2" instance=ExtResource( 4 )]
-position = Vector2( 563.95, 298.046 )
+position = Vector2( 501.599, 465.974 )
 playerName = "Alex"

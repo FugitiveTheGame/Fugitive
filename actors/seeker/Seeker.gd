@@ -59,7 +59,7 @@ func process_hider(hider: Hider) -> bool:
 			if(look_angle < CONE_WIDTH and look_angle  > -CONE_WIDTH and distance <= MAX_DETECT_DISTANCE):
 				isSeen = true
 				
-				# Don't allow capture while in a car
+				# Don't allow capture while in a car, or while in a win zone
 				if self.car == null and (not is_in_winzone(hider)):
 					hider.freeze()
 			
