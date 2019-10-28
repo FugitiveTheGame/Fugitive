@@ -132,6 +132,5 @@ text = "Cancel"
 [connection signal="text_changed" from="CenterContainer/PanelContainer/VBoxContainer/PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/HostGameButton" to="." method="_on_HostGameButton_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
-[connection signal="about_to_show" from="JoinGameDialog" to="." method="_on_JoinGameDialog_about_to_show"]
 [connection signal="pressed" from="JoinGameDialog/Center/Verticle/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/Center/Verticle/HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]

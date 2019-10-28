@@ -7,6 +7,7 @@ var playerName: String = ""
 
 func _ready():
 	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
+	serverIpEditText.text = Network.DEFAULT_IP
 
 func _on_HostGameButton_pressed():
 	if playerName == "":
@@ -38,9 +39,6 @@ func _on_ConnectButton_pressed():
 
 func _on_CancelButton_pressed():
 	joinDialog.hide()
-
-func _on_JoinGameDialog_about_to_show():
-	serverIpEditText.text = Network.DEFAULT_IP
 
 func on_server_joined():
 	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
