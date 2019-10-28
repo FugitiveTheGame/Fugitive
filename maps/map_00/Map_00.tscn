@@ -71,17 +71,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TestDetectionLabel" type="Label" parent="UiLayer"]
-visible = false
-margin_right = 512.0
-margin_bottom = 107.0
-custom_fonts/font = ExtResource( 3 )
-text = "You're done like dinner!"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="GameOverDialog" type="PopupDialog" parent="UiLayer"]
 margin_right = 512.0
 margin_bottom = 128.0

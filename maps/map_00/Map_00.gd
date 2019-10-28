@@ -1,6 +1,5 @@
 extends Node2D
 
-onready var detectionLabel : Label = $UiLayer/TestDetectionLabel
 onready var players := $players
 onready var gracePeriodTimer := $GracePeriodTimer
 onready var winZone : Area2D = $WinZone
@@ -13,7 +12,6 @@ var hidersCount = 0
 var players_done = []
 
 func _ready():
-	detectionLabel.hide()
 	assert(Network.connect("player_updated", self, "player_updated") == OK)
 	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
@@ -145,9 +143,7 @@ func checkForFoundHiders():
 	
 	# Debug: show the label if any hiders were seen
 	if(anySeen):
-		detectionLabel.show()
-	else:
-		detectionLabel.hide()
+		print('Seeker saw a hider!')
 
 func checkWinConditions():
 	var allHidersFrozen := true
