@@ -5,6 +5,7 @@ class_name Car
 # This really is used
 onready var enterArea := $EnterArea
 onready var drivingAudio := $DrivingAudio
+onready var hornAudio := $HornAudio
 
 export (int) var speed = 500
 export (float) var rotation_speed = 2.5
@@ -42,6 +43,13 @@ func get_input(delta: float) -> float:
 		self.velocity = Vector2(-self.speed, 0).rotated(self.rotation)
 	if Input.is_action_pressed('ui_up'):
 		self.velocity = Vector2(self.speed, 0).rotated(self.rotation)
+	
+	# Honk the car horn!
+	if Input.is_action_pressed('car_horn'):
+		if not hornAudio.playing:
+			rpc('start_horn')
+	elif hornAudio.playing:
+		rpc('stop_horn')
 	
 	new_rotation = rotation_dir * self.rotation_speed * delta
 	return new_rotation
@@ -113,3 +121,10 @@ func is_moving() -> bool:
 
 func local_player_is_driver():
 	return driver != null and driver.get_network_master() == get_tree().get_network_unique_id()
+
+remotesync func start_horn():
+	hornAudio.playing = true
+	print('Honk Honk!')
+
+remotesync func stop_horn():
+	hornAudio.playing = false
