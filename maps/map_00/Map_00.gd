@@ -14,6 +14,9 @@ var players_done = []
 
 func _ready():
 	detectionLabel.hide()
+	assert(Network.connect("player_updated", self, "player_updated") == OK)
+	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
+	assert(Network.connect("player_removed", self, "player_removed") == OK)
 	pre_configure_game()
 
 func pre_configure_game():
@@ -184,3 +187,22 @@ func _on_GracePeriodTimer_timeout():
 
 func _on_BackToLobbyButton_pressed():
 	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
+
+func new_player_registered(player_id: int, player_data: PlayerLobbyData):
+	match player_data.type:
+		Network.PlayerType.Seeker:
+			create_seeker(player_id, player_data)
+		Network.PlayerType.Hider:
+			create_hider(player_id, player_data)
+
+func player_removed(player_id: int):
+	print('Removing player: %d' % player_id)
+	var playerNode = players.get_node(str(player_id))
+	
+	if (playerNode != null):
+		print('Found node for player: %d, removing...' % player_id)
+		playerNode.queue_free()
+
+func player_updated(player_id: int, player_data: PlayerLobbyData):
+	player_removed(player_id)
+	new_player_registered(player_id, player_data)

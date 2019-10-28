@@ -19,10 +19,10 @@ func _ready():
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
 	assert(get_tree().connect('server_disconnected', self, 'on_server_disconnect') == OK)
 
-func get_current_player():
+func get_current_player() -> PlayerLobbyData:
 	return players[get_current_player_id()]
 	
-func get_current_player_id():
+func get_current_player_id() -> int:
 	return get_tree().get_network_unique_id();
 	
 func disconnect_from_game():
