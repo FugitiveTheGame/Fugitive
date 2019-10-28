@@ -55,6 +55,7 @@ config/windows_native_icon="res://icon.ico"
 
 Network="*res://global/Network.gd"
 Groups="*res://global/Groups.gd"
+UserData="*res://global/UserData.gd"
 
 [display]
 

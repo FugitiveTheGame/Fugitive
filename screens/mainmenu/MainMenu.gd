@@ -7,7 +7,16 @@ var playerName: String = ""
 
 func _ready():
 	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
-	serverIpEditText.text = Network.DEFAULT_IP
+	serverIpEditText.text = UserData.data.last_ip
+	
+	playerName = UserData.data.user_name
+	$CenterContainer/PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+
+func _exit_tree():
+	# Save any user data that changed
+	UserData.data.last_ip = serverIpEditText.text
+	UserData.data.user_name = playerName
+	UserData.save_data()
 
 func _on_HostGameButton_pressed():
 	if playerName == "":
