@@ -8,7 +8,7 @@ const MAX_DETECT_DISTANCE := 100.0
 const MAX_VISION_DISTANCE := 1000.0
 const MIN_VISION_DISTANCE := 800.0
 
-const MOVEMENT_VISIBILITY_PENALTY := 0.05
+const MOVEMENT_VISIBILITY_PENALTY := 0.01
 const SPRINT_VISIBILITY_PENALTY := 0.75
 
 func _get_player_group() -> String:
@@ -55,44 +55,42 @@ func process_hider(hider: Hider) -> bool:
 				if self.car == null:
 					hider.freeze()
 			
-			# If we are a Seeker, do visibility calculations
-			var currentPlayer = Network.get_current_player()
-			if (currentPlayer.type == Network.PlayerType.Seeker):
-				
-				# At a given distance, fade the hider out
-				var distance_visibility: float
-				
-				# Hider is too far away, make invisible regardless of FOV visibility
-				if distance > MAX_VISION_DISTANCE:
-					distance_visibility = 0.0
-				# Hider is at the edge of distance visibility, calculate how close to the edge they are
-				elif distance > MIN_VISION_DISTANCE:
-					var x = distance - MIN_VISION_DISTANCE
-					distance_visibility = 1.0 - (x / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
-				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
-				else:
-					distance_visibility = 1.0
-				
-				# If hider is in the center of Seeker's FOV, they are fully visible
-				# otherwise, they will gradually fade out the further out to the edges
-				# of the FOV they are. Outside the FOV cone, they are invisible.
-				var fov_visibility = 1.0 - clamp(abs(look_angle / CONE_WIDTH), 0.0, 1.0)
-				
-				# FOV visibility can be faded out if at edge of distance visibility
-				var percent_visible = fov_visibility * distance_visibility
-				
-				# If the hider is moving at all, make them a little visible
-				# regaurdless of FOV/Distance
-				if hider.is_moving_fast():
-					percent_visible += SPRINT_VISIBILITY_PENALTY
-				elif hider.is_moving():
-					percent_visible += MOVEMENT_VISIBILITY_PENALTY
-				percent_visible = clamp(percent_visible, 0.0, 1.0)
-				
-				# Never make a hider MORE invisible, if some one else can see the hider
-				# then leave them that visible for all Seekers
-				if percent_visible > hider.modulate.a:
-					hider.modulate.a = percent_visible
-				#print("visible: %f" % percent_visible)
+			############################################
+			# Begin visibility calculations
+			############################################
+			
+			# At a given distance, fade the hider out
+			var distance_visibility: float
+			
+			# Hider is too far away, make invisible regardless of FOV visibility
+			if distance > MAX_VISION_DISTANCE:
+				distance_visibility = 0.0
+			# Hider is at the edge of distance visibility, calculate how close to the edge they are
+			elif distance > MIN_VISION_DISTANCE:
+				var x = distance - MIN_VISION_DISTANCE
+				distance_visibility = 1.0 - (x / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
+			# Hider is well with-in visible distance, we won't modify the FOV visibility at all
+			else:
+				distance_visibility = 1.0
+			
+			# If hider is in the center of Seeker's FOV, they are fully visible
+			# otherwise, they will gradually fade out the further out to the edges
+			# of the FOV they are. Outside the FOV cone, they are invisible.
+			var fov_visibility = 1.0 - clamp(abs(look_angle / CONE_WIDTH), 0.0, 1.0)
+			
+			# FOV visibility can be faded out if at edge of distance visibility
+			var percent_visible = fov_visibility * distance_visibility
+			
+			# If the hider is moving at all, make them a little visible
+			# regaurdless of FOV/Distance
+			if hider.is_moving_fast():
+				percent_visible += SPRINT_VISIBILITY_PENALTY
+			elif hider.is_moving():
+				percent_visible += MOVEMENT_VISIBILITY_PENALTY
+			percent_visible = clamp(percent_visible, 0.0, 1.0)
+			#print("visible: %f" % percent_visible)
+			
+			# The hider's set visibility method will handle the visible effects of this
+			hider.update_visibility(percent_visible)
 	
 	return isSeen

@@ -151,6 +151,7 @@ func is_moving() -> bool:
 
 func set_current_player():
 	camera.current = true
+	staminaBar.show()
 
 remotesync func try_get_in_car(car_path: NodePath):
 	var new_car = get_tree().get_root().get_node(car_path)

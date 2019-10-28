@@ -46,21 +46,37 @@ stream = ExtResource( 2 )
 max_distance = 500.0
 
 [node name="PlayerNameLabel" type="Label" parent="."]
-margin_left = -40.8675
-margin_top = 22.4771
-margin_right = 40.1325
-margin_bottom = 36.4771
+margin_left = -50.0
+margin_top = 22.0
+margin_right = 50.0
+margin_bottom = 36.0
 text = "Player Name"
+align = 1
+valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
-margin_left = -20.0
-margin_top = 39.0
-margin_right = 20.0
-margin_bottom = 53.0
+visible = false
+margin_left = -30.0
+margin_top = -20.0
+margin_right = 10.0
+margin_bottom = -6.0
+rect_rotation = 89.9999
 percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VisibilityBar" type="ProgressBar" parent="."]
+visible = false
+margin_left = -40.0
+margin_top = -40.0
+margin_right = 40.0
+margin_bottom = -26.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

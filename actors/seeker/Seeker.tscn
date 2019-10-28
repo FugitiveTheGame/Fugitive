@@ -68,6 +68,7 @@ __meta__ = {
 }
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
+visible = false
 margin_left = -16.5968
 margin_top = 58.0263
 margin_right = 16.4032
