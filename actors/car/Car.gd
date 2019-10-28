@@ -29,7 +29,7 @@ func _ready():
 func get_input(delta: float) -> float:
 	var new_rotation := 0.0
 	
-	if not is_network_master():
+	if not local_player_is_driver():
 		return new_rotation
 	
 	var rotation_dir = 0
@@ -47,7 +47,7 @@ func get_input(delta: float) -> float:
 	return new_rotation
 
 func _physics_process(delta: float):
-	if driver != null and is_network_master():
+	if local_player_is_driver():
 		var new_rotation = get_input(delta)
 		
 		self.velocity = move_and_slide(self.velocity)
@@ -104,3 +104,6 @@ func get_out_of_car(player):
 
 func is_moving() -> bool:
 	return velocity.length() > 0.0
+
+func local_player_is_driver():
+	return driver != null and driver.get_network_master() == get_tree().get_network_unique_id()
