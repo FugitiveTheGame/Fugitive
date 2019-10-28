@@ -64,7 +64,7 @@ func _physics_process(delta: float):
 			drivingAudio.playing = false
 
 remotesync func new_driver(network_id: int):
-	self.set_network_master(network_id)
+	self.set_network_master(network_id, false)
 
 func is_driver(player) -> bool:
 	return driver == player
