@@ -24,7 +24,7 @@ func _ready():
 
 func is_in_winzone(hider) -> bool:
 	for zone in win_zones:
-		if winZone.overlaps_body(hider):
+		if zone.overlaps_body(hider):
 			return true
 	return false
 
