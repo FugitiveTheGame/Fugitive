@@ -64,7 +64,7 @@ one_shot = true
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
-[node name="TimerLabel" type="Label" parent="UiLayer"]
+[node name="GraceTimerLabel" type="Label" parent="UiLayer"]
 margin_right = 403.0
 margin_bottom = 68.0
 __meta__ = {
@@ -102,6 +102,18 @@ margin_top = 108.0
 margin_right = 512.0
 margin_bottom = 128.0
 text = "Back to Lobby"
+
+[node name="GameTimerLabel" type="Label" parent="UiLayer"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RoadWalls" type="Node" parent="."]
 

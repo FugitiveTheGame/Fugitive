@@ -3,6 +3,7 @@ extends Node2D
 onready var players := $players
 onready var gracePeriodTimer := $GracePeriodTimer
 onready var winZone : Area2D = $WinZone
+onready var gameTimerLabel := $UiLayer/GameTimerLabel
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Unset
@@ -10,6 +11,8 @@ var currentPlayer: Player
 var seekersCount = 0
 var hidersCount = 0
 var players_done = []
+
+var gameStartedAt: int
 
 func _ready():
 	assert(Network.connect("player_updated", self, "player_updated") == OK)
@@ -109,12 +112,21 @@ func _process(delta: float):
 		checkForFoundHiders()
 		handleBeginGameTimer()
 		checkWinConditions()
+		updateGameTimer()
 
 func handleBeginGameTimer():
 	if (self.gracePeriodTimer.time_left > 0.0):
-		$UiLayer/TimerLabel.text = "Starting game in %d..." % self.gracePeriodTimer.time_left
+		$UiLayer/GraceTimerLabel.text = "Starting game in %d..." % self.gracePeriodTimer.time_left
 	else:
-		$UiLayer/TimerLabel.hide()
+		$UiLayer/GraceTimerLabel.hide()
+
+func updateGameTimer():
+	var secondsSoFar = OS.get_system_time_secs() - gameStartedAt
+	
+	var minutesSoFar = secondsSoFar / 60
+	var remainingSeconds = secondsSoFar - (minutesSoFar * 60)
+	
+	gameTimerLabel.text = "%d:%02d" % [minutesSoFar, remainingSeconds]
 
 func checkForFoundHiders():
 	var anySeen := false
@@ -179,7 +191,11 @@ func _on_GracePeriodTimer_timeout():
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
 	
-	$UiLayer/TimerLabel.hide()
+	$UiLayer/GameTimerLabel.hide()
+	
+	gameStartedAt = OS.get_system_time_secs()
+	gameTimerLabel.show()
+	updateGameTimer()
 
 func _on_BackToLobbyButton_pressed():
 	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
