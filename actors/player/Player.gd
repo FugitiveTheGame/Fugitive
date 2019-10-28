@@ -43,10 +43,16 @@ puppet func network_update(pos: Vector2, vel: Vector2, rot: float, stam: float):
 	self.stamina = stam
 	
 func unfreeze():
+	rpc("onUnfreeze")
+	
+remotesync func onUnfreeze():
 	self.frozen = false
 	self.modulate = Color(1, 1, 1, 1)
 	
 func freeze():
+	rpc("onFreeze")
+	
+remotesync func onFreeze():
 	self.frozen = true
 	self.velocity = Vector2(0, 0)
 	self.modulate = frozenColor
