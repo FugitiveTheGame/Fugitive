@@ -158,7 +158,7 @@ remotesync func try_get_in_car(car_path: NodePath):
 	if new_car.get_in_car(self):
 		on_car_enter(new_car)
 	else:
-		print('Car was full')
+		print('Could not get into the Car')
 
 func on_car_enter(newCar):
 	print('Enter Car')
