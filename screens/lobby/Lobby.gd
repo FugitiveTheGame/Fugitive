@@ -29,7 +29,7 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
 	playerControl.setPlayerId(playerId)
 	playerControl.setPlayerName(playerData.name)
-	playerControl.setPlayerType(playerData.type)
+	playerControl.set_player_type(playerData.type)
 	
 	# If this is me, update my local player data
 	if playerId == get_tree().get_network_unique_id():
@@ -56,7 +56,7 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerControl.set_name(str(playerId))
 	playerControl.setPlayerId(playerId)
 	playerControl.setPlayerName(playerData.name)
-	playerControl.setPlayerType(playerData.type)
+	playerControl.set_player_type(playerData.type)
 	playerListControl.add_child(playerControl)
 	
 	update_player_counts()
@@ -116,3 +116,7 @@ func _on_StartGameButton_pressed():
 
 sync func startGame(map):
 	assert(get_tree().change_scene(map) == OK)
+
+
+func _on_Button_pressed():
+	Network.disconnect_from_game();

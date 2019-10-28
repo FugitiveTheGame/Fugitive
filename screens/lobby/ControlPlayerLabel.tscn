@@ -3,7 +3,7 @@
 [ext_resource path="res://screens/lobby/ControlPlayerLabel.gd" type="Script" id=1]
 
 [node name="Root" type="HBoxContainer"]
-margin_right = 196.0
+margin_right = 230.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 196, 0 )
 size_flags_horizontal = 3
@@ -14,7 +14,7 @@ __meta__ = {
 }
 
 [node name="LabelPlayerName" type="Label" parent="."]
-margin_right = 116.0
+margin_right = 150.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -26,8 +26,8 @@ __meta__ = {
 }
 
 [node name="OptionPlayerRole" type="OptionButton" parent="."]
-margin_left = 120.0
-margin_right = 196.0
+margin_left = 154.0
+margin_right = 230.0
 margin_bottom = 40.0
 text = "Hider"
 items = [ "Hider", null, false, 0, null, "Seeker", null, false, 1, null ]

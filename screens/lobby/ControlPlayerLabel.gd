@@ -14,7 +14,7 @@ func setPlayerName(text: String):
 func getPlayerName() -> String:
 	return self.get_node("LabelPlayerName").text
 	
-func setPlayerType(playerType: int):
+func set_player_type(playerType: int):
 	self.get_node("OptionPlayerRole").selected = playerType
 
 func getPlayerType() -> int:
@@ -28,4 +28,4 @@ func getPlayerType() -> int:
 
 # warning-ignore:unused_argument
 func _on_OptionPlayerRole_item_selected(ID):
-		Network.broadcastSetPlayerType(self.playerId, self.getPlayerType())
+		Network.broadcast_set_player_type(self.playerId, self.getPlayerType())

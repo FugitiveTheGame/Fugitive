@@ -15,20 +15,27 @@ var players = {}
 var playerName: String
 
 func _ready():
+	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
 	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
+	assert(get_tree().connect('server_disconnected', self, 'on_server_disconnect') == OK)
 
 func get_current_player():
-	var localId = get_tree().get_network_unique_id()
-	return players[localId]
-
-func broadcastSetPlayerType(playerId: int, playerType: int):
-	rpc('setPlayerType', playerId, playerType)
+	return players[get_current_player_id()]
 	
-remotesync func setPlayerType(playerId: int, playerType: int):
+func get_current_player_id():
+	return get_tree().get_network_unique_id();
+	
+func disconnect_from_game():
+	reset_game()
+
+func broadcast_set_player_type(playerId: int, playerType: int):
+	rpc('set_player_type', playerId, playerType)
+	
+remotesync func set_player_type(playerId: int, playerType: int):
 	self.players[playerId].type = playerType
 	emit_signal('player_updated', playerId, self.players[playerId])
 
-func hostGame(playerName: String) -> bool:
+func host_game(playerName: String) -> bool:
 	self.playerName = playerName
 	
 	var selfData = PlayerLobbyData.new()
@@ -47,18 +54,16 @@ func hostGame(playerName: String) -> bool:
 	else:
 		return false
 	
-func joinGame(playerName: String, serverIp: String) -> bool:
+func join_game(playerName: String, serverIp: String) -> bool:
 	self.playerName = playerName
-	
-	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
-	
+		
 	var peer = NetworkedMultiplayerENet.new()
 	#peer.allow_object_decoding = true
 	var result = peer.create_client(serverIp, DEFAULT_PORT)
 	
 	if result == OK:
 		get_tree().set_network_peer(peer)
-		#players[get_tree().get_network_unique_id()] = selfData
+		
 		return true
 	else:
 		return false
@@ -69,7 +74,8 @@ func on_player_disconnect(id):
 	emit_signal('player_removed', id)
 	
 func on_connected_to_server():
-	var newPlayerId = get_tree().get_network_unique_id()
+	var currentPlayerId = get_tree().get_network_unique_id()
+	print('Connected.  Assigned to player %d' % currentPlayerId)
 	
 	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
@@ -77,7 +83,7 @@ func on_connected_to_server():
 	
 	# Send the new player to the server for distribution,
 	# await other player info
-	rpc_id(1, 'on_new_player_server', newPlayerId, selfData.toDTO())
+	rpc_id(1, 'on_new_player_server', currentPlayerId, selfData.toDTO())
 
 remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 	var orderedPlayers = self.players.keys()
@@ -88,17 +94,29 @@ remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 		rpc_id(newPlayerId, 'on_new_player_client', playerId, existingPlayer.toDTO())
 		
 	# Register the new player and tell all the new clients about them
-	var playerDataReal := fromDTO(playerDataDTO)
+	var playerDataReal := player_data_from_DTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	rpc('on_new_player_client', newPlayerId, playerDataDTO)
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
 	
 remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
-	var playerDataReal := fromDTO(playerDataDTO)
+	var playerDataReal := player_data_from_DTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
 	
-static func fromDTO(dict: Dictionary) -> PlayerLobbyData:
+func on_server_disconnect():
+	reset_game()
+	
+func reset_game():
+	get_tree().network_peer.close_connection()
+	# Cleanup all state related to the game session
+	self.players = {}
+	self.playerName = ""
+	# Return to the main menu
+	# If we have a more legit "game management" class, this could instead signal to that class
+	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')
+	
+static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
 	var result := PlayerLobbyData.new()
 	result.name = dict.name
 	result.position = dict.position
