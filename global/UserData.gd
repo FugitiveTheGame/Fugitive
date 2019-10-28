@@ -1,8 +1,8 @@
 extends Node
 
-const file_name := 'user://user_data.sav'
+const file_name := 'user://user_data.json'
 
-var data = {}
+var data = get_default_data()
 
 static func get_default_data():
 	var default = {
