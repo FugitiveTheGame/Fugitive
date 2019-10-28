@@ -66,6 +66,9 @@ func _physics_process(delta: float):
 remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id, false)
 
+remotesync func unlock():
+	locked = false
+
 func is_driver(player) -> bool:
 	return driver == player
 
@@ -76,7 +79,9 @@ func get_in_car(player) -> bool:
 	if not locked or player.has_group(Groups.SEEKERS):
 		if driver == null:
 			driver = player
-			locked = false # Unlock the car once the first Seeker gets in
+			# Unlock the car once the first Seeker gets in
+			if locked:
+				rpc('unlock') 
 			rpc('new_driver', driver.get_network_master())
 			success = true
 		elif passengers.size() < MAX_PASSENGERS:
