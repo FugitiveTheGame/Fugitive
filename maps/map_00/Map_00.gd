@@ -158,6 +158,10 @@ func checkForFoundHiders():
 		#print('Seeker saw a hider!')
 
 func checkWinConditions():
+	# Only the server will end the game
+	if not get_tree().is_network_server():
+		return
+	
 	var allHidersFrozen := true
 	var allUnfrozenSeekersInWinZone := true
 	
@@ -172,18 +176,22 @@ func checkWinConditions():
 				allUnfrozenSeekersInWinZone = false
 	
 	if allHidersFrozen or allUnfrozenSeekersInWinZone:
-		self.gameOver = true
-		
-		for child in players.get_children():
-			players.remove_child(child)
-		
-		if (allHidersFrozen):
-			self.winner = Network.PlayerType.Seeker
-			$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Seekers win!"
-		elif (allUnfrozenSeekersInWinZone):
-			self.winner = Network.PlayerType.Hider
-			$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Hiders win!"
-		$UiLayer/GameOverDialog.popup_centered()
+		self.gameOver = true # Server should set this immedately so we don't accidentally RPC again
+		rpc('end_game', allHidersFrozen)
+
+remotesync func end_game(seekersWon: bool):
+	self.gameOver = true
+	
+	for child in players.get_children():
+		players.remove_child(child)
+	
+	if seekersWon:
+		self.winner = Network.PlayerType.Seeker
+		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Seekers win!"
+	else:
+		self.winner = Network.PlayerType.Hider
+		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Hiders win!"
+	$UiLayer/GameOverDialog.popup_centered()
 
 func _on_GracePeriodTimer_timeout():
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
