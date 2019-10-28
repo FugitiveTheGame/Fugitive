@@ -142,8 +142,8 @@ func checkForFoundHiders():
 				break
 	
 	# Debug: show the label if any hiders were seen
-	if(anySeen):
-		print('Seeker saw a hider!')
+	#if(anySeen):
+		#print('Seeker saw a hider!')
 
 func checkWinConditions():
 	var allHidersFrozen := true

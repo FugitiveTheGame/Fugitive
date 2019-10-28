@@ -18,7 +18,9 @@ func _on_Area2D_body_entered(body):
 	# Freeze tag! Unfreeze your friends!
 	if body is Player and body._get_player_type() == Network.PlayerType.Hider:
 		if body.frozen:
-			body.unfreeze()
+			# Only let the network server send out this message
+			if get_tree().is_network_server():
+				body.unfreeze()
 
 func set_current_visibility(percentVisible: float):
 	current_visibility = percentVisible

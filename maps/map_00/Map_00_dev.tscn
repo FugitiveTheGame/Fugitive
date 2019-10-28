@@ -13,7 +13,7 @@ position = Vector2( -86.7255, 367.524 )
 playerName = "Adam"
 
 [node name="Hider00" parent="players" index="1" instance=ExtResource( 4 )]
-position = Vector2( 369.646, 62.5992 )
+position = Vector2( 474.896, 249.471 )
 playerName = "Stacy"
 
 [node name="Hider01" parent="players" index="2" instance=ExtResource( 4 )]

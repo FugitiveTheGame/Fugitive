@@ -68,6 +68,7 @@ remotesync func new_driver(network_id: int):
 
 remotesync func unlock():
 	locked = false
+	print('Car unlockled')
 
 func is_driver(player) -> bool:
 	return driver == player

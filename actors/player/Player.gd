@@ -48,6 +48,7 @@ func unfreeze():
 remotesync func onUnfreeze():
 	self.frozen = false
 	self.modulate = Color(1, 1, 1, 1)
+	print('unfreeze')
 
 func freeze():
 	rpc("onFreeze")
@@ -56,6 +57,7 @@ remotesync func onFreeze():
 	self.frozen = true
 	self.velocity = Vector2(0, 0)
 	self.modulate = frozenColor
+	print('freeze')
 
 func _input(event):
 	if not is_network_master():

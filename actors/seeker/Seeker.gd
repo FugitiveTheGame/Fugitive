@@ -61,7 +61,10 @@ func process_hider(hider: Hider) -> bool:
 				
 				# Don't allow capture while in a car, or while in a win zone
 				if self.car == null and (not is_in_winzone(hider)):
-					hider.freeze()
+					# Every client is running this part of the sim
+					# But only let the server actually dispatch this very important RPC
+					if not hider.frozen and get_tree().is_network_server():
+						hider.freeze()
 			
 			############################################
 			# Begin visibility calculations
