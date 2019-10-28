@@ -31,12 +31,12 @@ margin_right = 498.0
 margin_bottom = 52.0
 
 [node name="Button" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_right = 50.0
+margin_right = 20.0
 margin_bottom = 52.0
 text = "X"
 
 [node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_left = 54.0
+margin_left = 24.0
 margin_right = 155.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
@@ -121,4 +121,5 @@ margin_top = 478.0
 margin_right = 498.0
 margin_bottom = 498.0
 text = "Start Game"
+[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
