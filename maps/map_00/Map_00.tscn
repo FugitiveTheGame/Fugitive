@@ -47,8 +47,12 @@ color = Color( 0.313726, 0.313726, 0.352941, 1 )
 [node name="Car" parent="players" instance=ExtResource( 6 )]
 position = Vector2( 141.075, 389.024 )
 
-[node name="WinZone" type="Area2D" parent="."]
+[node name="WinZone" type="Area2D" parent="." groups=[
+"win_zones",
+]]
 position = Vector2( 4222.45, 131.887 )
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WinZone"]
 rotation = -1.57079

@@ -2,6 +2,7 @@ extends Player
 class_name Seeker
 
 onready var seeker_ray_caster := $RayCast2D
+onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONES)
 
 const CONE_WIDTH = deg2rad(45.0)
 const MAX_DETECT_DISTANCE := 100.0
@@ -20,6 +21,12 @@ func _get_player_type() -> int:
 func _ready():
 	._ready()
 	self.freeze()
+
+func is_in_winzone(hider) -> bool:
+	for zone in win_zones:
+		if winZone.overlaps_body(hider):
+			return true
+	return false
 
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the
@@ -51,8 +58,9 @@ func process_hider(hider: Hider) -> bool:
 			# the Hider for gameplay purposes
 			if(look_angle < CONE_WIDTH and look_angle  > -CONE_WIDTH and distance <= MAX_DETECT_DISTANCE):
 				isSeen = true
+				
 				# Don't allow capture while in a car
-				if self.car == null:
+				if self.car == null and (not is_in_winzone(hider)):
 					hider.freeze()
 			
 			############################################
