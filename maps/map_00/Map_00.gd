@@ -40,6 +40,7 @@ master func done_preconfiguring(playerIdDone):
 
 remotesync func post_configure_game():
 	get_tree().set_pause(false)
+	#$PregameCamera.current = true
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
@@ -116,8 +117,6 @@ func _process(delta: float):
 func handleGraceTimer():
 	if not gracePeriodTimer.is_stopped():
 		$UiLayer/GraceTimerLabel.text = "Seekers released in %d..." % self.gracePeriodTimer.time_left
-	else:
-		$UiLayer/GraceTimerLabel.hide()
 
 func updateStartTimer():
 	if not $GameStartTimer.is_stopped():
@@ -235,5 +234,8 @@ func _on_GameStartTimer_timeout():
 	updateGameTimer()
 	
 	gracePeriodTimer.start()
+	$UiLayer/GraceTimerLabel.show()
+	
+	#currentPlayer.set_current_player()
 	
 	SignalManager.emit_game_start()

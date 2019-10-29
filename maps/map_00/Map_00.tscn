@@ -71,6 +71,8 @@ autostart = true
 [node name="GraceTimerLabel" type="Label" parent="UiLayer"]
 margin_right = 403.0
 margin_bottom = 68.0
+size_flags_horizontal = 9
+size_flags_vertical = 8
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -120,7 +122,6 @@ __meta__ = {
 }
 
 [node name="GameStartLabel" type="Label" parent="UiLayer"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
