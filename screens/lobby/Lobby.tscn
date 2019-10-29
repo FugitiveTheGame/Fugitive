@@ -119,8 +119,8 @@ text = "Select Map:"
 margin_top = 36.0
 margin_right = 247.0
 margin_bottom = 56.0
-text = "Map 00"
-items = [ "Map 00", null, false, 0, null, "Map 01", null, false, 1, null ]
+text = "Map 01"
+items = [ "Map 01", null, false, 0, null ]
 selected = 0
 
 [node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]

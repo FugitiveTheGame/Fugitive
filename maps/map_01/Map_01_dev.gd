@@ -1,4 +1,4 @@
-extends "res://maps/map_00/Map_00.gd"
+extends "res://maps/map_01/Map_01.gd"
 
 func _ready():
 	# Change this to false to play as a Hider
@@ -11,6 +11,7 @@ func _ready():
 		$players/Seeker00.set_current_player()
 		$players/Seeker00.set_network_master(1)
 		playerData.type = Network.PlayerType.Seeker
+		currentPlayer = $players/Seeker00
 		
 		$players/Hider00.set_network_master(2)
 	else:
@@ -19,6 +20,7 @@ func _ready():
 		$players/Hider00.set_current_player()
 		$players/Hider00.set_network_master(1)
 		playerData.type = Network.PlayerType.Hider
+		currentPlayer = $players/Hider00
 	
 	$players/Hider01.set_network_master(2)
 	

@@ -101,8 +101,6 @@ func validate_game() -> bool:
 func getSelectedMap() -> String:
 	match mapSelectButton.get_selected_id():
 		0:
-			return 'res://maps/map_00/Map_00.tscn'
-		1:
 			return 'res://maps/map_01/Map_01.tscn'
 		_:
 			return 'ERROR'
