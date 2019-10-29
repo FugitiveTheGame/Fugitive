@@ -39,8 +39,8 @@ remotesync func set_player_type(playerId: int, playerType: int):
 	self.players[playerId].type = playerType
 	emit_signal('player_updated', playerId, self.players[playerId])
 
-func host_game(playerName: String) -> bool:
-	self.playerName = playerName
+func host_game(name: String) -> bool:
+	self.playerName = name
 	
 	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
@@ -58,8 +58,8 @@ func host_game(playerName: String) -> bool:
 	else:
 		return false
 	
-func join_game(playerName: String, serverIp: String) -> bool:
-	self.playerName = playerName
+func join_game(name: String, serverIp: String) -> bool:
+	self.playerName = name
 		
 	var peer = NetworkedMultiplayerENet.new()
 	#peer.allow_object_decoding = true
@@ -118,7 +118,7 @@ func reset_game():
 	self.playerName = ""
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
-	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')
+	assert(get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn') == OK)
 	
 static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
 	var result := PlayerLobbyData.new()

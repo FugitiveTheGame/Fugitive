@@ -132,9 +132,7 @@ func updateGameTimer():
 	gameTimerLabel.text = "%d:%02d" % [minutesSoFar, remainingSeconds]
 
 func checkForFoundHiders():
-	var anySeen := false
-	
-	var currentPlayer = Network.get_current_player()
+	var localPlayer = Network.get_current_player()
 	
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
@@ -142,7 +140,7 @@ func checkForFoundHiders():
 	# Process each hider, find if any have been seen
 	for hider in hiders:
 		# Re-hide Hiders every frame for Seekers
-		if (currentPlayer.type == Network.PlayerType.Seeker):
+		if (localPlayer.type == Network.PlayerType.Seeker):
 			if not hider.frozen:
 				hider.current_visibility = 0.0
 			# Frozen Hiders should always be vizible to Seekers
@@ -152,13 +150,7 @@ func checkForFoundHiders():
 			hider.current_visibility = 0.0
 		
 		for seeker in seekers:
-			if(seeker.process_hider(hider)):
-				anySeen = true
-				break
-	
-	# Debug: show the label if any hiders were seen
-	#if(anySeen):
-		#print('Seeker saw a hider!')
+			seeker.process_hider(hider)
 
 func checkWinConditions():
 	# Only the server will end the game
@@ -168,7 +160,6 @@ func checkWinConditions():
 	var allHidersFrozen := true
 	var allUnfrozenSeekersInWinZone := true
 	
-	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 	for hiderNode in hiders:
 		var hider: Hider = hiderNode
@@ -205,7 +196,7 @@ func _on_GracePeriodTimer_timeout():
 	$UiLayer/GraceTimerLabel.hide()
 
 func _on_BackToLobbyButton_pressed():
-	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
+	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
 
 func new_player_registered(player_id: int, player_data: PlayerLobbyData):
 	match player_data.type:

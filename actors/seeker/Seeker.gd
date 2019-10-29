@@ -31,9 +31,7 @@ func is_in_winzone(hider) -> bool:
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the
 # seeker can see them.
-func process_hider(hider: Hider) -> bool:
-	var isSeen = false
-	
+func process_hider(hider: Hider):
 	# Cast a ray between the seeker and this hider
 	var look_vec = to_local(hider.global_position)
 	seeker_ray_caster.cast_to = look_vec
@@ -57,7 +55,6 @@ func process_hider(hider: Hider) -> bool:
 			# Some extra game logic for distance, should have to be some what close to "detect"
 			# the Hider for gameplay purposes
 			if(look_angle < CONE_WIDTH and look_angle  > -CONE_WIDTH and distance <= MAX_DETECT_DISTANCE):
-				isSeen = true
 				
 				# Don't allow capture while in a car, or while in a win zone
 				if self.car == null and (not is_in_winzone(hider)):
@@ -103,5 +100,3 @@ func process_hider(hider: Hider) -> bool:
 			
 			# The hider's set visibility method will handle the visible effects of this
 			hider.update_visibility(percent_visible)
-	
-	return isSeen
