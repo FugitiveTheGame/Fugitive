@@ -38,6 +38,11 @@ _global_script_classes=[ {
 "class": "SpawnPoint",
 "language": "GDScript",
 "path": "res://actors/spawn_point/spawn_point.gd"
+}, {
+"base": "Sprite",
+"class": "StreetLight",
+"language": "GDScript",
+"path": "res://actors/street_light/StreetLight.gd"
 } ]
 _global_script_class_icons={
 "Car": "",
@@ -45,7 +50,8 @@ _global_script_class_icons={
 "Player": "",
 "PlayerLobbyData": "",
 "Seeker": "",
-"SpawnPoint": ""
+"SpawnPoint": "",
+"StreetLight": ""
 }
 
 [application]

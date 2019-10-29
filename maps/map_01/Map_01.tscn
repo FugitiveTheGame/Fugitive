@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://maps/base/BaseMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://maps/tilesets/neighborhood/features.tres" type="TileSet" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://maps/map_01/Map_01.gd" type="Script" id=5]
 [ext_resource path="res://actors/car_wall/CarWall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=7]
+[ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=8]
 
-[node name="base" instance=ExtResource( 1 )]
+[node name="base" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
 
 [node name="ground" type="TileMap" parent="map" index="0"]
@@ -29,6 +30,75 @@ tile_data = PoolIntArray( -2359299, -1073741824, 0, -2359298, 2, 0, -2359297, 2,
 tile_set = ExtResource( 2 )
 format = 1
 tile_data = PoolIntArray( -4718581, -1073741824, 0, -4718558, -1073741824, 0, -4718557, -1073741824, 0, -4653030, -1073741824, 0, -4653007, -1073741824, 0, -4652993, -1073741824, 0, -4587503, -1073741824, 0, -4587464, -1073741824, 0, -4521979, -1073741824, 0, -4521946, -1073741824, 0, -4521914, -1073741824, 0, -4390915, -1073741824, 0, -4128763, -1073741824, 0, -4128714, -1073741824, 0, -3997697, -1073741824, 0, -4063198, -1073741824, 0, -4063192, -1073741824, 0, -4063173, -1073741824, 0, -3997672, -1073741824, 0, -3997648, -1073741824, 0, -3997627, -1073741824, 0, -3801027, -1073741824, 0, -3604484, -1073741824, 0, -3670010, -1073741824, 0, -3669989, -1073741824, 0, -3669982, -1073741824, 0, -3669945, -1073741824, 0, -3538948, -1073741824, 0, -3407811, -1073741824, 0, -3407802, -1073741824, 0, -3342312, -1073741824, 0, -3276767, -1073741824, 0, -2949121, -1073741824, 0, -3014631, -1073741824, 0, -3014630, -1073741824, 0, -2949115, -1073741824, 0, -2949087, -1073741824, 0, -2949060, -1073741824, 0, -2949059, -1073741824, 0, -2949058, -1073741824, 0, -2949049, -1073741824, 0, -2686941, -1073741824, 0, -2490371, -1073741824, 0, -2555894, -1073741824, 0, -2555833, -1073741824, 0, -2490354, -1073741824, 0, -2424806, -1073741824, 0, -2424772, -1073741824, 0, -2359227, -1073741824, 0, -2293726, -1073741824, 0, -2162689, -1073741824, 0, -2162625, -1073741824, 0, -2097145, -1073741824, 0, -2031601, -1073741824, 0, -2031591, -1073741824, 0, -2031546, -1073741824, 0, -1900546, -1073741824, 0, -1966010, -1073741824, 0, -1900525, -1073741824, 0, -1900483, -1073741824, 0, -1769468, -1073741824, 0, -1638396, -1073741824, 0, -1638366, -1073741824, 0, -1572793, -1073741824, 0, -1507313, -1073741824, 0, -1441778, -1073741824, 0, -1441773, -1073741824, 0, -1441761, -1073741824, 0, -1441729, -1073741824, 0, -1376243, -1073741824, 0, -1376221, -1073741824, 0, -1376186, -1073741824, 0, -1310714, -1073741824, 0, -1245124, -1073741824, 0, -1048563, -1073741824, 0, -1048507, -1073741824, 0, -982980, -1073741824, 0, -917499, -1073741824, 0, -589763, -1073741824, 0, -589754, -1073741824, 0, -524217, -1073741824, 0, -393203, -1073741824, 0, -393156, -1073741824, 0, -327609, -1073741824, 0, -262073, -1073741824, 0, -196545, -1073741824, 0, 4, -1610612736, 0, 13, -1610612736, 0, 65558, -1610612736, 0, 196605, -1610612736, 0, 131078, -1610612736, 0, 131090, -1610612736, 0, 524293, -1610612736, 0, 524301, -1610612736, 0, 524305, -1610612736, 0, 589847, -1610612736, 0, 720894, -1610612736, 0, 655382, -1610612736, 0, 720903, -1610612736, 0, 720917, -1610612736, 0 )
+
+[node name="StreetLight" parent="map" index="3" instance=ExtResource( 8 )]
+position = Vector2( 480, 220 )
+
+[node name="StreetLight2" parent="map" index="4" instance=ExtResource( 8 )]
+position = Vector2( 800, -1500 )
+
+[node name="StreetLight14" parent="map" index="5" instance=ExtResource( 8 )]
+position = Vector2( -30, -4320 )
+rotation = 3.14159
+
+[node name="StreetLight15" parent="map" index="6" instance=ExtResource( 8 )]
+position = Vector2( 4060, -4060 )
+rotation = 3.14159
+
+[node name="StreetLight16" parent="map" index="7" instance=ExtResource( 8 )]
+position = Vector2( 2080, -4070 )
+rotation = 1.57079
+
+[node name="StreetLight17" parent="map" index="8" instance=ExtResource( 8 )]
+position = Vector2( 1760, -2910 )
+rotation = 3.14159
+
+[node name="StreetLight18" parent="map" index="9" instance=ExtResource( 8 )]
+position = Vector2( 2020, -1500 )
+rotation = 1.57079
+
+[node name="StreetLight3" parent="map" index="10" instance=ExtResource( 8 )]
+position = Vector2( 4070, 30 )
+rotation = -1.57079
+
+[node name="StreetLight4" parent="map" index="11" instance=ExtResource( 8 )]
+position = Vector2( 3870, 30 )
+rotation = -1.57079
+
+[node name="StreetLight5" parent="map" index="12" instance=ExtResource( 8 )]
+position = Vector2( 4580, 30 )
+rotation = -1.57079
+
+[node name="StreetLight12" parent="map" index="13" instance=ExtResource( 8 )]
+position = Vector2( 4380, -240 )
+
+[node name="StreetLight13" parent="map" index="14" instance=ExtResource( 8 )]
+position = Vector2( 4070, -240 )
+rotation = 3.14159
+
+[node name="StreetLight6" parent="map" index="15" instance=ExtResource( 8 )]
+position = Vector2( 4380, 30 )
+rotation = -1.57079
+
+[node name="StreetLight10" parent="map" index="16" instance=ExtResource( 8 )]
+position = Vector2( 4072, 232 )
+rotation = -4.71238
+
+[node name="StreetLight9" parent="map" index="17" instance=ExtResource( 8 )]
+position = Vector2( 3872, 232 )
+rotation = -4.71238
+
+[node name="StreetLight8" parent="map" index="18" instance=ExtResource( 8 )]
+position = Vector2( 4582, 232 )
+rotation = -4.71238
+
+[node name="StreetLight7" parent="map" index="19" instance=ExtResource( 8 )]
+position = Vector2( 4382, 232 )
+rotation = -4.71238
+
+[node name="StreetLight11" parent="map" index="20" instance=ExtResource( 8 )]
+position = Vector2( 4220, 230 )
+rotation = -4.71238
 
 [node name="Seeker1" parent="PlayerSpawns" index="0"]
 position = Vector2( 90, 240 )

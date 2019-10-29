@@ -5,7 +5,7 @@ onready var seeker_ray_caster := $RayCast2D
 onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONES)
 
 const CONE_WIDTH = deg2rad(45.0)
-const MAX_DETECT_DISTANCE := 100.0
+const MAX_DETECT_DISTANCE := 64.0
 const MAX_VISION_DISTANCE := 1000.0
 const MIN_VISION_DISTANCE := 800.0
 

@@ -8,8 +8,13 @@ onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/Player
 onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
 onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
 
-const MIN_PLAYERS = 3
-const MIN_SEEKERS = 2
+#const MIN_PLAYERS = 3
+#const MIN_SEEKERS = 2
+#const MIN_HIDERS = 1
+
+# Testing values:
+const MIN_PLAYERS = 2
+const MIN_SEEKERS = 1
 const MIN_HIDERS = 1
 
 func _ready():

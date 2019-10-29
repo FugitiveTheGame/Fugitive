@@ -124,6 +124,7 @@ func checkForFoundHiders():
 	
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
+	var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
 	
 	# Process each hider, find if any have been seen
 	for hider in hiders:
@@ -139,6 +140,9 @@ func checkForFoundHiders():
 		
 		for seeker in seekers:
 			seeker.process_hider(hider)
+		
+		for light in lights:
+			light.process_hider(hider)
 
 func checkWinConditions():
 	# Only the server will end the game
