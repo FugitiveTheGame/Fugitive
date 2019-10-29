@@ -66,6 +66,10 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerListControl.add_child(playerControl)
 	
 	update_player_counts()
+	
+	# Tell the new player what map is currently selected
+	if get_tree().is_network_server():
+		rpc('updateMapSelection', mapSelectButton.get_selected_id())
 
 func players_initialize(newPlayers: Dictionary):
 	var playersInOrder = newPlayers.keys()
@@ -102,6 +106,8 @@ func getSelectedMap() -> String:
 	match mapSelectButton.get_selected_id():
 		0:
 			return 'res://maps/map_01/Map_01.tscn'
+		1:
+			return 'res://maps/map_02/Map_02.tscn'
 		_:
 			return 'ERROR'
 
