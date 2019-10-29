@@ -1,7 +1,7 @@
 extends Sprite
 class_name StreetLight
 
-export (int) var illumination_range := 256
+export (int) var illumination_range := 196
 
 onready var rayCaster := $RayCast2D
 
@@ -18,6 +18,10 @@ func process_hider(hider: Hider):
 		rayCaster.force_raycast_update()
 	
 		if(rayCaster.is_colliding()):
-			var percent_visible = 1.0 - (distance / illumination_range)
-			percent_visible = clamp(percent_visible, 0.0, 1.0)
-			hider.update_visibility(percent_visible)
+			var bodySeen = rayCaster.get_collider()
+		
+			# If the ray hits a wall or something else first, then this Hider is fully occluded
+			if(bodySeen == hider):
+				var percent_visible = 1.0 - (distance / illumination_range)
+				percent_visible = clamp(percent_visible, 0.0, 1.0)
+				hider.update_visibility(percent_visible)
