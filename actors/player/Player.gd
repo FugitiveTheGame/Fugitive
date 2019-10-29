@@ -24,6 +24,8 @@ var stamina: float
 var frozen := false
 var frozenColor := Color(0, 0, 1, 1)
 
+var gameStarted := false
+
 # This is a car this player is driving
 var car = null
 
@@ -36,12 +38,21 @@ func _ready():
 	staminaBar.max_value = max_stamina
 	playerNameLabel.text = playerName
 
+func _enter_tree():
+	assert(SignalManager.connect('game_start', self, '_game_start') == OK)
+
+func _exit_tree():
+	SignalManager.disconnect('game_start', self, '_game_start')
+
 puppet func network_update(pos: Vector2, vel: Vector2, rot: float, stam: float):
 	self.position = pos
 	self.velocity = vel
 	self.rotation = rot
 	self.stamina = stam
-	
+
+func _game_start():
+	gameStarted = true
+
 func unfreeze():
 	rpc("onUnfreeze")
 
@@ -61,6 +72,9 @@ remotesync func onFreeze():
 
 func _input(event):
 	if not is_network_master():
+		return
+	
+	if not gameStarted:
 		return
 	
 	if(event.is_action_pressed("use")):
@@ -132,6 +146,9 @@ func process_stamina(delta: float):
 	stamina = clamp(stamina, 0.0, max_stamina)
 
 func _physics_process(delta: float):
+	if not gameStarted:
+		return
+	
 	# If we're in a car, do nothing
 	if is_network_master():
 		if self.car == null:

@@ -36,12 +36,10 @@ master func done_preconfiguring(playerIdDone):
 	print("%d players registered, %d total" % [players_done.size(), Network.players.keys().size()])
 	
 	if (players_done.size() == Network.players.keys().size()):
-		print("*** UNPAUSING ***")
 		rpc("post_configure_game")
 
 remotesync func post_configure_game():
 	get_tree().set_pause(false)
-	gracePeriodTimer.start()
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
@@ -110,15 +108,21 @@ func set_current_player(playerNode: Player):
 func _process(delta: float):
 	if (not self.gameOver):
 		checkForFoundHiders()
-		handleBeginGameTimer()
 		checkWinConditions()
 		updateGameTimer()
+		updateStartTimer()
+		handleGraceTimer()
 
-func handleBeginGameTimer():
-	if (self.gracePeriodTimer.time_left > 0.0):
-		$UiLayer/GraceTimerLabel.text = "Starting game in %d..." % self.gracePeriodTimer.time_left
+func handleGraceTimer():
+	if not gracePeriodTimer.is_stopped():
+		$UiLayer/GraceTimerLabel.text = "Seekers released in %d..." % self.gracePeriodTimer.time_left
 	else:
 		$UiLayer/GraceTimerLabel.hide()
+
+func updateStartTimer():
+	if not $GameStartTimer.is_stopped():
+		var sec = $GameStartTimer.time_left as int
+		$UiLayer/GameStartLabel.text = "Starting in %d" % sec
 
 func updateGameTimer():
 	var secondsSoFar = OS.get_system_time_secs() - gameStartedAt
@@ -199,11 +203,7 @@ func _on_GracePeriodTimer_timeout():
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
 	
-	$UiLayer/GameTimerLabel.hide()
-	
-	gameStartedAt = OS.get_system_time_secs()
-	gameTimerLabel.show()
-	updateGameTimer()
+	$UiLayer/GraceTimerLabel.hide()
 
 func _on_BackToLobbyButton_pressed():
 	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
@@ -226,3 +226,14 @@ func player_removed(player_id: int):
 func player_updated(player_id: int, player_data: PlayerLobbyData):
 	player_removed(player_id)
 	new_player_registered(player_id, player_data)
+
+func _on_GameStartTimer_timeout():
+	$UiLayer/GameStartLabel.hide()
+	
+	gameStartedAt = OS.get_system_time_secs()
+	gameTimerLabel.show()
+	updateGameTimer()
+	
+	gracePeriodTimer.start()
+	
+	SignalManager.emit_game_start()
