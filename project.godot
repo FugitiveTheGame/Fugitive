@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "Seeker",
 "language": "GDScript",
 "path": "res://actors/seeker/Seeker.gd"
+}, {
+"base": "Node2D",
+"class": "SpawnPoint",
+"language": "GDScript",
+"path": "res://actors/spawn_point/spawn_point.gd"
 } ]
 _global_script_class_icons={
 "Car": "",
 "Hider": "",
 "Player": "",
 "PlayerLobbyData": "",
-"Seeker": ""
+"Seeker": "",
+"SpawnPoint": ""
 }
 
 [application]

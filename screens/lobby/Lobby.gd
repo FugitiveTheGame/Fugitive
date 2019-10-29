@@ -73,7 +73,7 @@ func players_initialize(newPlayers: Dictionary):
 	
 	for playerId in playersInOrder:
 		new_player_registered(playerId, newPlayers[playerId])
-		
+
 func player_removed(playerId: int):
 	var childToRemove = playerListControl.get_node(str(playerId))
 	playerListControl.remove_child(childToRemove)
@@ -102,6 +102,8 @@ func getSelectedMap() -> String:
 	match mapSelectButton.get_selected_id():
 		0:
 			return 'res://maps/map_00/Map_00.tscn'
+		1:
+			return 'res://maps/map_01/Map_01.tscn'
 		_:
 			return 'ERROR'
 
@@ -121,8 +123,8 @@ func _on_StartGameButton_pressed():
 			get_tree().network_peer.refuse_new_connections = true
 		rpc('startGame', selectedMap)
 
-sync func startGame(map):
-	assert(get_tree().change_scene(map) == OK)
+remotesync func startGame(map):
+	get_tree().change_scene(map)
 
 func _on_LeaveButton_pressed():
 	Network.disconnect_from_game()
@@ -130,3 +132,9 @@ func _on_LeaveButton_pressed():
 func _on_UPNPButton_pressed():
 	Network.enableUpnp()
 	serverIpLabel.text = Network.get_external_ip()
+
+func _on_MapSelectButton_item_selected(id):
+	rpc('updateMapSelection', id)
+
+remote func updateMapSelection(id):
+	mapSelectButton.selected = id

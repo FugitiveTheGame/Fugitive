@@ -120,7 +120,7 @@ margin_top = 36.0
 margin_right = 247.0
 margin_bottom = 56.0
 text = "Map 00"
-items = [ "Map 00", null, false, 0, null ]
+items = [ "Map 00", null, false, 0, null, "Map 01", null, false, 1, null ]
 selected = 0
 
 [node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
@@ -136,4 +136,5 @@ margin_bottom = 498.0
 text = "127.0.0.1"
 [connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/UPNPButton" to="." method="_on_UPNPButton_pressed"]
+[connection signal="item_selected" from="MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton" to="." method="_on_MapSelectButton_item_selected"]
 [connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]

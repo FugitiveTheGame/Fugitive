@@ -1,0 +1,161 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://maps/base/BaseMap.gd" type="Script" id=1]
+[ext_resource path="res://actors/spawn_point/spawn_point.tscn" type="PackedScene" id=2]
+[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 130.245, 470.83 )
+
+[node name="base" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="map" type="Node2D" parent="."]
+
+[node name="ambient" type="CanvasModulate" parent="."]
+color = Color( 0.313726, 0.313726, 0.352941, 1 )
+
+[node name="PlayerSpawns" type="Node" parent="."]
+
+[node name="Seeker1" parent="PlayerSpawns" instance=ExtResource( 2 )]
+
+[node name="Seeker2" parent="PlayerSpawns" instance=ExtResource( 2 )]
+
+[node name="Seeker3" parent="PlayerSpawns" instance=ExtResource( 2 )]
+
+[node name="Seeker4" parent="PlayerSpawns" instance=ExtResource( 2 )]
+
+[node name="Seeker5" parent="PlayerSpawns" instance=ExtResource( 2 )]
+
+[node name="Hider1" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider2" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider3" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider4" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider5" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider6" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider7" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider8" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider9" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="Hider10" parent="PlayerSpawns" instance=ExtResource( 2 )]
+team = "hider_spawn"
+
+[node name="players" type="Node" parent="."]
+
+[node name="WinZone" type="Area2D" parent="." groups=[
+"win_zones",
+]]
+position = Vector2( 4224.49, 131.887 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WinZone"]
+rotation = -1.57079
+shape = SubResource( 1 )
+
+[node name="GracePeriodTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="GameStartTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="UiLayer" type="CanvasLayer" parent="."]
+
+[node name="GraceTimerLabel" type="Label" parent="UiLayer"]
+margin_right = 403.0
+margin_bottom = 68.0
+size_flags_horizontal = 9
+size_flags_vertical = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOverDialog" type="PopupDialog" parent="UiLayer"]
+margin_right = 512.0
+margin_bottom = 128.0
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/GameOverDialog"]
+margin_right = 512.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinnerLabel" type="Label" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_right = 512.0
+margin_bottom = 104.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Seekers Win!"
+align = 1
+valign = 1
+
+[node name="BackToLobbyButton" type="Button" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_top = 108.0
+margin_right = 512.0
+margin_bottom = 128.0
+text = "Back to Lobby"
+
+[node name="GameTimerLabel" type="Label" parent="UiLayer"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameStartLabel" type="Label" parent="UiLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -131.0
+margin_top = -26.0
+margin_right = 131.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 3 )
+text = "Starting in 5"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RoadWalls" type="Node" parent="."]
+
+[node name="PregameCamera" type="Camera2D" parent="."]
+position = Vector2( 2254.28, -1885.59 )
+zoom = Vector2( 10, 10 )
+[connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
+[connection signal="timeout" from="GameStartTimer" to="." method="_on_GameStartTimer_timeout"]
+[connection signal="pressed" from="UiLayer/GameOverDialog/VBoxContainer/BackToLobbyButton" to="." method="_on_BackToLobbyButton_pressed"]
