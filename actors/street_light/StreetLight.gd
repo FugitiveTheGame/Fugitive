@@ -18,6 +18,6 @@ func process_hider(hider: Hider):
 		rayCaster.force_raycast_update()
 	
 		if(rayCaster.is_colliding()):
-			var percent_visible = distance / illumination_range
+			var percent_visible = 1.0 - (distance / illumination_range)
 			percent_visible = clamp(percent_visible, 0.0, 1.0)
 			hider.update_visibility(percent_visible)
