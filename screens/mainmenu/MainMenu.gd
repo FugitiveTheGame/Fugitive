@@ -51,3 +51,10 @@ func _on_CancelButton_pressed():
 
 func on_server_joined():
 	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+
+
+func _on_HelpButton_pressed():
+	var scene = preload("res://help/Help.tscn")
+	var node = scene.instance()
+	add_child(node)
+	node.popup_centered()

@@ -129,8 +129,21 @@ margin_left = 68.0
 margin_right = 122.0
 margin_bottom = 20.0
 text = "Cancel"
+
+[node name="HelpButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -42.0
+margin_top = -20.0
+text = "Help"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="text_changed" from="CenterContainer/PanelContainer/VBoxContainer/PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/HostGameButton" to="." method="_on_HostGameButton_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/Center/Verticle/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/Center/Verticle/HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="pressed" from="HelpButton" to="." method="_on_HelpButton_pressed"]

@@ -37,17 +37,23 @@ text = "X"
 
 [node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer/HBoxContainer"]
 margin_left = 24.0
-margin_right = 391.0
+margin_right = 369.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
 
 [node name="UPNPButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_left = 395.0
-margin_right = 498.0
+margin_left = 373.0
+margin_right = 476.0
 margin_bottom = 52.0
 text = "Perform UPNP"
+
+[node name="HelpButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
+margin_left = 480.0
+margin_right = 498.0
+margin_bottom = 52.0
+text = "?"
 
 [node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
 margin_top = 56.0
@@ -139,6 +145,7 @@ text = "127.0.0.1"
 use_threads = true
 [connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/UPNPButton" to="." method="_on_UPNPButton_pressed"]
+[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="item_selected" from="MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton" to="." method="_on_MapSelectButton_item_selected"]
 [connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
