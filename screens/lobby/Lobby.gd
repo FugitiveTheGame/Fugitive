@@ -25,6 +25,8 @@ func _ready():
 	
 	update_player_counts()
 	
+	fetch_external_ip()
+	
 	# Only server should see these buttons
 	if not get_tree().is_network_server():
 		startGameButton.hide()
@@ -140,10 +142,18 @@ func _on_LeaveButton_pressed():
 
 func _on_UPNPButton_pressed():
 	Network.enableUpnp()
-	serverIpLabel.text = Network.get_external_ip()
+	#serverIpLabel.text = Network.get_external_ip()
 
 func _on_MapSelectButton_item_selected(id):
 	rpc('updateMapSelection', id)
 
 remote func updateMapSelection(id):
 	mapSelectButton.selected = id
+
+func fetch_external_ip():
+	$HTTPRequest.request("https://api.ipify.org/?format=json")
+
+func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+	var json = parse_json(body.get_string_from_utf8())
+	print('External IP: %s' % json.ip)
+	serverIpLabel.text = json.ip
