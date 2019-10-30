@@ -3,6 +3,7 @@ extends Node2D
 onready var players := $players
 onready var gracePeriodTimer := $GracePeriodTimer
 onready var winZone : Area2D = $WinZone
+onready var gameTimer := $GameTimer
 onready var gameTimerLabel := $UiLayer/GameTimerLabel
 
 var gameOver : bool = false
@@ -10,8 +11,6 @@ var winner : int = Network.PlayerType.Unset
 var currentPlayer: Player
 
 var players_done = []
-
-var gameStartedAt: int
 
 func _ready():
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
@@ -112,24 +111,26 @@ func updateStartTimer():
 		$UiLayer/GameStartLabel.text = "Starting in %d" % sec
 
 func updateGameTimer():
-	var secondsSoFar = OS.get_system_time_secs() - gameStartedAt
-	
-	var minutesSoFar = secondsSoFar / 60
-	var remainingSeconds = secondsSoFar - (minutesSoFar * 60)
-	
-	gameTimerLabel.text = "%d:%02d" % [minutesSoFar, remainingSeconds]
+	if not gameTimer.is_stopped():
+		var secondsLeft: int = gameTimer.time_left as int
+		secondsLeft = max(secondsLeft, 0.0) as int
+		
+		var minutesLeft: int = secondsLeft / 60
+		var remainingSeconds: int = secondsLeft - (minutesLeft * 60)
+		
+		gameTimerLabel.text = "%d:%02d" % [minutesLeft, remainingSeconds]
 
 func checkForFoundHiders():
-	var localPlayer = Network.get_current_player()
-	
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 	var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
 	
+	var curPlayerType = currentPlayer._get_player_type()
+	
 	# Process each hider, find if any have been seen
 	for hider in hiders:
 		# Re-hide Hiders every frame for Seekers
-		if (localPlayer.type == Network.PlayerType.Seeker):
+		if (curPlayerType == Network.PlayerType.Seeker):
 			if not hider.frozen:
 				hider.current_visibility = 0.0
 			# Frozen Hiders should always be vizible to Seekers
@@ -168,6 +169,8 @@ func checkWinConditions():
 remotesync func end_game(seekersWon: bool):
 	self.gameOver = true
 	
+	gameTimer.stop()
+	
 	for child in players.get_children():
 		players.remove_child(child)
 	
@@ -201,7 +204,7 @@ func player_removed(player_id: int):
 func _on_GameStartTimer_timeout():
 	$UiLayer/GameStartLabel.hide()
 	
-	gameStartedAt = OS.get_system_time_secs()
+	gameTimer.start()
 	gameTimerLabel.show()
 	updateGameTimer()
 	
@@ -211,3 +214,7 @@ func _on_GameStartTimer_timeout():
 	currentPlayer.set_current_player()
 	
 	SignalManager.emit_game_start()
+
+func _on_GameTimer_timeout():
+	if get_tree().is_network_server():
+		rpc('end_game', true)

@@ -70,14 +70,27 @@ collision_mask = 4
 rotation = -1.57079
 shape = SubResource( 1 )
 
-[node name="GracePeriodTimer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
-
 [node name="GameStartTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 autostart = true
+__meta__ = {
+"_editor_description_": "Warm up time, everyone gets to look at the map, and get ready."
+}
+
+[node name="GracePeriodTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+__meta__ = {
+"_editor_description_": "Seekers are held captive for this ammount of time. Lets hiders get a head start."
+}
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 900.0
+one_shot = true
+__meta__ = {
+"_editor_description_": "If this timer expires, the hiders lose."
+}
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
@@ -160,6 +173,7 @@ __meta__ = {
 [node name="PregameCamera" type="Camera2D" parent="."]
 position = Vector2( 2254.28, -1885.59 )
 zoom = Vector2( 10, 10 )
-[connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
 [connection signal="timeout" from="GameStartTimer" to="." method="_on_GameStartTimer_timeout"]
+[connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_GameTimer_timeout"]
 [connection signal="pressed" from="UiLayer/GameOverDialog/VBoxContainer/BackToLobbyButton" to="." method="_on_BackToLobbyButton_pressed"]
