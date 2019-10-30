@@ -1,7 +1,7 @@
 extends Node
 
 onready var joinDialog := $JoinGameDialog
-onready var serverIpEditText := $JoinGameDialog/Center/Verticle/ServerIpTextEdit
+onready var serverIpEditText := $JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
 
 var playerName: String = ""
 
@@ -10,7 +10,7 @@ func _ready():
 	serverIpEditText.text = UserData.data.last_ip
 	
 	playerName = UserData.data.user_name
-	$CenterContainer/PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+	$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
 
 func _exit_tree():
 	# Save any user data that changed
@@ -30,7 +30,7 @@ func _on_JoinGameButton_pressed():
 	if playerName == "":
 		return
 	
-	joinDialog.popup_centered()
+	joinDialog.popup()
 
 func _on_PlayerNameTextEdit_text_changed(text):
 	playerName = text
@@ -51,7 +51,6 @@ func _on_CancelButton_pressed():
 
 func on_server_joined():
 	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
-
 
 func _on_HelpButton_pressed():
 	var scene = preload("res://help/Help.tscn")
