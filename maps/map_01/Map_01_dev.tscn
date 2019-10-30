@@ -23,8 +23,8 @@ playerName = "Alex"
 position = Vector2( 490, 240 )
 playerName = "Stacy"
 
-[node name="GracePeriodTimer" parent="." index="5"]
+[node name="GameStartTimer" parent="." index="5"]
 wait_time = 0.5
 
-[node name="GameStartTimer" parent="." index="6"]
+[node name="GracePeriodTimer" parent="." index="6"]
 wait_time = 0.5

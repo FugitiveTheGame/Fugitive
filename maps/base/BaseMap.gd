@@ -37,6 +37,7 @@ master func done_preconfiguring(playerIdDone):
 remotesync func post_configure_game():
 	get_tree().set_pause(false)
 	$PregameCamera.current = true
+	$UiLayer/GameStartLabel.show()
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
