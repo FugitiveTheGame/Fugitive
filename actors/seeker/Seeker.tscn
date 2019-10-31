@@ -58,21 +58,23 @@ volume_db = 1.0
 max_distance = 500.0
 
 [node name="PlayerNameLabel" type="Label" parent="."]
-margin_left = -35.0
-margin_top = 34.0
-margin_right = 40.0
-margin_bottom = 48.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -42.6602
+margin_top = 46.0179
+margin_right = 38.3398
+margin_bottom = 60.0179
 text = "Player Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
-visible = false
 margin_left = -16.5968
-margin_top = 58.0263
+margin_top = 62.5767
 margin_right = 16.4032
-margin_bottom = 72.0263
+margin_bottom = 76.5767
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false

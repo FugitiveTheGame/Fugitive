@@ -57,4 +57,4 @@ scroll_active = false
 margin_top = 48.0
 margin_right = 196.0
 margin_bottom = 52.0
-[connection signal="item_selected" from="MainContainer/OptionPlayerRole" to="MainContainer" method="_on_OptionPlayerRole_item_selected"]
+[connection signal="item_selected" from="MainContainer/OptionPlayerRole" to="." method="_on_OptionPlayerRole_item_selected"]
