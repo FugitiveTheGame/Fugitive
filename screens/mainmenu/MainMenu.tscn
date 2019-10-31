@@ -167,6 +167,18 @@ margin_left = 76.0
 margin_right = 130.0
 margin_bottom = 20.0
 text = "Cancel"
+
+[node name="GameVersionLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -52.0
+margin_top = -14.0
+text = "Version:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="PanelContainer/VBoxContainer/TitleContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="text_changed" from="PanelContainer/VBoxContainer/PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/CenterHost/HostGameButton" to="." method="_on_HostGameButton_pressed"]

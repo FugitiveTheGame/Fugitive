@@ -14,6 +14,8 @@ func _ready():
 	
 	playerName = UserData.data.user_name
 	$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+	
+	$GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
 
 func _exit_tree():
 	# Save any user data that changed
