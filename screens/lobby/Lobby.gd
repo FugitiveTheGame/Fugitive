@@ -30,6 +30,9 @@ func _ready():
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
 	assert(Network.connect("game_updated", self, "game_updated") == OK)
 	
+	assert(Network.connect("send_lobby_state", self, "send_lobby_state") == OK)
+	assert(Network.connect("receive_lobby_state", self, "receive_lobby_state") == OK)
+	
 	update_player_counts()
 	
 	fetch_external_ip()
@@ -45,6 +48,14 @@ func _ready():
 	
 	update_winner()
 	game_updated()
+	Network.request_lobby_state()
+
+# Server collects it's lobby data, and passes it back to the Network
+func send_lobby_state(id: int):
+	Network.update_lobby_state(id, mapSelectButton.selected)
+
+func receive_lobby_state(mapId: int):
+	update_map_selection(mapId)
 
 class ScoreSorter:
 	static func sort(a, b):
@@ -109,10 +120,6 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerListControl.add_child(playerControl)
 	
 	update_player_counts()
-	
-	# Tell the new player what map is currently selected
-	if get_tree().is_network_server():
-		rpc('updateMapSelection', mapSelectButton.get_selected_id())
 
 func players_initialize(newPlayers: Dictionary):
 	var playersInOrder = newPlayers.keys()
@@ -181,9 +188,9 @@ func _on_UPNPButton_pressed():
 	#serverIpLabel.text = Network.get_external_ip()
 
 func _on_MapSelectButton_item_selected(id):
-	rpc('updateMapSelection', id)
+	rpc('update_map_selection', id)
 
-remote func updateMapSelection(id):
+remote func update_map_selection(id):
 	mapSelectButton.selected = id
 
 func fetch_external_ip():

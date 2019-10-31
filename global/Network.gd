@@ -4,6 +4,8 @@ signal player_updated
 signal new_player_registered
 signal player_removed
 signal game_updated
+signal send_lobby_state
+signal receive_lobby_state
 
 const DEFAULT_IP := '127.0.0.1'
 const DEFAULT_PORT := 31400
@@ -126,6 +128,27 @@ remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 	var playerDataReal := player_data_from_DTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
+
+# 1) A client calls this in their Lobby's _ready() function
+func request_lobby_state():
+	if not get_tree().is_network_server():
+		rpc_id(1, 'send_lobby_state', get_tree().get_network_unique_id())
+
+# 2) The server receives the request, and notifies the server's
+# Lobby that it needs to respond
+remote func send_lobby_state(id: int):
+	emit_signal('send_lobby_state', id)
+
+# 3) The servers lobby collects the data, and then passes it back here,
+# to the Network class so it can be transmitted back to the new client
+func update_lobby_state(id: int, mapId: int):
+	rpc_id(id, 'receive_lobby_state', mapId, self.numGames)
+
+# 4) The new client receives the lobby state data, and emits a singal
+# letting the lobby know the data is ready
+remote func receive_lobby_state(mapId: int, numGames: int):
+	self.numGames = numGames
+	emit_signal('receive_lobby_state', mapId)
 
 func on_server_disconnect():
 	reset_game()
