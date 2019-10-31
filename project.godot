@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://global/PlayerLobbyData.gd"
 }, {
+"base": "Object",
+"class": "PlayerStats",
+"language": "GDScript",
+"path": "res://global/PlayerStats.gd"
+}, {
 "base": "Player",
 "class": "Seeker",
 "language": "GDScript",
@@ -55,6 +60,7 @@ _global_script_class_icons={
 "MotionSensor": "",
 "Player": "",
 "PlayerLobbyData": "",
+"PlayerStats": "",
 "Seeker": "",
 "SpawnPoint": "",
 "StreetLight": ""
