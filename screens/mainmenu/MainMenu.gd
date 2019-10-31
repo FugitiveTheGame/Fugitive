@@ -5,6 +5,10 @@ onready var serverIpEditText := $JoinGameDialog/CenterContainer/Verticle/ServerI
 
 var playerName: String = ""
 
+func _init():
+	# window doesn't center properly on startup on HiDPI screens without explicitly calling this
+	OS.center_window()
+
 func _ready():
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
@@ -14,6 +18,8 @@ func _ready():
 	
 	playerName = UserData.data.user_name
 	$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+	
+	$GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
 
 func _exit_tree():
 	# Save any user data that changed

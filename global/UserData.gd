@@ -1,5 +1,7 @@
 extends Node
 
+const GAME_VERSION := '0.01'
+
 const file_name := 'user://user_data.json'
 
 var data = get_default_data()
