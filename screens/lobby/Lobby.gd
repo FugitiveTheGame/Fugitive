@@ -29,7 +29,9 @@ func _ready():
 	assert(Network.connect("player_updated", self, "player_updated") == OK)
 	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
-	assert(Network.connect("game_updated", self, "game_updated") == OK)
+	
+	assert(Network.connect("send_lobby_state", self, "send_lobby_state") == OK)
+	assert(Network.connect("receive_lobby_state", self, "receive_lobby_state") == OK)
 	
 	update_player_counts()
 	
@@ -46,6 +48,23 @@ func _ready():
 	
 	update_winner()
 	game_updated()
+	Network.request_lobby_state()
+	
+	# Update all clients to the server's network state
+	if get_tree().is_network_server():
+		Network.send_lobby_state(1)
+
+# Server collects it's lobby data, and passes it back to the Network
+func send_lobby_state(id: int):
+	if id == 1:
+		Network.broadcast_update_lobby_state(mapSelectButton.selected)
+	else:
+		Network.update_lobby_state(id, mapSelectButton.selected)
+
+func receive_lobby_state(mapId: int):
+	update_map_selection(mapId)
+	game_updated()
+	update_winner()
 
 class ScoreSorter:
 	static func sort(a, b):
@@ -123,10 +142,6 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerListControl.add_child(playerControl)
 	
 	update_player_counts()
-	
-	# Tell the new player what map is currently selected
-	if get_tree().is_network_server():
-		rpc('updateMapSelection', mapSelectButton.get_selected_id())
 
 func players_initialize(newPlayers: Dictionary):
 	var playersInOrder = newPlayers.keys()
@@ -257,22 +272,25 @@ func _on_LeaveButton_pressed():
 	Network.disconnect_from_game()
 
 func _on_UPNPButton_pressed():
-	Network.enableUpnp()
+	Network.enable_upnp()
 	#serverIpLabel.text = Network.get_external_ip()
 
 func _on_MapSelectButton_item_selected(id):
-	rpc('updateMapSelection', id)
+	rpc('update_map_selection', id)
 
-remote func updateMapSelection(id):
+remote func update_map_selection(id):
 	mapSelectButton.selected = id
 
 func fetch_external_ip():
 	$HTTPRequest.request("https://api.ipify.org/?format=json")
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
-	var json = parse_json(body.get_string_from_utf8())
-	print('External IP: %s' % json.ip)
-	serverIpLabel.text = json.ip
+	if response_code == 200:
+		var json = parse_json(body.get_string_from_utf8())
+		print('External IP: %s' % json.ip)
+		serverIpLabel.text = json.ip
+	else:
+		print('Failed to get external IP')
 
 func _on_HelpButton_pressed():
 	var scene = preload("res://help/Help.tscn")
