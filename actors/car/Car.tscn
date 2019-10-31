@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://actors/car/Car.gd" type="Script" id=1]
 [ext_resource path="res://actors/car/car_move.ogg" type="AudioStream" id=2]
 [ext_resource path="res://actors/car/carhorn.ogg" type="AudioStream" id=3]
+[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -67,3 +68,18 @@ stream = ExtResource( 2 )
 [node name="HornAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
 max_distance = 3000.0
+
+[node name="DebugLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -36.5
+margin_top = -26.0
+margin_right = 36.5
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 4 )
+text = "Car"
+__meta__ = {
+"_edit_use_anchors_": false
+}
