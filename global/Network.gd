@@ -12,6 +12,8 @@ const MAX_PLAYERS := 15
 
 enum PlayerType {Hider, Seeker, Random }
 
+var random = RandomNumberGenerator.new()
+
 var players = {}
 var playerName: String
 var numGames := 0

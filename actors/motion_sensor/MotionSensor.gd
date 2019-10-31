@@ -13,6 +13,17 @@ var is_turned_on := true
 
 func _ready():
 	add_to_group(Groups.LIGHTS)
+	
+	# Server determines if this sensor is on or not
+	if get_tree().is_network_server():
+		# 1 in 4 chance of being enabled
+		if Network.random.randi_range(0, 3) == 0:
+			rpc('set_on', true)
+		else:
+			rpc('set_on', false)
+	
+remotesync func set_on(isOn: bool):
+	is_turned_on = isOn
 
 func _on_MotionSensorArea_body_entered(body):
 	if is_turned_on and not $Light2D.enabled:
