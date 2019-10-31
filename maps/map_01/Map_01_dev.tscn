@@ -45,3 +45,6 @@ margin_right = 512.0
 margin_bottom = 176.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="SeekerReleaseAudio" parent="." index="11"]
+volume_db = 0.0

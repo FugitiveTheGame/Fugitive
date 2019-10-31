@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://actors/hider/Hider.gd" type="Script" id=1]
 [ext_resource path="res://actors/player/player_move.ogg" type="AudioStream" id=2]
+[ext_resource path="res://actors/hider/freeze.ogg" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 21.1303, 20 )
@@ -44,6 +45,10 @@ zoom = Vector2( 1.5, 1.5 )
 [node name="FootStepAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )
 max_distance = 500.0
+
+[node name="FreezeAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+max_distance = 1000.0
 
 [node name="PlayerNameLabel" type="Label" parent="."]
 margin_left = -50.0

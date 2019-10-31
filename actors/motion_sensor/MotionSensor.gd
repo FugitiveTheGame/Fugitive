@@ -19,7 +19,7 @@ func set_enabled(isOn: bool):
 	rpc('on_set_enabled', isOn)
 
 remotesync func on_set_enabled(isOn: bool):
-	print('Sensor Enabled: ' + str(isOn))
+	#print('Sensor Enabled: ' + str(isOn))
 	is_turned_on = isOn
 
 func _on_MotionSensorArea_body_entered(body):

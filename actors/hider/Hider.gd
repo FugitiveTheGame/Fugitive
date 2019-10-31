@@ -14,6 +14,12 @@ func set_current_player():
 	.set_current_player()
 	visibilityBar.show()
 
+func _frozen():
+	$FreezeAudio.play()
+
+func _unfrozen():
+	$FreezeAudio.play()
+
 func _on_Area2D_body_entered(body):
 	# Freeze tag! Unfreeze your friends!
 	if body is Player and body._get_player_node_type() == Network.PlayerType.Hider:

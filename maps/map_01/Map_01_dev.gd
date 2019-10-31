@@ -8,6 +8,12 @@ func _ready():
 	var playerData = PlayerLobbyData.new()
 	Network.players[1] = playerData
 	
+	var playerData2 = PlayerLobbyData.new()
+	Network.players[2] = playerData2
+	
+	# Lower this sound for testing, it's real annoying
+	$SeekerReleaseAudio.volume_db = -80
+	
 	if be_seeker:
 		$players/Seeker00.set_current_player()
 		$players/Seeker00.set_network_master(1)
