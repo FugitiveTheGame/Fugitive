@@ -32,9 +32,24 @@ func get_current_player_id() -> int:
 func disconnect_from_game():
 	reset_game()
 
+func broadcast_all_player_data():
+	# Only the network server can update everyone's player data
+	if get_tree().is_network_server():
+		return
+	
+	for player_id in players:
+		var player = players[player_id]
+		var dto = player.toDTO()
+		rpc('set_player_data', player_id, dto)
+
+remote func set_player_data(playerId: int, playerDto: Dictionary):
+	var playerData = player_data_from_DTO(playerDto)
+	players[playerId] = playerData
+	emit_signal('player_updated', playerId, self.players[playerId])
+
 func broadcast_set_player_type(playerId: int, playerType: int):
 	rpc('set_player_type', playerId, playerType)
-	
+
 remotesync func set_player_type(playerId: int, playerType: int):
 	self.players[playerId].type = playerType
 	emit_signal('player_updated', playerId, self.players[playerId])
@@ -57,7 +72,7 @@ func host_game(name: String) -> bool:
 		return true
 	else:
 		return false
-	
+
 func join_game(name: String, serverIp: String) -> bool:
 	self.playerName = name
 		
@@ -96,21 +111,21 @@ remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 	for playerId in orderedPlayers:
 		var existingPlayer = self.players[playerId]
 		rpc_id(newPlayerId, 'on_new_player_client', playerId, existingPlayer.toDTO())
-		
+	
 	# Register the new player and tell all the new clients about them
 	var playerDataReal := player_data_from_DTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	rpc('on_new_player_client', newPlayerId, playerDataDTO)
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
-	
+
 remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 	var playerDataReal := player_data_from_DTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
-	
+
 func on_server_disconnect():
 	reset_game()
-	
+
 func reset_game():
 	get_tree().network_peer.close_connection()
 	# Cleanup all state related to the game session
@@ -120,7 +135,7 @@ func reset_game():
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
 	assert(get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn') == OK)
-	
+
 static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
 	var result := PlayerLobbyData.new()
 	result.name = dict.name

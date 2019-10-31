@@ -137,7 +137,6 @@ __meta__ = {
 }
 
 [node name="GameOverDialog" type="WindowDialog" parent="UiLayer"]
-visible = true
 margin_right = 512.0
 margin_bottom = 256.0
 size_flags_horizontal = 3
