@@ -21,11 +21,22 @@ func _ready():
 	$GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
 	
 	var args := OS.get_cmdline_args()
+	print("Command Line args: %d" % [args.size()])
 	if (args.size() > 0):
-		serverIpEditText.text = args[0]
-		playerName = args[1]
+		for arg in args:
+			print("    : %s" % arg)
+			var keyValuePair = arg.split("=")
+			
+			match keyValuePair[0]:
+				"--name":
+					playerName = keyValuePair[1]
+				"--ip":
+					serverIpEditText.text = keyValuePair[1]
+				_:
+					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
+					
 		$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
-		assert(Network.join_game(playerName, serverIpEditText.text))
+		Network.join_game(playerName, serverIpEditText.text)
 
 func _exit_tree():
 	# Save any user data that changed
