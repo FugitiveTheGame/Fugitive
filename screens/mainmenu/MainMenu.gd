@@ -14,6 +14,9 @@ func _ready():
 	get_tree().paused = false
 	
 	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
+	assert(get_tree().connect("connection_failed", self, "connection_failed") == OK)
+	assert(get_tree().connect("network_peer_disconnected", self, "network_peer_disconnected") == OK)
+	assert(get_tree().connect("server_disconnected", self, "server_disconnected") == OK)
 	serverIpEditText.text = UserData.data.last_ip
 	
 	playerName = UserData.data.user_name
@@ -36,7 +39,7 @@ func _ready():
 					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
 					
 		$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
-		Network.join_game(playerName, serverIpEditText.text)
+		assert(Network.join_game(playerName, serverIpEditText.text))
 
 func _exit_tree():
 	# Save any user data that changed
@@ -76,7 +79,17 @@ func _on_CancelButton_pressed():
 	joinDialog.hide()
 
 func on_server_joined():
+	print("JOINED SERVER")
 	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+	
+func connection_failed():
+	print("CONNECTION FAILED")
+
+func network_peer_disconnected(id: int):
+	print("PEER %d DISCONNECTED" % id)
+
+func server_disconnected():
+	print("SERVER DISCONNECTED")
 
 func _on_HelpButton_pressed():
 	var scene = preload("res://help/Help.tscn")
