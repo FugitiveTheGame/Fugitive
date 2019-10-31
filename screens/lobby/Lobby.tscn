@@ -62,75 +62,85 @@ margin_bottom = 70.0
 text = "Game Number: 1"
 align = 2
 
-[node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainPanel/OuterContainer"]
 margin_top = 74.0
+margin_right = 498.0
+margin_bottom = 78.0
+
+[node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+margin_top = 82.0
 margin_right = 498.0
 margin_bottom = 438.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayersContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
-margin_right = 247.0
-margin_bottom = 364.0
+margin_right = 243.0
+margin_bottom = 356.0
 size_flags_horizontal = 3
 
 [node name="PlayersTitle" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
-margin_right = 247.0
+margin_right = 243.0
 margin_bottom = 14.0
 size_flags_vertical = 1
 text = "Players:"
 
 [node name="SeekersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 18.0
-margin_right = 247.0
+margin_right = 243.0
 margin_bottom = 32.0
 text = "Seekers: 0/2"
 align = 1
 
 [node name="HidersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 36.0
-margin_right = 247.0
+margin_right = 243.0
 margin_bottom = 50.0
 text = "Hiders: 0/4"
 align = 1
 
 [node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 54.0
-margin_right = 247.0
-margin_bottom = 364.0
+margin_right = 243.0
+margin_bottom = 356.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerList" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
-margin_right = 247.0
-margin_bottom = 310.0
+margin_right = 243.0
+margin_bottom = 302.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VSeparator" type="VSeparator" parent="MainPanel/OuterContainer/CenterContainer"]
+margin_left = 247.0
+margin_right = 251.0
+margin_bottom = 356.0
+
 [node name="OptionsContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
-margin_left = 251.0
+margin_left = 255.0
 margin_right = 498.0
-margin_bottom = 364.0
+margin_bottom = 356.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="OptionsLabel" type="Label" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
-margin_right = 247.0
+margin_right = 243.0
 margin_bottom = 14.0
 text = "Options:"
 
 [node name="MapSelectLabel" type="Label" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 18.0
-margin_right = 247.0
+margin_right = 243.0
 margin_bottom = 32.0
 text = "Select Map:"
 
 [node name="MapSelectButton" type="OptionButton" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 36.0
-margin_right = 247.0
+margin_right = 243.0
 margin_bottom = 56.0
 text = "My Neighborhood"
 items = [ "My Neighborhood", null, false, 0, null, "Straight Line", null, false, 1, null ]
