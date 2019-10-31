@@ -8,9 +8,6 @@
 [node name="base" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="StreetLight" parent="map" index="3"]
-rotation = 0.0
-
 [node name="Seeker00" parent="players" index="1" instance=ExtResource( 3 )]
 position = Vector2( 200, 390 )
 playerName = "Adam"
@@ -20,7 +17,7 @@ position = Vector2( 500, 470 )
 playerName = "Alex"
 
 [node name="Hider01" parent="players" index="3" instance=ExtResource( 4 )]
-position = Vector2( 490, 240 )
+position = Vector2( 407.692, 229.711 )
 playerName = "Stacy"
 
 [node name="GameStartTimer" parent="." index="5"]
