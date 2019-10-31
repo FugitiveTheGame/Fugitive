@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=32 format=2]
+[gd_resource type="TileSet" load_steps=40 format=2]
 
 [ext_resource path="res://maps/tilesets/neighborhood/road_corner.png" type="Texture" id=1]
 [ext_resource path="res://maps/tilesets/neighborhood/yard_00.png" type="Texture" id=2]
@@ -7,9 +7,29 @@
 [ext_resource path="res://maps/tilesets/neighborhood/road_4way_intersection.png" type="Texture" id=5]
 [ext_resource path="res://maps/tilesets/neighborhood/parking_lot.png" type="Texture" id=6]
 [ext_resource path="res://maps/tilesets/neighborhood/culdesak.png" type="Texture" id=7]
-[ext_resource path="res://maps/tilesets/neighborhood/driveway.png" type="Texture" id=8]
+[ext_resource path="res://maps/tilesets/neighborhood/driveway_00a.png" type="Texture" id=8]
+[ext_resource path="res://maps/tilesets/neighborhood/sidewalk_top.png" type="Texture" id=9]
+[ext_resource path="res://maps/tilesets/neighborhood/sidewalk_corner_outer.png" type="Texture" id=10]
+[ext_resource path="res://maps/tilesets/neighborhood/sidewalk_corner_inner.png" type="Texture" id=11]
+[ext_resource path="res://maps/tilesets/neighborhood/driveway_00b.png" type="Texture" id=12]
 
-[sub_resource type="NavigationPolygon" id=23]
+[sub_resource type="NavigationPolygon" id=24]
+vertices = PoolVector2Array( 0, 0, 256, 0, 256, 256, 0, 256 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="NavigationPolygon" id=25]
+vertices = PoolVector2Array( 0, 0, 256, 0, 256, 256, 0, 256 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="NavigationPolygon" id=26]
+vertices = PoolVector2Array( 0, 0, 256, 0, 256, 256, 0, 256 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="NavigationPolygon" id=27]
+vertices = PoolVector2Array( 0, 0, 256, 0, 256, 256, 0, 256 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="NavigationPolygon" id=28]
 vertices = PoolVector2Array( 0, 0, 256, 0, 256, 256, 0, 256 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
@@ -260,14 +280,58 @@ points = PoolVector2Array( 0, 0, 256, 0, 256, 256, 224, 256, 224, 32, 32, 32, 32
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 9/z_index = 0
-10/name = "driveway.png 10"
-10/texture = ExtResource( 8 )
-10/tex_offset = Vector2( 0, 0 )
-10/modulate = Color( 1, 1, 1, 1 )
-10/region = Rect2( 0, 0, 256, 256 )
-10/tile_mode = 0
-10/occluder_offset = Vector2( 0, 0 )
-10/navigation_offset = Vector2( 0, 0 )
-10/navigation = SubResource( 23 )
-10/shapes = [  ]
-10/z_index = 0
+11/name = "sidewalk_top.png 11"
+11/texture = ExtResource( 9 )
+11/tex_offset = Vector2( 0, 0 )
+11/modulate = Color( 1, 1, 1, 1 )
+11/region = Rect2( 0, 0, 256, 256 )
+11/tile_mode = 0
+11/occluder_offset = Vector2( 0, 0 )
+11/navigation_offset = Vector2( 0, 0 )
+11/navigation = SubResource( 24 )
+11/shapes = [  ]
+11/z_index = 0
+12/name = "sidewalk_corner_outer.png 12"
+12/texture = ExtResource( 10 )
+12/tex_offset = Vector2( 0, 0 )
+12/modulate = Color( 1, 1, 1, 1 )
+12/region = Rect2( 0, 0, 256, 256 )
+12/tile_mode = 0
+12/occluder_offset = Vector2( 0, 0 )
+12/navigation_offset = Vector2( 0, 0 )
+12/navigation = SubResource( 25 )
+12/shapes = [  ]
+12/z_index = 0
+13/name = "sidewalk_corner_inner.png 13"
+13/texture = ExtResource( 11 )
+13/tex_offset = Vector2( 0, 0 )
+13/modulate = Color( 1, 1, 1, 1 )
+13/region = Rect2( 0, 0, 256, 256 )
+13/tile_mode = 0
+13/occluder_offset = Vector2( 0, 0 )
+13/navigation_offset = Vector2( 0, 0 )
+13/navigation = SubResource( 26 )
+13/shapes = [  ]
+13/z_index = 0
+14/name = "driveway_00a.png 14"
+14/texture = ExtResource( 8 )
+14/tex_offset = Vector2( 0, 0 )
+14/modulate = Color( 1, 1, 1, 1 )
+14/region = Rect2( 0, 0, 256, 256 )
+14/tile_mode = 0
+14/occluder_offset = Vector2( 0, 0 )
+14/navigation_offset = Vector2( 0, 0 )
+14/navigation = SubResource( 27 )
+14/shapes = [  ]
+14/z_index = 0
+15/name = "driveway_00b.png 15"
+15/texture = ExtResource( 12 )
+15/tex_offset = Vector2( 0, 0 )
+15/modulate = Color( 1, 1, 1, 1 )
+15/region = Rect2( 0, 0, 256, 256 )
+15/tile_mode = 0
+15/occluder_offset = Vector2( 0, 0 )
+15/navigation_offset = Vector2( 0, 0 )
+15/navigation = SubResource( 28 )
+15/shapes = [  ]
+15/z_index = 0

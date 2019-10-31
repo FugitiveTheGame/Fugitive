@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://actors/street_light/light.png" type="Texture" id=1]
 [ext_resource path="res://actors/street_light/street_light.png" type="Texture" id=2]
 [ext_resource path="res://actors/street_light/StreetLight.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
 
 [node name="StreetLight" type="Sprite"]
 z_index = 1
@@ -22,3 +24,10 @@ shadow_filter_smooth = 11.0
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 collision_mask = 5
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 20, 0 )
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 1 )
