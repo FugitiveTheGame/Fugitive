@@ -3,7 +3,7 @@ class_name StreetLight
 
 export (int) var illumination_range := 196
 
-onready var rayCaster := $RayCast2D
+onready var rayCaster := $StaticBody2D/RayCast2D
 
 func _ready():
 	add_to_group(Groups.LIGHTS)
@@ -14,7 +14,7 @@ func process_hider(hider: Hider):
 	var distance = lookVec.length()
 	
 	# Quick reject, ray casting is slightly expensive, don't do it if we don't have to
-	if distance < illumination_range:
+	if distance <= illumination_range:
 		rayCaster.cast_to = lookVec
 		rayCaster.force_raycast_update()
 	

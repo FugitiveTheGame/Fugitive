@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://maps/base/BaseMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://maps/tilesets/neighborhood/features.tres" type="TileSet" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://actors/car_wall/CarWall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=7]
 [ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=8]
+[ext_resource path="res://actors/motion_sensor/MotionSensor.tscn" type="PackedScene" id=9]
 
 [node name="base" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
@@ -32,89 +33,96 @@ tile_set = ExtResource( 2 )
 format = 1
 tile_data = PoolIntArray( -4718581, -1073741824, 0, -4718558, -1073741824, 0, -4718557, -1073741824, 0, -4718540, -1073741823, 0, -4587523, 1610612737, 0, -4653048, -1073741823, 0, -4653036, -1073741823, 0, -4653030, -1073741824, 0, -4653025, -1073741823, 0, -4653016, -1073741823, 0, -4653007, -1073741824, 0, -4652993, -1073741824, 0, -4652986, 1610612737, 0, -4587503, -1073741824, 0, -4587464, -1073741824, 0, -4521914, -1073741824, 0, -4390915, -1073741824, 0, -4128763, -1073741823, 0, -4128749, -1073741823, 0, -4128714, -1073741824, 0, -4128707, -1073741823, 0, -4063198, -1073741824, 0, -4063193, 1610612736, 0, -4063173, -1073741824, 0, -3997672, -1073741824, 0, -3997651, -1073741823, 0, -3997648, -1073741824, 0, -3997627, -1073741824, 0, -3932127, -1073741823, 0, -3801064, -1073741823, 0, -3801027, -1073741824, 0, -3604484, -1073741824, 0, -3670010, -1073741824, 0, -3669989, -1073741824, 0, -3669982, -1073741824, 0, -3669956, -1073741823, 0, -3669945, -1073741824, 0, -3538948, -1073741824, 0, -3538884, -1073741823, 0, -3538875, -1073741823, 0, -3473403, 1610612737, 0, -3342341, 1610612737, 0, -3407811, -1073741824, 0, -3407802, -1073741824, 0, -3342312, -1073741824, 0, -3276767, -1073741824, 0, -3014631, -1073741824, 0, -3014630, -1073741824, 0, -2949115, -1073741824, 0, -2949087, -1073741824, 0, -2949060, -1073741824, 0, -2949059, -1073741824, 0, -2949058, -1073741824, 0, -2883514, -1073741823, 0, -2752507, 1610612737, 0, -2686951, -1073741823, 0, -2686941, -1073741824, 0, -2686915, -1073741823, 0, -2621427, -1073741824, 0, -2621426, -1073741823, 0, -2490371, -1073741824, 0, -2555897, 1610612737, 0, -2555894, -1073741824, 0, -2555891, -1073741824, 0, -2555833, -1073741824, 0, -2490355, -1073741824, 0, -2490354, -1073741824, 0, -2490353, -1073741824, 0, -2424806, -1073741824, 0, -2424772, -1073741824, 0, -2359227, -1073741824, 0, -2293747, -1073741823, 0, -2293726, -1073741824, 0, -2162689, -1073741824, 0, -2162675, -1073741823, 0, -2031614, 1610612737, 0, -2031603, -1073741823, 0, -2031601, -1073741823, 0, -2031599, -1073741823, 0, -2031591, -1073741824, 0, -2031546, -1073741824, 0, -1900546, -1073741824, 0, -1966010, -1073741824, 0, -1900483, -1073741824, 0, -1769468, -1073741824, 0, -1638396, -1073741824, 0, -1638366, -1073741824, 0, -1572793, -1073741824, 0, -1507313, -1073741824, 0, -1507301, -1073741823, 0, -1507267, -1073741823, 0, -1441778, -1073741824, 0, -1441773, -1073741824, 0, -1441761, -1073741824, 0, -1376243, -1073741824, 0, -1376221, -1073741824, 0, -1376186, -1073741824, 0, -1310714, -1073741824, 0, -1245124, -1073741824, 0, -1114043, -1073741823, 0, -1048563, -1073741824, 0, -983027, 1610612737, 0, -982980, -1073741824, 0, -917499, -1073741824, 0, -589763, -1073741824, 0, -589754, -1073741824, 0, -524217, -1073741824, 0, -393203, -1073741824, 0, -393156, -1073741824, 0, -327675, 1610612737, 0, -327609, -1073741824, 0, -262084, -1073741823, 0, -262073, -1073741824, 0, 4, -1610612736, 0, 13, -1610612736, 0, 65558, -1610612736, 0, 196605, -1610612736, 0, 131075, 1610612737, 0, 131078, -1610612736, 0, 589847, -1610612736, 0, 720894, -1610612736, 0, 655382, -1610612736, 0, 720903, -1610612736, 0, 720917, -1610612736, 0 )
 
-[node name="StreetLight" parent="map" index="3" instance=ExtResource( 8 )]
+[node name="StreetLights" type="Node2D" parent="map" index="3"]
+
+[node name="StreetLight" parent="map/StreetLights" index="0" instance=ExtResource( 8 )]
 position = Vector2( 500, 270 )
 rotation = -1.57079
 
-[node name="StreetLight22" parent="map" index="4" instance=ExtResource( 8 )]
+[node name="StreetLight22" parent="map/StreetLights" index="1" instance=ExtResource( 8 )]
 position = Vector2( 2040, -2920 )
 
-[node name="StreetLight19" parent="map" index="5" instance=ExtResource( 8 )]
+[node name="StreetLight19" parent="map/StreetLights" index="2" instance=ExtResource( 8 )]
 position = Vector2( 1270, 380 )
 
-[node name="StreetLight20" parent="map" index="6" instance=ExtResource( 8 )]
+[node name="StreetLight20" parent="map/StreetLights" index="3" instance=ExtResource( 8 )]
 position = Vector2( 780, 270 )
 rotation = -1.57079
 
-[node name="StreetLight21" parent="map" index="7" instance=ExtResource( 8 )]
+[node name="StreetLight21" parent="map/StreetLights" index="4" instance=ExtResource( 8 )]
 position = Vector2( 10, 390 )
 rotation = -3.14159
 
-[node name="StreetLight2" parent="map" index="8" instance=ExtResource( 8 )]
+[node name="StreetLight2" parent="map/StreetLights" index="5" instance=ExtResource( 8 )]
 position = Vector2( 760, -1520 )
 
-[node name="StreetLight14" parent="map" index="9" instance=ExtResource( 8 )]
+[node name="StreetLight14" parent="map/StreetLights" index="6" instance=ExtResource( 8 )]
 position = Vector2( 10, -4340 )
 rotation = 3.14159
 
-[node name="StreetLight15" parent="map" index="10" instance=ExtResource( 8 )]
+[node name="StreetLight15" parent="map/StreetLights" index="7" instance=ExtResource( 8 )]
 position = Vector2( 4110, -4080 )
 rotation = 3.14159
 
-[node name="StreetLight16" parent="map" index="11" instance=ExtResource( 8 )]
+[node name="StreetLight16" parent="map/StreetLights" index="8" instance=ExtResource( 8 )]
 position = Vector2( 2060, -4110 )
 rotation = 1.57079
 
-[node name="StreetLight17" parent="map" index="12" instance=ExtResource( 8 )]
+[node name="StreetLight17" parent="map/StreetLights" index="9" instance=ExtResource( 8 )]
 position = Vector2( 1800, -2920 )
 rotation = 3.14159
 
-[node name="StreetLight18" parent="map" index="13" instance=ExtResource( 8 )]
+[node name="StreetLight18" parent="map/StreetLights" index="10" instance=ExtResource( 8 )]
 position = Vector2( 2030, -1550 )
 rotation = 1.57079
 
-[node name="StreetLight3" parent="map" index="14" instance=ExtResource( 8 )]
+[node name="StreetLight3" parent="map/StreetLights" index="11" instance=ExtResource( 8 )]
 position = Vector2( 4070, 30 )
 rotation = -1.57079
 
-[node name="StreetLight4" parent="map" index="15" instance=ExtResource( 8 )]
+[node name="StreetLight4" parent="map/StreetLights" index="12" instance=ExtResource( 8 )]
 position = Vector2( 3870, 30 )
 rotation = -1.57079
 
-[node name="StreetLight5" parent="map" index="16" instance=ExtResource( 8 )]
+[node name="StreetLight5" parent="map/StreetLights" index="13" instance=ExtResource( 8 )]
 position = Vector2( 4580, 30 )
 rotation = -1.57079
 
-[node name="StreetLight12" parent="map" index="17" instance=ExtResource( 8 )]
+[node name="StreetLight12" parent="map/StreetLights" index="14" instance=ExtResource( 8 )]
 position = Vector2( 4340, -240 )
 
-[node name="StreetLight13" parent="map" index="18" instance=ExtResource( 8 )]
+[node name="StreetLight13" parent="map/StreetLights" index="15" instance=ExtResource( 8 )]
 position = Vector2( 4110, -240 )
 rotation = 3.14159
 
-[node name="StreetLight6" parent="map" index="19" instance=ExtResource( 8 )]
+[node name="StreetLight6" parent="map/StreetLights" index="16" instance=ExtResource( 8 )]
 position = Vector2( 4380, 30 )
 rotation = -1.57079
 
-[node name="StreetLight10" parent="map" index="20" instance=ExtResource( 8 )]
+[node name="StreetLight10" parent="map/StreetLights" index="17" instance=ExtResource( 8 )]
 position = Vector2( 4072, 232 )
-rotation = -4.71238
+rotation = 1.57081
 
-[node name="StreetLight9" parent="map" index="21" instance=ExtResource( 8 )]
+[node name="StreetLight9" parent="map/StreetLights" index="18" instance=ExtResource( 8 )]
 position = Vector2( 3872, 232 )
-rotation = -4.71238
+rotation = 1.57081
 
-[node name="StreetLight8" parent="map" index="22" instance=ExtResource( 8 )]
+[node name="StreetLight8" parent="map/StreetLights" index="19" instance=ExtResource( 8 )]
 position = Vector2( 4582, 232 )
-rotation = -4.71238
+rotation = 1.57081
 
-[node name="StreetLight7" parent="map" index="23" instance=ExtResource( 8 )]
+[node name="StreetLight7" parent="map/StreetLights" index="20" instance=ExtResource( 8 )]
 position = Vector2( 4382, 232 )
-rotation = -4.71238
+rotation = 1.57081
 
-[node name="StreetLight11" parent="map" index="24" instance=ExtResource( 8 )]
+[node name="StreetLight11" parent="map/StreetLights" index="21" instance=ExtResource( 8 )]
 position = Vector2( 4220, 230 )
-rotation = -4.71238
+rotation = 1.57081
+
+[node name="MotionLights" type="Node2D" parent="map" index="4"]
+
+[node name="MotionSensor" parent="map/MotionLights" index="0" instance=ExtResource( 9 )]
+position = Vector2( 70, 0 )
 
 [node name="Seeker1" parent="PlayerSpawns" index="0"]
 position = Vector2( 90, 240 )
