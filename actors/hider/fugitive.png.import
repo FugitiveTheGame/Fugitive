@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/caster.png-2e6cddfef5c1c664957aa01d89b8d849.stex"
+path="res://.import/fugitive.png-23216b0a7861710ff723b4815c7d9c39.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://actors/test_wall/caster.png"
-dest_files=[ "res://.import/caster.png-2e6cddfef5c1c664957aa01d89b8d849.stex" ]
+source_file="res://actors/hider/fugitive.png"
+dest_files=[ "res://.import/fugitive.png-23216b0a7861710ff723b4815c7d9c39.stex" ]
 
 [params]
 
