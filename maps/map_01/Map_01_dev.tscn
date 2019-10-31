@@ -30,7 +30,6 @@ wait_time = 0.5
 wait_time = 0.5
 
 [node name="GameOverDialog" parent="UiLayer" index="1"]
-visible = false
 size_flags_horizontal = 1
 size_flags_vertical = 1
 

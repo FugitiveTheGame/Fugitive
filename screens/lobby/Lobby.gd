@@ -22,6 +22,7 @@ func _ready():
 	assert(Network.connect("player_updated", self, "player_updated") == OK)
 	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
+	assert(Network.connect("game_updated", self, "game_updated") == OK)
 	
 	update_player_counts()
 	
@@ -35,6 +36,35 @@ func _ready():
 	else:
 		# Returning to the lobby, allow new players to join
 		get_tree().network_peer.refuse_new_connections = false
+	
+	update_winner()
+	game_updated()
+
+class ScoreSorter:
+	static func sort(a, b):
+		if a.score() > b.score():
+			return true
+		return false
+
+func find_winner() -> PlayerLobbyData:
+	var playersByScore = []
+	
+	for player in Network.players.values():
+		playersByScore.push_back(player)
+	
+	playersByScore.sort_custom(ScoreSorter, 'sort')
+	
+	return playersByScore[0]
+
+func update_winner():
+	var winnerLabel := $MainPanel/OuterContainer/WinnerLabel
+	if Network.numGames > 0:
+		var winner = find_winner()
+		
+		winnerLabel.text = "Winning: %s" % [winner.name]
+		winnerLabel.show()
+	else:
+		winnerLabel.hide()
 
 func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
@@ -163,3 +193,7 @@ func _on_HelpButton_pressed():
 	var node = scene.instance()
 	add_child(node)
 	node.popup_centered()
+
+func game_updated():
+	var gameNumberLabel := $MainPanel/OuterContainer/GameNumberLabel
+	gameNumberLabel.text = "Game: %d" % (Network.numGames+1)

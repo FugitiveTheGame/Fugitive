@@ -37,34 +37,41 @@ text = "X"
 
 [node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer/HBoxContainer"]
 margin_left = 24.0
-margin_right = 369.0
+margin_right = 345.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
 
 [node name="UPNPButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_left = 373.0
-margin_right = 476.0
+margin_left = 349.0
+margin_right = 452.0
 margin_bottom = 52.0
 text = "Perform UPNP"
 
 [node name="HelpButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_left = 480.0
+margin_left = 456.0
 margin_right = 498.0
 margin_bottom = 52.0
-text = "?"
+text = "Help"
 
-[node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+[node name="GameNumberLabel" type="Label" parent="MainPanel/OuterContainer"]
 margin_top = 56.0
 margin_right = 498.0
-margin_bottom = 456.0
+margin_bottom = 70.0
+text = "Game Number: 1"
+align = 2
+
+[node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+margin_top = 74.0
+margin_right = 498.0
+margin_bottom = 438.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayersContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_right = 247.0
-margin_bottom = 400.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 
 [node name="PlayersTitle" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
@@ -90,13 +97,13 @@ align = 1
 [node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 54.0
 margin_right = 247.0
-margin_bottom = 400.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerList" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
 margin_right = 247.0
-margin_bottom = 346.0
+margin_bottom = 310.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 __meta__ = {
@@ -106,7 +113,7 @@ __meta__ = {
 [node name="OptionsContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_left = 251.0
 margin_right = 498.0
-margin_bottom = 400.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -128,6 +135,17 @@ margin_bottom = 56.0
 text = "My Neighborhood"
 items = [ "My Neighborhood", null, false, 0, null, "Straight Line", null, false, 1, null ]
 selected = 0
+
+[node name="WinnerLabel" type="Label" parent="MainPanel/OuterContainer"]
+margin_top = 442.0
+margin_right = 498.0
+margin_bottom = 456.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Current Winner: Adam"
+align = 1
+uppercase = true
 
 [node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
 margin_top = 460.0

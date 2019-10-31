@@ -3,6 +3,7 @@ extends Node
 signal player_updated
 signal new_player_registered
 signal player_removed
+signal game_updated
 
 const DEFAULT_IP := '127.0.0.1'
 const DEFAULT_PORT := 31400
@@ -12,6 +13,7 @@ enum PlayerType {Hider, Seeker, Unset = -1}
 
 var players = {}
 var playerName: String
+var numGames := 0
 
 onready var upnp = UPNP.new()
 
@@ -34,7 +36,7 @@ func disconnect_from_game():
 
 func broadcast_all_player_data():
 	# Only the network server can update everyone's player data
-	if get_tree().is_network_server():
+	if not get_tree().is_network_server():
 		return
 	
 	for player_id in players:
@@ -117,6 +119,8 @@ remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 	self.players[newPlayerId] = playerDataReal
 	rpc('on_new_player_client', newPlayerId, playerDataDTO)
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
+	
+	rpc('set_num_games', self.numGames)
 
 remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 	var playerDataReal := player_data_from_DTO(playerDataDTO)
@@ -126,12 +130,26 @@ remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 func on_server_disconnect():
 	reset_game()
 
+# Update all the clients with the server's state
+func broadcast_game_complete():
+	if not get_tree().is_network_server():
+		return
+	
+	broadcast_all_player_data()
+	
+	self.numGames += 1
+	rpc('set_num_games', self.numGames)
+
+remote func set_num_games(games: int):
+	self.numGames = games
+	emit_signal('game_updated')
+
 func reset_game():
 	get_tree().network_peer.close_connection()
 	# Cleanup all state related to the game session
 	self.players = {}
 	self.playerName = ""
-	self.playerStats = {}
+	self.numGames = 0
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
 	assert(get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn') == OK)

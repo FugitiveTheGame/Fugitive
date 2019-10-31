@@ -172,9 +172,6 @@ remotesync func end_game(seekersWon: bool):
 	
 	gameTimer.stop()
 	
-	#for child in players.get_children():
-	#	players.remove_child(child)
-	
 	if seekersWon:
 		self.winner = Network.PlayerType.Seeker
 		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Seekers win!"
@@ -189,7 +186,6 @@ remotesync func end_game(seekersWon: bool):
 	# Print stats for Seeker players
 	var seekers := get_tree().get_nodes_in_group(Groups.SEEKERS)
 	for seeker in seekers:
-		var playerLabel := Label.new()
 		var playerId = seeker.get_network_master()
 		var playerData = Network.players[playerId]
 		
@@ -221,6 +217,8 @@ remotesync func end_game(seekersWon: bool):
 	playerSummaryContainer.bbcode_text = summaryBbcode
 	
 	$UiLayer/GameOverDialog.popup_centered()
+	
+	Network.broadcast_game_complete()
 
 func _on_GracePeriodTimer_timeout():
 	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
