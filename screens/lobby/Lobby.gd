@@ -13,6 +13,8 @@ const MIN_PLAYERS = 3
 const MIN_SEEKERS = 2
 const MIN_HIDERS = 1
 const HIDER_TO_SEEKER_RATIO = 3
+const MAX_SEEKERS = 5
+const MAX_HIDERS = 10
 
 # Testing values:
 """
@@ -125,11 +127,29 @@ func update_player_counts():
 	var minSeekers : int = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
 	var minHiders : int = max(MIN_HIDERS, Network.players.size() - minSeekers)
 	
-	var numRandomSeekers : int = min(minSeekers, numRandom)
-	var numRandomHiders : int = min(minHiders, numRandom - numRandomSeekers)
+	var numRandomSeekers : int = min(minSeekers - numSeekers, numRandom)
+	if (numRandomSeekers < 0):
+		numRandomSeekers = 0
+	var numRandomHiders : int = numRandom - numRandomSeekers
+	if (numRandomHiders < 0):
+		numRandomHiders = 0
 	
 	seekerCountLabel.text = 'Seekers: ' + str(numSeekers + numRandomSeekers) + '/' + str(minSeekers)
 	hiderCountLabel.text = 'Hiders: ' + str(numHiders + numRandomHiders) + '/' + str(minHiders)
+	
+	if (numSeekers + numRandomSeekers > MAX_SEEKERS):
+		seekerCountLabel.add_color_override("font_color", Color.red)
+	elif (numSeekers + numRandomSeekers < MIN_SEEKERS):
+		seekerCountLabel.add_color_override("font_color", Color.red)
+	else:
+		seekerCountLabel.add_color_override("font_color", Color.white)
+		
+	if (numHiders + numRandomHiders > MAX_HIDERS):
+		hiderCountLabel.add_color_override("font_color", Color.red)
+	elif (numHiders + numRandomHiders < MIN_HIDERS):
+		hiderCountLabel.add_color_override("font_color", Color.red)
+	else:
+		hiderCountLabel.add_color_override("font_color", Color.white)
 
 func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
@@ -176,6 +196,10 @@ func validate_game() -> bool:
 	elif numSeekers < MIN_SEEKERS:
 		return false
 	elif numHiders < MIN_HIDERS:
+		return false
+	elif numSeekers > MAX_SEEKERS:
+		return false
+	elif numHiders > MAX_HIDERS:
 		return false
 	else:
 		return true
