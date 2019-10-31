@@ -28,7 +28,7 @@ func get_player_type() -> int:
 		1:
 			return Network.PlayerType.Seeker
 		_:
-			return Network.PlayerType.Hider
+			return Network.PlayerType.Random
 
 # warning-ignore:unused_argument
 func _on_OptionPlayerRole_item_selected(ID):

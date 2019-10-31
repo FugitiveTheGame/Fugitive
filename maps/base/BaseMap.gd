@@ -7,7 +7,7 @@ onready var gameTimer := $GameTimer
 onready var gameTimerLabel := $UiLayer/GameTimerLabel
 
 var gameOver : bool = false
-var winner : int = Network.PlayerType.Unset
+var winner : int = Network.PlayerType.Random
 var currentPlayer: Player
 
 var players_done = []

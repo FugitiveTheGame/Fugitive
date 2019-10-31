@@ -9,7 +9,7 @@ const DEFAULT_IP := '127.0.0.1'
 const DEFAULT_PORT := 31400
 const MAX_PLAYERS := 5
 
-enum PlayerType {Hider, Seeker, Unset = -1}
+enum PlayerType {Hider, Seeker, Random }
 
 var players = {}
 var playerName: String
