@@ -6,6 +6,9 @@ onready var serverIpEditText := $JoinGameDialog/CenterContainer/Verticle/ServerI
 var playerName: String = ""
 
 func _ready():
+	# Maps pause the game when they end, we need to re-enable them
+	get_tree().paused = false
+	
 	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
 	serverIpEditText.text = UserData.data.last_ip
 	

@@ -168,6 +168,7 @@ func checkWinConditions():
 		rpc('end_game', allHidersFrozen)
 
 remotesync func end_game(seekersWon: bool):
+	get_tree().paused = true
 	self.gameOver = true
 	
 	gameTimer.stop()
@@ -229,7 +230,12 @@ func _on_GracePeriodTimer_timeout():
 	$UiLayer/GraceTimerLabel.hide()
 
 func _on_BackToLobbyButton_pressed():
-	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+	# If the server goes back to lobby, bring everyone
+	if get_tree().is_network_server():
+		rpc('go_back_to_lobby')
+	# If just one person goes back to lobby, they can go and wait for the rest
+	else:
+		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
 
 func player_removed(player_id: int):
 	print('Removing player: %d' % player_id)
@@ -252,6 +258,9 @@ func _on_GameStartTimer_timeout():
 	currentPlayer.set_current_player()
 	
 	SignalManager.emit_game_start()
+
+remotesync func go_back_to_lobby():
+	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
 
 func _on_GameTimer_timeout():
 	if get_tree().is_network_server():
