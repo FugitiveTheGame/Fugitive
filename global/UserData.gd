@@ -14,6 +14,9 @@ static func get_default_data():
 	}
 	
 	return default
+
+func _ready():
+	load_data()
 	
 func add_to_stats(newStats: PlayerStats):
 	var stats := PlayerStats.new()

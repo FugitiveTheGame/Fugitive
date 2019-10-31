@@ -35,6 +35,17 @@ master func done_preconfiguring(playerIdDone):
 		rpc("post_configure_game")
 
 remotesync func post_configure_game():
+	
+	# Server determines if sensors are on or not
+	if get_tree().is_network_server():
+		var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
+		for sensor in sensors:
+			# 1 in 4 chance of being enabled
+			if Network.random.randi_range(0, 5) == 0:
+				sensor.set_enabled(true)
+			else:
+				sensor.set_enabled(false)
+	
 	get_tree().set_pause(false)
 	$PregameCamera.current = true
 	$UiLayer/GameStartLabel.show()

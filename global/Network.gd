@@ -27,6 +27,8 @@ func _ready():
 	
 	# Begin discovery asap
 	upnp.discover()
+	
+	random.seed = OS.get_unix_time()
 
 func get_current_player() -> PlayerLobbyData:
 	return players[get_current_player_id()]

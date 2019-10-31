@@ -114,7 +114,6 @@ text = "Lifetime Stats:"
 uppercase = true
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/StatsReadoutContainer"]
-margin_left = 10.0
 margin_top = 18.0
 margin_right = 242.0
 margin_bottom = 68.0
@@ -129,7 +128,7 @@ text = "Captures:"
 
 [node name="LabelCaptures" type="Label" parent="PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer"]
 margin_left = 65.0
-margin_right = 232.0
+margin_right = 242.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "0"
@@ -143,7 +142,7 @@ text = "Escapes:	"
 [node name="LabelEscapes" type="Label" parent="PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer"]
 margin_left = 65.0
 margin_top = 18.0
-margin_right = 232.0
+margin_right = 242.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 text = "0"
@@ -157,7 +156,7 @@ text = "Captured:"
 [node name="LabelCaptured" type="Label" parent="PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer"]
 margin_left = 65.0
 margin_top = 36.0
-margin_right = 232.0
+margin_right = 242.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 text = "0"

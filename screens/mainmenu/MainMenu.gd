@@ -35,9 +35,6 @@ func _ready():
 				_:
 					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
 	
-	# Load either the default data, or custom data
-	UserData.load_data()
-	
 	if (args.size() > 0):
 		assert(Network.join_game(playerName, serverIpEditText.text))
 	else:

@@ -39,7 +39,7 @@ shadow_filter = 3
 shadow_filter_smooth = 11.0
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( 0, 10 )
+position = Vector2( 0, 20 )
 enabled = true
 collision_mask = 5
 
