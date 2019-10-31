@@ -7,7 +7,7 @@ var current_visibility: float = 0.0 setget set_current_visibility
 func _get_player_group() -> String:
 	return Groups.HIDERS
 
-func _get_player_type() -> int:
+func _get_player_node_type() -> int:
 	return Network.PlayerType.Hider
 
 func set_current_player():
@@ -16,7 +16,7 @@ func set_current_player():
 
 func _on_Area2D_body_entered(body):
 	# Freeze tag! Unfreeze your friends!
-	if body is Player and body._get_player_type() == Network.PlayerType.Hider:
+	if body is Player and body._get_player_node_type() == Network.PlayerType.Hider:
 		if body.frozen:
 			# Only let the network server send out this message
 			if get_tree().is_network_server():
@@ -29,7 +29,7 @@ func set_current_visibility(percentVisible: float):
 	
 	# If we are a Seeker, use visibility to fade hider out
 	var currentPlayer = Network.get_current_player()
-	if (currentPlayer.type == Network.PlayerType.Seeker):
+	if (currentPlayer.assigned_type == Network.PlayerType.Seeker):
 		modulate.a = percentVisible
 
 func update_visibility(percentVisible: float):

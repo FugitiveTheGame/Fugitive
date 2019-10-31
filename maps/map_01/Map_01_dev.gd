@@ -11,7 +11,7 @@ func _ready():
 	if be_seeker:
 		$players/Seeker00.set_current_player()
 		$players/Seeker00.set_network_master(1)
-		playerData.type = Network.PlayerType.Seeker
+		playerData.assigned_type = Network.PlayerType.Seeker
 		currentPlayer = $players/Seeker00
 		
 		$players/Hider00.set_network_master(2)
@@ -20,7 +20,7 @@ func _ready():
 		
 		$players/Hider00.set_current_player()
 		$players/Hider00.set_network_master(1)
-		playerData.type = Network.PlayerType.Hider
+		playerData.assigned_type = Network.PlayerType.Hider
 		currentPlayer = $players/Hider00
 	
 	$players/Hider01.set_network_master(2)

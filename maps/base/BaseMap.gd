@@ -7,7 +7,7 @@ onready var gameTimer := $GameTimer
 onready var gameTimerLabel := $UiLayer/GameTimerLabel
 
 var gameOver : bool = false
-var winner : int = Network.PlayerType.Unset
+var winner : int = Network.PlayerType.Random
 var currentPlayer: Player
 
 var players_done = []
@@ -53,7 +53,7 @@ func create_players(newPlayers: Dictionary):
 		var player = newPlayers[player_id]
 		
 		var playerNode: Player
-		match player.type:
+		match player.assigned_type:
 			Network.PlayerType.Seeker:
 				playerNode = create_seeker(player_id, player, seekerSpawns.pop_front().global_position)
 			Network.PlayerType.Hider:
@@ -126,7 +126,7 @@ func checkForFoundHiders():
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
 	var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
 	
-	var curPlayerType = currentPlayer._get_player_type()
+	var curPlayerType = currentPlayer._get_player_node_type()
 	
 	# Process each hider, find if any have been seen
 	for hider in hiders:

@@ -17,7 +17,7 @@ var num_captures := 0
 func _get_player_group() -> String:
 	return Groups.SEEKERS
 
-func _get_player_type() -> int:
+func _get_player_node_type() -> int:
 	return Network.PlayerType.Seeker
 
 func _ready():

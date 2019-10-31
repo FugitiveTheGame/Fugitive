@@ -13,6 +13,7 @@ script = ExtResource( 3 )
 z_index = -1
 texture = ExtResource( 1 )
 color = Color( 0.87451, 0.835294, 0.227451, 1 )
+energy = 1.32
 shadow_enabled = true
 shadow_gradient_length = 1.3
 shadow_filter = 3
