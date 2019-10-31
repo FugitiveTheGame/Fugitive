@@ -77,12 +77,15 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
 	playerControl.set_player_id(playerId)
 	playerControl.set_player_name(playerData.name)
-	playerControl.set_player_type(playerData.type)
+	playerControl.set_player_lobby_type(playerData.lobby_type)
 	playerControl.set_player_stats(playerData.stats, playerData.score())
 	
 	# If this is me, update my local player data
 	if playerId == get_tree().get_network_unique_id():
-		Network.get_current_player().type = playerData.type
+		Network.get_current_player().lobby_type = playerData.lobby_type
+	
+	# Update assigned type for the player
+	Network.players[playerId].assigned_type = playerData.assigned_type
 	
 	update_player_counts()
 
@@ -93,9 +96,9 @@ func update_player_counts():
 		
 	for player_id in Network.players:
 		var player = Network.players[player_id]
-		if player.type == Network.PlayerType.Seeker:
+		if player.lobby_type == Network.PlayerType.Seeker:
 			numSeekers += 1
-		elif player.type == Network.PlayerType.Hider:
+		elif player.lobby_type == Network.PlayerType.Hider:
 			numHiders += 1
 		else:
 			numRandom += 1
@@ -115,7 +118,7 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerControl.set_name(str(playerId))
 	playerControl.set_player_id(playerId)
 	playerControl.set_player_name(playerData.name)
-	playerControl.set_player_type(playerData.type)
+	playerControl.set_player_lobby_type(playerData.lobby_type)
 	playerControl.set_player_stats(playerData.stats, playerData.score())
 	playerListControl.add_child(playerControl)
 	
@@ -142,9 +145,9 @@ func validate_game() -> bool:
 	var numHiders := 0
 	for player_id in Network.players:
 		var player = Network.players[player_id]
-		if player.type == Network.PlayerType.Seeker:
+		if player.lobby_type == Network.PlayerType.Seeker:
 			numSeekers += 1
-		elif player.type == Network.PlayerType.Hider:
+		elif player.lobby_type == Network.PlayerType.Hider:
 			numHiders += 1
 		else:
 			# If random, assume seeker allocation first, then hiders
@@ -209,7 +212,12 @@ func assign_random_players():
 	for player_id in Network.players.keys():
 		var player = Network.players[player_id]
 		
-		match player.type:
+		# By default, assign them to the type that they chose.
+		player.assigned_type = player.lobby_type
+		
+		# Set up random assignment info if they are random,
+		# and get an accurate count of assigned vs. unassigned users
+		match player.lobby_type:
 			Network.PlayerType.Seeker:
 				seekerCount = seekerCount + 1
 			Network.PlayerType.Hider:
@@ -224,18 +232,23 @@ func assign_random_players():
 				newRandomValue.assigned_role = Network.PlayerType.Hider
 				randomPlayerValues.append(newRandomValue)
 	
+	# Determine how many seekers to assign to randoms.  The rest will be hiders.
 	var seekersToSpawn := max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO) - seekerCount
 	
 	# sort the random players by their assigned seed, lowest first.
 	randomPlayerValues.sort_custom(PlayerValue, "sort")
-		
+	
+	# The lowest X random players will be seekers, the rest hiders.
 	for index in range(0, randomPlayerValues.size()):
 		if (index < seekersToSpawn):
-			Network.players[randomPlayerValues[index].player_id].type = Network.PlayerType.Seeker
+			Network.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Seeker
 		else:
-			Network.players[randomPlayerValues[index].player_id].type = Network.PlayerType.Hider
+			Network.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Hider
 		
-		Network.broadcast_set_player_type(randomPlayerValues[index].player_id, Network.players[randomPlayerValues[index].player_id].type)
+	# Now, update all clients' player assignments before we spawn them on the map.
+	for player_id in Network.players.keys():
+		var player = Network.players[player_id]
+		Network.broadcast_set_player_assigned_type(player_id, player.assigned_type)
 
 remotesync func startGame(map):
 	get_tree().change_scene(map)

@@ -18,10 +18,10 @@ func set_player_stats(stats, score):
 func get_player_name() -> String:
 	return $MainContainer/LabelPlayerName.text
 
-func set_player_type(playerType: int):
+func set_player_lobby_type(playerType: int):
 	$MainContainer/OptionPlayerRole.selected = playerType
 
-func get_player_type() -> int:
+func get_player_lobby_type() -> int:
 	match $MainContainer/OptionPlayerRole.get_selected_id():
 		0:
 			return Network.PlayerType.Hider
@@ -32,4 +32,4 @@ func get_player_type() -> int:
 
 # warning-ignore:unused_argument
 func _on_OptionPlayerRole_item_selected(ID):
-		Network.broadcast_set_player_type(self.playerId, self.get_player_type())
+		Network.broadcast_set_player_lobby_type(self.playerId, self.get_player_lobby_type())

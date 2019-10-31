@@ -49,11 +49,18 @@ remote func set_player_data(playerId: int, playerDto: Dictionary):
 	players[playerId] = playerData
 	emit_signal('player_updated', playerId, self.players[playerId])
 
-func broadcast_set_player_type(playerId: int, playerType: int):
-	rpc('set_player_type', playerId, playerType)
+func broadcast_set_player_lobby_type(playerId: int, playerType: int):
+	rpc('set_player_lobby_type', playerId, playerType)
 
-remotesync func set_player_type(playerId: int, playerType: int):
-	self.players[playerId].type = playerType
+remotesync func set_player_lobby_type(playerId: int, playerType: int):
+	self.players[playerId].lobby_type = playerType
+	emit_signal('player_updated', playerId, self.players[playerId])
+	
+func broadcast_set_player_assigned_type(playerId: int, playerType: int):
+	rpc('set_player_assigned_type', playerId, playerType)
+
+remotesync func set_player_assigned_type(playerId: int, playerType: int):
+	self.players[playerId].assigned_type = playerType
 	emit_signal('player_updated', playerId, self.players[playerId])
 
 func host_game(name: String) -> bool:
@@ -61,7 +68,7 @@ func host_game(name: String) -> bool:
 	
 	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
-	selfData.type = PlayerType.Seeker
+	selfData.lobby_type = PlayerType.Random
 	players[1] = selfData
 	
 	var peer = NetworkedMultiplayerENet.new()
@@ -100,7 +107,7 @@ func on_connected_to_server():
 	
 	var selfData = PlayerLobbyData.new()
 	selfData.name = playerName
-	selfData.type = PlayerType.Hider
+	selfData.lobby_type = PlayerType.Random
 	
 	# Send the new player to the server for distribution,
 	# await other player info
@@ -158,8 +165,9 @@ static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
 	var result := PlayerLobbyData.new()
 	result.name = dict.name
 	result.position = dict.position
-	result.type = dict.type
+	result.lobby_type = dict.lobby_type
 	result.stats = dict.stats
+	result.assigned_type = dict.assigned_type
 	return result
 
 func enableUpnp():
