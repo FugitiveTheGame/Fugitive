@@ -17,11 +17,6 @@ func _ready():
 	assert(get_tree().connect("connection_failed", self, "connection_failed") == OK)
 	assert(get_tree().connect("network_peer_disconnected", self, "network_peer_disconnected") == OK)
 	assert(get_tree().connect("server_disconnected", self, "server_disconnected") == OK)
-	serverIpEditText.text = UserData.data.last_ip
-	
-	playerName = UserData.data.user_name
-	$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
-	$GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
 	
 	var args := OS.get_cmdline_args()
 	print("Command Line args: %d" % [args.size()])
@@ -33,13 +28,24 @@ func _ready():
 			match keyValuePair[0]:
 				"--name":
 					playerName = keyValuePair[1]
+					# Also override the default file save path so each test user has its own settings.
+					UserData.file_name = 'user://user_data-%s.json' % playerName
 				"--ip":
 					serverIpEditText.text = keyValuePair[1]
 				_:
 					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
-					
-		$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+	
+	if (args.size() > 0):
 		assert(Network.join_game(playerName, serverIpEditText.text))
+	else:
+		serverIpEditText.text = UserData.data.last_ip
+		playerName = UserData.data.user_name
+		
+	$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+	$GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
+	$PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures.text = str(UserData.data.lifetime_stats.seeker_captures)
+	$PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes.text = str(UserData.data.lifetime_stats.hider_escapes)
+	$PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured.text = str(UserData.data.lifetime_stats.hider_captures)
 
 func _exit_tree():
 	# Save any user data that changed

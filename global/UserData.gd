@@ -2,20 +2,27 @@ extends Node
 
 const GAME_VERSION := '0.01'
 
-const file_name := 'user://user_data.json'
+var file_name := 'user://user_data.json'
 
 var data = get_default_data()
 
 static func get_default_data():
 	var default = {
 		user_name = '',
-		last_ip = Network.DEFAULT_IP
+		last_ip = Network.DEFAULT_IP,
+		lifetime_stats = PlayerStats.new().toDTO()
 	}
 	
 	return default
 
 func _ready():
 	load_data()
+	
+func add_to_stats(newStats: PlayerStats):
+	var stats := PlayerStats.new()
+	stats.fromDTO(self.data.lifetime_stats)
+	stats.addStats(newStats)
+	self.data.lifetime_stats = stats.toDTO()
 
 func load_data():
 	print('Loading user data...')

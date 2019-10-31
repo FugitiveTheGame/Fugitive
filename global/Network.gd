@@ -12,6 +12,8 @@ const MAX_PLAYERS := 15
 
 enum PlayerType {Hider, Seeker, Random }
 
+var random = RandomNumberGenerator.new()
+
 var players = {}
 var playerName: String
 var numGames := 0
@@ -25,6 +27,8 @@ func _ready():
 	
 	# Begin discovery asap
 	upnp.discover()
+	
+	random.seed = OS.get_unix_time()
 
 func get_current_player() -> PlayerLobbyData:
 	return players[get_current_player_id()]
@@ -46,7 +50,8 @@ func broadcast_all_player_data():
 		rpc('set_player_data', player_id, dto)
 
 remote func set_player_data(playerId: int, playerDto: Dictionary):
-	var playerData = player_data_from_DTO(playerDto)
+	var playerData = PlayerLobbyData.new()
+	playerData.fromDTO(playerDto)
 	players[playerId] = playerData
 	emit_signal('player_updated', playerId, self.players[playerId])
 
@@ -123,13 +128,15 @@ remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 		rpc_id(newPlayerId, 'on_new_player_client', playerId, existingPlayer.toDTO())
 	
 	# Register the new player and tell all the new clients about them
-	var playerDataReal := player_data_from_DTO(playerDataDTO)
+	var playerDataReal := PlayerLobbyData.new()
+	playerDataReal.fromDTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	rpc('on_new_player_client', newPlayerId, playerDataDTO)
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
 
 remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
-	var playerDataReal := player_data_from_DTO(playerDataDTO)
+	var playerDataReal := PlayerLobbyData.new()
+	playerDataReal.fromDTO(playerDataDTO)
 	self.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
 
@@ -180,15 +187,6 @@ func reset_game():
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
 	assert(get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn') == OK)
-
-static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
-	var result := PlayerLobbyData.new()
-	result.name = dict.name
-	result.position = dict.position
-	result.lobby_type = dict.lobby_type
-	result.stats = dict.stats
-	result.assigned_type = dict.assigned_type
-	return result
 
 func enable_upnp():
 	if upnp.get_device_count() > 0:

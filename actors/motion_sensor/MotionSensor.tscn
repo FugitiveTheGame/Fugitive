@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://actors/motion_sensor/MotionSensor.gd" type="Script" id=1]
+[ext_resource path="res://actors/motion_sensor/light.png" type="Texture" id=2]
+[ext_resource path="res://actors/motion_sensor/light.ogg" type="AudioStream" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 63.2073, 127.623 )
+
+[node name="MotionSensor" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="DebugRect" type="ColorRect" parent="."]
+visible = false
+margin_left = -10.0
+margin_right = 10.0
+margin_bottom = 20.0
+color = Color( 0.309804, 0.294118, 0.443137, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MotionSensorArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MotionSensorArea"]
+position = Vector2( 0, 128 )
+shape = SubResource( 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 0, 130 )
+enabled = false
+texture = ExtResource( 2 )
+energy = 1.5
+shadow_enabled = true
+shadow_gradient_length = 1.3
+shadow_filter = 3
+shadow_filter_smooth = 11.0
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 0, 20 )
+enabled = true
+collision_mask = 5
+
+[node name="AutoOffTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[node name="LightTriggerAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+max_distance = 1000.0
+[connection signal="body_entered" from="MotionSensorArea" to="." method="_on_MotionSensorArea_body_entered"]
+[connection signal="timeout" from="AutoOffTimer" to="." method="_on_AutoOffTimer_timeout"]

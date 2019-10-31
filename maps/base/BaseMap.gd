@@ -35,6 +35,17 @@ master func done_preconfiguring(playerIdDone):
 		rpc("post_configure_game")
 
 remotesync func post_configure_game():
+	
+	# Server determines if sensors are on or not
+	if get_tree().is_network_server():
+		var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
+		for sensor in sensors:
+			# 1 in 4 chance of being enabled
+			if Network.random.randi_range(0, 5) == 0:
+				sensor.set_enabled(true)
+			else:
+				sensor.set_enabled(false)
+	
 	get_tree().set_pause(false)
 	$PregameCamera.current = true
 	$UiLayer/GameStartLabel.show()
@@ -180,6 +191,9 @@ remotesync func end_game(seekersWon: bool):
 		self.winner = Network.PlayerType.Hider
 		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Fugitives win!"
 	
+	var currentPlayerId := Network.get_current_player_id()
+	var statsForCurrentPlayer := PlayerStats.new()
+	
 	# Seeker section label
 	var summaryBbcode: String
 	summaryBbcode = "[u]Cops:[/u]\n"
@@ -191,6 +205,10 @@ remotesync func end_game(seekersWon: bool):
 		var playerData = Network.players[playerId]
 		
 		playerData.stats.seeker_captures += seeker.num_captures
+		
+		if (playerId == currentPlayerId):
+			statsForCurrentPlayer.seeker_captures += seeker.num_captures
+		
 		summaryBbcode += "  %s - %d captures\n" % [playerData.name, seeker.num_captures]
 	
 	summaryBbcode += "\n\n"
@@ -202,20 +220,32 @@ remotesync func end_game(seekersWon: bool):
 	var hiders := get_tree().get_nodes_in_group(Groups.HIDERS)
 	for hider in hiders:
 		var playerId = hider.get_network_master()
-		var playerData = Network.players[playerId]
+		var playerData: PlayerLobbyData = Network.players[playerId]
 		
 		var statusText: String
 		if hider.frozen:
 			playerData.stats.hider_captures += 1
+			
+			if (playerId == currentPlayerId):
+				statsForCurrentPlayer.hider_captures += 1
+				
 			statusText = 'Captured'
 		else:
 			playerData.stats.hider_escapes += 1
+			
+			if (playerId == currentPlayerId):
+				statsForCurrentPlayer.hider_escapes += 1
+			
 			statusText = 'Escaped!'
 		
 		summaryBbcode += "  %s - [i]%s[/i]" % [playerData.name, statusText]
 	
 	var playerSummaryContainer = $UiLayer/GameOverDialog/VBoxContainer/PlayerSummary
 	playerSummaryContainer.bbcode_text = summaryBbcode
+	
+	# Save the stats for your own data
+	UserData.add_to_stats(statsForCurrentPlayer)
+	UserData.save_data()
 	
 	$UiLayer/GameOverDialog.popup_centered()
 	

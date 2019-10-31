@@ -15,11 +15,7 @@ var lobby_type: int
 var assigned_type: int
 
 # Various stats about this player.
-var stats = {
-	seeker_captures = 0,
-	hider_captures = 0,
-	hider_escapes = 0
-}
+var stats := PlayerStats.new()
 
 func _init():
 	self.name = ""
@@ -35,7 +31,15 @@ func toDTO() -> Dictionary:
 		name = self.name,
 		position = self.position,
 		lobby_type = self.lobby_type,
-		stats = self.stats,
+		stats = self.stats.toDTO(),
 		assigned_type = self.assigned_type
 	}
 	return result
+
+func fromDTO(dict: Dictionary):
+	self.name = dict.name
+	self.position = dict.position
+	self.lobby_type = dict.lobby_type
+	self.assigned_type = dict.assigned_type
+	self.stats = PlayerStats.new()
+	self.stats.fromDTO(dict.stats)

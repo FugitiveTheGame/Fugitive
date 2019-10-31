@@ -42,9 +42,6 @@ func process_hider(hider: Hider):
 	seeker_ray_caster.cast_to = look_vec
 	seeker_ray_caster.force_raycast_update()
 	
-	# Calculate the angle of this ray from the cetner of the Seeker's FOV
-	var look_angle = atan2(look_vec.y, look_vec.x)
-	
 	# Only if ray is colliding. If it's not, and we try to do logic,
 	# wierd stuff happens
 	if(seeker_ray_caster.is_colliding()):
@@ -54,6 +51,9 @@ func process_hider(hider: Hider):
 		if(bodySeen == hider):
 			# Distance between Hider and Seeker
 			var distance = global_position.distance_to(hider.global_position)
+			
+			# Calculate the angle of this ray from the cetner of the Seeker's FOV
+			var look_angle = atan2(look_vec.y, look_vec.x)
 			
 			# To be detected, the Hider must be inside the Seeker's FOV cone.
 			#
