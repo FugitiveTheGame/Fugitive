@@ -122,9 +122,9 @@ __meta__ = {
 }
 
 [node name="Verticle" type="VBoxContainer" parent="JoinGameDialog/CenterContainer"]
-margin_left = 47.0
+margin_left = 46.0
 margin_top = 11.0
-margin_right = 177.0
+margin_right = 176.0
 margin_bottom = 77.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
