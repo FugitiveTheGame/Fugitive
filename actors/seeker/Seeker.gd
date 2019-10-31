@@ -12,6 +12,8 @@ const MIN_VISION_DISTANCE := 800.0
 const MOVEMENT_VISIBILITY_PENALTY := 0.01
 const SPRINT_VISIBILITY_PENALTY := 0.75
 
+var num_captures := 0
+
 func _get_player_group() -> String:
 	return Groups.SEEKERS
 
@@ -27,6 +29,9 @@ func is_in_winzone(hider) -> bool:
 		if zone.overlaps_body(hider):
 			return true
 	return false
+
+remotesync func record_capture():
+	num_captures += 1
 
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the
@@ -62,6 +67,7 @@ func process_hider(hider: Hider):
 					# But only let the server actually dispatch this very important RPC
 					if not hider.frozen and get_tree().is_network_server():
 						hider.freeze()
+						rpc('record_capture')
 			
 			############################################
 			# Begin visibility calculations

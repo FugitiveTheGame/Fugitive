@@ -35,14 +35,13 @@ func _ready():
 	else:
 		# Returning to the lobby, allow new players to join
 		get_tree().network_peer.refuse_new_connections = false
-		
-		serverIpLabel.text = Network.get_external_ip()
 
 func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
-	playerControl.setPlayerId(playerId)
-	playerControl.setPlayerName(playerData.name)
+	playerControl.set_player_id(playerId)
+	playerControl.set_player_name(playerData.name)
 	playerControl.set_player_type(playerData.type)
+	playerControl.set_player_stats(playerData.stats, playerData.score())
 	
 	# If this is me, update my local player data
 	if playerId == get_tree().get_network_unique_id():
@@ -67,9 +66,10 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
 	var playerControl = scene.instance()
 	playerControl.set_name(str(playerId))
-	playerControl.setPlayerId(playerId)
-	playerControl.setPlayerName(playerData.name)
+	playerControl.set_player_id(playerId)
+	playerControl.set_player_name(playerData.name)
 	playerControl.set_player_type(playerData.type)
+	playerControl.set_player_stats(playerData.stats, playerData.score())
 	playerListControl.add_child(playerControl)
 	
 	update_player_counts()

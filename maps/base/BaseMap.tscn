@@ -106,38 +106,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GameOverDialog" type="PopupDialog" parent="UiLayer"]
-margin_right = 512.0
-margin_bottom = 128.0
-popup_exclusive = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/GameOverDialog"]
-margin_right = 512.0
-margin_bottom = 128.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="WinnerLabel" type="Label" parent="UiLayer/GameOverDialog/VBoxContainer"]
-margin_right = 512.0
-margin_bottom = 104.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 3 )
-text = "Seekers Win!"
-align = 1
-valign = 1
-
-[node name="BackToLobbyButton" type="Button" parent="UiLayer/GameOverDialog/VBoxContainer"]
-margin_top = 108.0
-margin_right = 512.0
-margin_bottom = 128.0
-text = "Back to Lobby"
-
 [node name="GameTimerLabel" type="Label" parent="UiLayer"]
 visible = false
 anchor_left = 1.0
@@ -167,6 +135,53 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GameOverDialog" type="WindowDialog" parent="UiLayer"]
+visible = true
+margin_right = 512.0
+margin_bottom = 256.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+popup_exclusive = true
+window_title = "Game Over"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/GameOverDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WinnerLabel" type="Label" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_right = 512.0
+margin_bottom = 52.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 3 )
+text = "Seekers Win!"
+align = 1
+valign = 1
+
+[node name="PlayerSummary" type="RichTextLabel" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_top = 56.0
+margin_right = 512.0
+margin_bottom = 232.0
+size_flags_vertical = 3
+bbcode_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackToLobbyButton" type="Button" parent="UiLayer/GameOverDialog/VBoxContainer"]
+margin_top = 236.0
+margin_right = 512.0
+margin_bottom = 256.0
+text = "Back to Lobby"
 
 [node name="RoadWalls" type="Node" parent="."]
 

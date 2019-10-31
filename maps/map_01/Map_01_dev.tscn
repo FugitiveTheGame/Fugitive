@@ -28,3 +28,24 @@ wait_time = 0.5
 
 [node name="GracePeriodTimer" parent="." index="6"]
 wait_time = 0.5
+
+[node name="GameOverDialog" parent="UiLayer" index="1"]
+visible = false
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="VBoxContainer" parent="UiLayer/GameOverDialog" index="0"]
+alignment = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UiLayer/GameOverDialog/VBoxContainer" index="1"]
+margin_top = 56.0
+margin_right = 512.0
+margin_bottom = 232.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSummaryContainer" type="VBoxContainer" parent="UiLayer/GameOverDialog/VBoxContainer/ScrollContainer" index="0"]
+margin_right = 512.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 3

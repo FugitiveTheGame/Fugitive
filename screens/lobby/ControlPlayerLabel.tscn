@@ -2,10 +2,9 @@
 
 [ext_resource path="res://screens/lobby/ControlPlayerLabel.gd" type="Script" id=1]
 
-[node name="Root" type="HBoxContainer"]
-margin_right = 230.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 196, 0 )
+[node name="Root" type="VBoxContainer"]
+margin_right = 196.0
+margin_bottom = 70.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource( 1 )
@@ -13,9 +12,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelPlayerName" type="Label" parent="."]
-margin_right = 150.0
-margin_bottom = 40.0
+[node name="MainContainer" type="HBoxContainer" parent="."]
+margin_right = 196.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 196, 0 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelPlayerName" type="Label" parent="MainContainer"]
+margin_right = 116.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Player Name"
@@ -25,11 +33,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OptionPlayerRole" type="OptionButton" parent="."]
-margin_left = 154.0
-margin_right = 230.0
-margin_bottom = 40.0
+[node name="OptionPlayerRole" type="OptionButton" parent="MainContainer"]
+margin_left = 120.0
+margin_right = 196.0
+margin_bottom = 20.0
 text = "Hider"
 items = [ "Hider", null, false, 0, null, "Seeker", null, false, 1, null ]
 selected = 0
-[connection signal="item_selected" from="OptionPlayerRole" to="." method="_on_OptionPlayerRole_item_selected"]
+
+[node name="StatsLabel" type="RichTextLabel" parent="."]
+margin_top = 24.0
+margin_right = 196.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_horizontal = 3
+size_flags_vertical = 0
+bbcode_enabled = true
+bbcode_text = "[color=green][b][u]Score[/u][/b][/color] %d - [i][color=blue]Cop[/color] %d [color=red]Fug[/color] %d[/i]"
+text = "Score %d - Cop %d Fug %d"
+scroll_active = false
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 48.0
+margin_right = 196.0
+margin_bottom = 52.0
+[connection signal="item_selected" from="MainContainer/OptionPlayerRole" to="MainContainer" method="_on_OptionPlayerRole_item_selected"]

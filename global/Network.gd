@@ -116,6 +116,7 @@ func reset_game():
 	# Cleanup all state related to the game session
 	self.players = {}
 	self.playerName = ""
+	self.playerStats = {}
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
 	assert(get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn') == OK)
@@ -125,13 +126,19 @@ static func player_data_from_DTO(dict: Dictionary) -> PlayerLobbyData:
 	result.name = dict.name
 	result.position = dict.position
 	result.type = dict.type
+	result.stats = dict.stats
 	return result
 
 func enableUpnp():
-	upnp.add_port_mapping(DEFAULT_PORT)
+	if upnp.get_device_count() > 0:
+		upnp.add_port_mapping(DEFAULT_PORT)
 
 func disableUpnp():
-	upnp.delete_port_mapping(DEFAULT_PORT)
+	if upnp.get_device_count() > 0:
+		upnp.delete_port_mapping(DEFAULT_PORT)
 
 func get_external_ip() -> String:
-	return upnp.query_external_address()
+	if upnp.get_device_count() > 0:
+		return upnp.query_external_address()
+	else:
+		return ''

@@ -172,8 +172,8 @@ remotesync func end_game(seekersWon: bool):
 	
 	gameTimer.stop()
 	
-	for child in players.get_children():
-		players.remove_child(child)
+	#for child in players.get_children():
+	#	players.remove_child(child)
 	
 	if seekersWon:
 		self.winner = Network.PlayerType.Seeker
@@ -181,6 +181,45 @@ remotesync func end_game(seekersWon: bool):
 	else:
 		self.winner = Network.PlayerType.Hider
 		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Hiders win!"
+	
+	# Seeker section label
+	var summaryBbcode: String
+	summaryBbcode = "[u]Cops:[/u]\n"
+	
+	# Print stats for Seeker players
+	var seekers := get_tree().get_nodes_in_group(Groups.SEEKERS)
+	for seeker in seekers:
+		var playerLabel := Label.new()
+		var playerId = seeker.get_network_master()
+		var playerData = Network.players[playerId]
+		
+		playerData.stats.seeker_captures += seeker.num_captures
+		summaryBbcode += "  %s - %d captures\n" % [playerData.name, seeker.num_captures]
+	
+	summaryBbcode += "\n\n"
+	
+	# Hider section label
+	summaryBbcode += "[u]Fugitives:[/u]\n"
+	
+	# Print stats for Hider players
+	var hiders := get_tree().get_nodes_in_group(Groups.HIDERS)
+	for hider in hiders:
+		var playerId = hider.get_network_master()
+		var playerData = Network.players[playerId]
+		
+		var statusText: String
+		if hider.frozen:
+			playerData.stats.hider_captures += 1
+			statusText = 'Captured'
+		else:
+			playerData.stats.hider_escapes += 1
+			statusText = 'Escaped!'
+		
+		summaryBbcode += "  %s - [i]%s[/i]" % [playerData.name, statusText]
+	
+	var playerSummaryContainer = $UiLayer/GameOverDialog/VBoxContainer/PlayerSummary
+	playerSummaryContainer.bbcode_text = summaryBbcode
+	
 	$UiLayer/GameOverDialog.popup_centered()
 
 func _on_GracePeriodTimer_timeout():
