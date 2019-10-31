@@ -22,7 +22,7 @@ __meta__ = {
 }
 
 [node name="LabelPlayerName" type="Label" parent="MainContainer"]
-margin_right = 116.0
+margin_right = 101.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -34,11 +34,11 @@ __meta__ = {
 }
 
 [node name="OptionPlayerRole" type="OptionButton" parent="MainContainer"]
-margin_left = 120.0
+margin_left = 105.0
 margin_right = 196.0
 margin_bottom = 20.0
-text = "Hider"
-items = [ "Hider", null, false, 0, null, "Seeker", null, false, 1, null ]
+text = "Fugitive"
+items = [ "Fugitive", null, false, 0, null, "Cop", null, false, 1, null ]
 selected = 0
 
 [node name="StatsLabel" type="RichTextLabel" parent="."]

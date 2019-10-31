@@ -104,7 +104,7 @@ func _process(delta: float):
 
 func handleGraceTimer():
 	if not gracePeriodTimer.is_stopped():
-		$UiLayer/GraceTimerLabel.text = "Seekers released in %d..." % self.gracePeriodTimer.time_left
+		$UiLayer/GraceTimerLabel.text = "Cops released in %d..." % self.gracePeriodTimer.time_left
 
 func updateStartTimer():
 	if not $GameStartTimer.is_stopped():
@@ -174,10 +174,10 @@ remotesync func end_game(seekersWon: bool):
 	
 	if seekersWon:
 		self.winner = Network.PlayerType.Seeker
-		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Seekers win!"
+		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Cops win!"
 	else:
 		self.winner = Network.PlayerType.Hider
-		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Hiders win!"
+		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Fugitives win!"
 	
 	# Seeker section label
 	var summaryBbcode: String
