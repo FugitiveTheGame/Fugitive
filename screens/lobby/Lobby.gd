@@ -190,9 +190,12 @@ func fetch_external_ip():
 	$HTTPRequest.request("https://api.ipify.org/?format=json")
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
-	var json = parse_json(body.get_string_from_utf8())
-	print('External IP: %s' % json.ip)
-	serverIpLabel.text = json.ip
+	if response_code == 200:
+		var json = parse_json(body.get_string_from_utf8())
+		print('External IP: %s' % json.ip)
+		serverIpLabel.text = json.ip
+	else:
+		print('Failed to get external IP')
 
 func _on_HelpButton_pressed():
 	var scene = preload("res://help/Help.tscn")
