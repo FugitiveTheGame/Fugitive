@@ -1,7 +1,6 @@
 [gd_scene format=2]
 
 [node name="HelpDialog" type="WindowDialog"]
-visible = true
 margin_right = 410.0
 margin_bottom = 290.0
 size_flags_horizontal = 3
@@ -25,16 +24,18 @@ bbcode_text = "[center][b]Welcome to Fugitive![/b][/center]
 [b]Honk Car horn:[/b] H
 [/indent]
 
+[u]Sprinting:[/u]
+A short burst of speed, you must stop moving completely to regenerate your stamina.
+
 [b][u]Goal of the game:[/u][/b]
 There are two teams in Fugitive:
 [indent]- Cops[/indent]
 [indent]- Fugitives[/indent]
 
-
-[b]As a Cop:[/b]
+[u][b]As a Cop:[/b][/u]
 Your goal is to capture the Fugitives by touching them. You will have the advantage of a car which you can use to patrol the map, and quickly pick up and drop off your fellow cops. But be careful to not leave your car unattended, after unlocking the car the first time anyone can get in and drive it.
 
-[b]As a Fugitive:[/b]
+[u][b]As a Fugitive:[/b][/u]
 Your goal is to get to the safe zone at the end of the map without being seen. If a Cop catches up to you and tags you, you'll be frozen in place. Another Fugitive can come and touch you to unfreeze you. If you make it to the safe zone, just sit tight, no one can freeze you in the safe zone!"
 text = "Welcome to Fugitive!
 
@@ -46,11 +47,13 @@ Enter or Leave Car: E
 Honk Car horn: H
 
 
+Sprinting:
+A short burst of speed, you must stop moving completely to regenerate your stamina.
+
 Goal of the game:
 There are two teams in Fugitive:
 	- Cops
 	- Fugitives
-
 
 As a Cop:
 Your goal is to capture the Fugitives by touching them. You will have the advantage of a car which you can use to patrol the map, and quickly pick up and drop off your fellow cops. But be careful to not leave your car unattended, after unlocking the car the first time anyone can get in and drive it.
