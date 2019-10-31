@@ -26,3 +26,14 @@
 Now your setup to use the Neighborhood tileset!
 
 Now paint your ground tiles first, then enclose the map with walls. And finally pepper in some features.
+
+## Other map making notes
+Make sure you spread out the spawn points so they are not on top of each other.
+
+Make sure to move the win zone area to where ever your win zone is.
+
+If you have a section of map where a Car could possibly escape the road, you can create an instance of the actor: RoadWall and block it off, for instance where parking lot tiles are.
+
+Other actors you maybe interested in:
+* Street Light
+* Motion Sensor
