@@ -8,7 +8,7 @@ signal receive_lobby_state
 
 const DEFAULT_IP := '127.0.0.1'
 const DEFAULT_PORT := 31400
-const MAX_PLAYERS := 5
+const MAX_PLAYERS := 15
 
 enum PlayerType {Hider, Seeker, Random }
 
