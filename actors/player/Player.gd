@@ -223,6 +223,6 @@ func _get_player_group() -> String:
 func has_group(group: String) -> bool:
 	return get_groups().has(group)
 
-func _get_player_type() -> int:
+func _get_player_node_type() -> int:
 	assert(false) # Sub class MUST override this
-	return Network.PlayerType.Unset
+	return Network.PlayerType.Random

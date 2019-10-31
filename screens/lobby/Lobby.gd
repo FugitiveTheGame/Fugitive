@@ -12,6 +12,7 @@ onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/Options
 const MIN_PLAYERS = 3
 const MIN_SEEKERS = 2
 const MIN_HIDERS = 1
+const HIDER_TO_SEEKER_RATIO = 3
 
 # Testing values:
 """
@@ -95,27 +96,40 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	var playerControl = playerListControl.get_node(str(playerId))
 	playerControl.set_player_id(playerId)
 	playerControl.set_player_name(playerData.name)
-	playerControl.set_player_type(playerData.type)
+	playerControl.set_player_lobby_type(playerData.lobby_type)
 	playerControl.set_player_stats(playerData.stats, playerData.score())
 	
 	# If this is me, update my local player data
 	if playerId == get_tree().get_network_unique_id():
-		Network.get_current_player().type = playerData.type
+		Network.get_current_player().lobby_type = playerData.lobby_type
+	
+	# Update assigned type for the player
+	Network.players[playerId].assigned_type = playerData.assigned_type
 	
 	update_player_counts()
 
 func update_player_counts():
 	var numSeekers := 0
 	var numHiders := 0
+	var numRandom := 0
+		
 	for player_id in Network.players:
 		var player = Network.players[player_id]
-		if player.type == Network.PlayerType.Seeker:
+		if player.lobby_type == Network.PlayerType.Seeker:
 			numSeekers += 1
-		elif player.type == Network.PlayerType.Hider:
+		elif player.lobby_type == Network.PlayerType.Hider:
 			numHiders += 1
+		else:
+			numRandom += 1
 	
-	seekerCountLabel.text = 'Seekers: ' + str(numSeekers) + '/' + str(MIN_SEEKERS)
-	hiderCountLabel.text = 'Hiders: ' + str(numHiders) + '/' + str(MIN_HIDERS)
+	var minSeekers : int = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
+	var minHiders : int = max(MIN_HIDERS, Network.players.size() - minSeekers)
+	
+	var numRandomSeekers : int = min(minSeekers, numRandom)
+	var numRandomHiders : int = min(minHiders, numRandom - numRandomSeekers)
+	
+	seekerCountLabel.text = 'Seekers: ' + str(numSeekers + numRandomSeekers) + '/' + str(minSeekers)
+	hiderCountLabel.text = 'Hiders: ' + str(numHiders + numRandomHiders) + '/' + str(minHiders)
 
 func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	var scene = load("res://screens/lobby/ControlPlayerLabel.tscn")
@@ -123,7 +137,7 @@ func new_player_registered(playerId: int, playerData: PlayerLobbyData):
 	playerControl.set_name(str(playerId))
 	playerControl.set_player_id(playerId)
 	playerControl.set_player_name(playerData.name)
-	playerControl.set_player_type(playerData.type)
+	playerControl.set_player_lobby_type(playerData.lobby_type)
 	playerControl.set_player_stats(playerData.stats, playerData.score())
 	playerListControl.add_child(playerControl)
 	
@@ -146,10 +160,16 @@ func validate_game() -> bool:
 	var numHiders := 0
 	for player_id in Network.players:
 		var player = Network.players[player_id]
-		if player.type == Network.PlayerType.Seeker:
+		if player.lobby_type == Network.PlayerType.Seeker:
 			numSeekers += 1
-		elif player.type == Network.PlayerType.Hider:
+		elif player.lobby_type == Network.PlayerType.Hider:
 			numHiders += 1
+		else:
+			# If random, assume seeker allocation first, then hiders
+			if (numSeekers < MIN_SEEKERS):
+				numSeekers += 1
+			else:
+				numHiders += 1
 	
 	if Network.players.size() < MIN_PLAYERS:
 		return false
@@ -176,6 +196,8 @@ func _on_StartGameButton_pressed():
 	
 	if not validate_game():
 		return
+		
+	assign_random_players()
 	
 	var selectedMap = getSelectedMap()
 	
@@ -184,6 +206,64 @@ func _on_StartGameButton_pressed():
 		if get_tree().is_network_server():
 			get_tree().network_peer.refuse_new_connections = true
 		rpc('startGame', selectedMap)
+		
+class PlayerValue:
+	var player_id: int
+	var value: float
+	var assigned_role: int
+	
+	static func sort(value1: PlayerValue, value2: PlayerValue):
+		return value1.value < value2.value
+
+func assign_random_players():
+	var seekerCount := 0
+	var hiderCount := 0
+	var randomCount := 0
+	
+	var randomPlayerValues := []
+	
+	# Find the count of players in assigned types vs. random,
+	# this will determine the mix of random assignments.
+	for player_id in Network.players.keys():
+		var player = Network.players[player_id]
+		
+		# By default, assign them to the type that they chose.
+		player.assigned_type = player.lobby_type
+		
+		# Set up random assignment info if they are random,
+		# and get an accurate count of assigned vs. unassigned users
+		match player.lobby_type:
+			Network.PlayerType.Seeker:
+				seekerCount = seekerCount + 1
+			Network.PlayerType.Hider:
+				hiderCount = hiderCount + 1
+			Network.PlayerType.Random:
+				randomCount = randomCount + 1
+				# Generate a random value for every random player.
+				var newRandomValue := PlayerValue.new()
+				newRandomValue.player_id = player_id
+				newRandomValue.value = rand_range(0, 100)
+				# By default, they will all be hiders.
+				newRandomValue.assigned_role = Network.PlayerType.Hider
+				randomPlayerValues.append(newRandomValue)
+	
+	# Determine how many seekers to assign to randoms.  The rest will be hiders.
+	var seekersToSpawn := max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO) - seekerCount
+	
+	# sort the random players by their assigned seed, lowest first.
+	randomPlayerValues.sort_custom(PlayerValue, "sort")
+	
+	# The lowest X random players will be seekers, the rest hiders.
+	for index in range(0, randomPlayerValues.size()):
+		if (index < seekersToSpawn):
+			Network.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Seeker
+		else:
+			Network.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Hider
+		
+	# Now, update all clients' player assignments before we spawn them on the map.
+	for player_id in Network.players.keys():
+		var player = Network.players[player_id]
+		Network.broadcast_set_player_assigned_type(player_id, player.assigned_type)
 
 remotesync func startGame(map):
 	get_tree().change_scene(map)

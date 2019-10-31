@@ -9,3 +9,4 @@ export_presets.cfg
 .mono/
 output/Fugitive.exe
 output/Fugitive.pck
+*.TMP

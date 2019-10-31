@@ -38,7 +38,7 @@ margin_left = 105.0
 margin_right = 196.0
 margin_bottom = 20.0
 text = "Fugitive"
-items = [ "Fugitive", null, false, 0, null, "Cop", null, false, 1, null ]
+items = [ "Fugitive", null, false, 0, null, "Cop", null, false, 1, null, "Random", null, false, 2, null ]
 selected = 0
 
 [node name="StatsLabel" type="RichTextLabel" parent="."]
