@@ -3,7 +3,7 @@
 [ext_resource path="res://actors/car/Car.gd" type="Script" id=1]
 [ext_resource path="res://actors/car/car_move.ogg" type="AudioStream" id=2]
 [ext_resource path="res://actors/car/carhorn.ogg" type="AudioStream" id=3]
-[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=4]
+[ext_resource path="res://actors/car/police_car.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -20,40 +20,6 @@ rotation = 1.57079
 scale = Vector2( 4, 4.8 )
 shape = SubResource( 1 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -40.0
-margin_top = -48.0
-margin_right = 40.0
-margin_bottom = 48.0
-rect_rotation = 89.9999
-rect_pivot_offset = Vector2( 40, 48 )
-color = Color( 0.345098, 0.341176, 1, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LeftHeadlight" type="ColorRect" parent="ColorRect"]
-margin_left = 10.3276
-margin_top = -5.56102
-margin_right = 19.3276
-margin_bottom = 7.43898
-rect_pivot_offset = Vector2( 4.22285, 6.78254 )
-color = Color( 0.811765, 0.737255, 0.25098, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RightHeadlight" type="ColorRect" parent="ColorRect"]
-margin_left = 55.5422
-margin_top = -7.50275
-margin_right = 64.5422
-margin_bottom = 5.49725
-rect_pivot_offset = Vector2( 4.22285, 6.78254 )
-color = Color( 0.811765, 0.737255, 0.25098, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="EnterArea" type="Area2D" parent="."]
 rotation = 1.57079
 collision_layer = 8
@@ -69,17 +35,6 @@ stream = ExtResource( 2 )
 stream = ExtResource( 3 )
 max_distance = 3000.0
 
-[node name="DebugLabel" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -36.5
-margin_top = -26.0
-margin_right = 36.5
-margin_bottom = 26.0
-custom_fonts/font = ExtResource( 4 )
-text = "Car"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Sprite" type="Sprite" parent="."]
+z_index = 1
+texture = ExtResource( 4 )
