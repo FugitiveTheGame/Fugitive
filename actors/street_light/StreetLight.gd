@@ -13,6 +13,7 @@ func process_hider(hider: Hider):
 	var lookVec = to_local(hider.global_position)
 	var distance = lookVec.length()
 	
+	# Quick reject, ray casting is slightly expensive, don't do it if we don't have to
 	if distance < illumination_range:
 		rayCaster.cast_to = lookVec
 		rayCaster.force_raycast_update()

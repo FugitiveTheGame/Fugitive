@@ -9,7 +9,7 @@
 script = ExtResource( 2 )
 
 [node name="StreetLight" parent="map" index="3"]
-position = Vector2( 480, 160 )
+rotation = 0.0
 
 [node name="Seeker00" parent="players" index="1" instance=ExtResource( 3 )]
 position = Vector2( 200, 390 )
