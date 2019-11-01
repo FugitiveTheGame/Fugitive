@@ -7,7 +7,7 @@ onready var enterArea := $EnterArea
 onready var drivingAudio := $DrivingAudio
 onready var hornAudio := $HornAudio
 
-export (int) var speed = 500
+export (int) var speed = 600
 export (float) var rotation_speed = 2.5
 export (bool) var locked := true
 

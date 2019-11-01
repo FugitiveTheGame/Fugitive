@@ -238,7 +238,7 @@ remotesync func end_game(seekersWon: bool):
 			
 			statusText = 'Escaped!'
 		
-		summaryBbcode += "  %s - [i]%s[/i]" % [playerData.name, statusText]
+		summaryBbcode += "  %s - [i]%s[/i]\n" % [playerData.name, statusText]
 	
 	var playerSummaryContainer = $UiLayer/GameOverDialog/VBoxContainer/PlayerSummary
 	playerSummaryContainer.bbcode_text = summaryBbcode

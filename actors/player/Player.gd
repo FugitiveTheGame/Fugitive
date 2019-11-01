@@ -2,7 +2,7 @@ extends KinematicBody2D
 class_name Player
 
 export (int) var speed = 200
-export (float) var rotation_speed = 1.5
+export (float) var rotation_speed = 4.0
 export (String) var playerName: String
 export (float) var max_stamina = 100.0
 export (float) var stamina_depletion_rate = 100.0

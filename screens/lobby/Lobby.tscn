@@ -6,8 +6,10 @@
 [node name="LobbyRoot" type="CenterContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 2.10527
-margin_bottom = 2.10529
+margin_left = 3.25806
+margin_top = 3.73427
+margin_right = 3.25806
+margin_bottom = 3.73425
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
