@@ -24,6 +24,7 @@ const MIN_HIDERS = 1
 """
 
 func _ready():
+	randomize()
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
 	
