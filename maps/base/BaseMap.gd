@@ -48,7 +48,16 @@ remotesync func post_configure_game():
 	
 	get_tree().set_pause(false)
 	$PregameCamera.current = true
+	
 	$UiLayer/GameStartLabel.show()
+	
+	match currentPlayer._get_player_node_type():
+		Network.PlayerType.Seeker:
+			$UiLayer/PregameTeamLabel.text = 'You are a Cop'
+		Network.PlayerType.Hider:
+			$UiLayer/PregameTeamLabel.text = 'You are a Fugitive'
+	
+	$UiLayer/PregameTeamLabel.show()
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
@@ -278,6 +287,7 @@ func player_removed(player_id: int):
 
 func _on_GameStartTimer_timeout():
 	$UiLayer/GameStartLabel.hide()
+	$UiLayer/PregameTeamLabel.hide()
 	
 	gameTimer.start()
 	gameTimerLabel.show()

@@ -137,6 +137,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PregameTeamLabel" type="Label" parent="UiLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -193.0
+margin_top = -52.0
+margin_right = 193.0
+custom_fonts/font = ExtResource( 3 )
+text = "You are a Fugitive"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="GameOverDialog" type="WindowDialog" parent="UiLayer"]
 pause_mode = 2
 margin_right = 512.0
