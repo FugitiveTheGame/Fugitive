@@ -6,7 +6,7 @@
 [ext_resource path="res://maps/base/seeker_release.ogg" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 130.245, 470.83 )
+extents = Vector2( 632.743, 735.971 )
 
 [node name="base" type="Node2D"]
 script = ExtResource( 1 )
