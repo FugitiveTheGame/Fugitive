@@ -1,4 +1,4 @@
-extends "res://maps/map_01/Map_01.gd"
+extends "res://maps/base/BaseMap.gd"
 
 func _ready():
 	#._ready() # We want to override ready and NOT call the base impl!

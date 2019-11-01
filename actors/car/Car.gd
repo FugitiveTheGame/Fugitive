@@ -100,6 +100,9 @@ func get_in_car(player) -> bool:
 				passengers.push_back(player)
 				success = true
 	
+	if success:
+		$DoorAudio.play()
+	
 	return success
 
 func get_out_of_car(player):
@@ -114,6 +117,10 @@ func get_out_of_car(player):
 		success = true
 	else:
 		success = false
+	
+	if success:
+		$DoorAudio.play()
+	
 	return success
 
 func is_moving() -> bool:

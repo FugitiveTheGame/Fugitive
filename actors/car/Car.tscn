@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://actors/car/Car.gd" type="Script" id=1]
 [ext_resource path="res://actors/car/car_move.ogg" type="AudioStream" id=2]
-[ext_resource path="res://actors/car/carhorn.ogg" type="AudioStream" id=3]
+[ext_resource path="res://actors/car/car_door.ogg" type="AudioStream" id=3]
 [ext_resource path="res://actors/car/police_car.png" type="Texture" id=4]
+[ext_resource path="res://actors/car/car_horn.ogg" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -32,8 +33,11 @@ shape = SubResource( 2 )
 stream = ExtResource( 2 )
 
 [node name="HornAudio" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource( 5 )
 max_distance = 3000.0
+
+[node name="DoorAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 z_index = 1

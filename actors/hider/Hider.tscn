@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://actors/hider/Hider.gd" type="Script" id=1]
 [ext_resource path="res://actors/player/player_move.ogg" type="AudioStream" id=2]
+[ext_resource path="res://actors/hider/freeze.ogg" type="AudioStream" id=3]
+[ext_resource path="res://actors/hider/fugitive.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 21.1303, 20 )
@@ -45,6 +47,10 @@ zoom = Vector2( 1.5, 1.5 )
 stream = ExtResource( 2 )
 max_distance = 500.0
 
+[node name="FreezeAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+max_distance = 1000.0
+
 [node name="PlayerNameLabel" type="Label" parent="."]
 margin_left = -50.0
 margin_top = 22.0
@@ -87,4 +93,11 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0.463293, 0.463295 )
+rotation = -1.57079
+scale = Vector2( 0.623576, 0.623576 )
+texture = ExtResource( 4 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

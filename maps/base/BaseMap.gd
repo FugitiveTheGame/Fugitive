@@ -258,6 +258,7 @@ func _on_GracePeriodTimer_timeout():
 		seeker.unfreeze()
 	
 	$UiLayer/GraceTimerLabel.hide()
+	$SeekerReleaseAudio.play()
 
 func _on_BackToLobbyButton_pressed():
 	# If the server goes back to lobby, bring everyone

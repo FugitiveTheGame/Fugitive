@@ -24,6 +24,7 @@ const MIN_HIDERS = 1
 """
 
 func _ready():
+	randomize()
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
 	
@@ -210,6 +211,8 @@ func getSelectedMap() -> String:
 			return 'res://maps/map_01/Map_01.tscn'
 		1:
 			return 'res://maps/map_02/Map_02.tscn'
+		25:
+			return 'res://maps/map_breakin/Map_breakin.tscn'
 		_:
 			return 'ERROR'
 
