@@ -135,8 +135,8 @@ func update_player_counts():
 	if (numRandomHiders < 0):
 		numRandomHiders = 0
 	
-	seekerCountLabel.text = 'Seekers: %d (min: %d, max: %d)' % [(numSeekers + numRandomSeekers), MIN_SEEKERS, MAX_SEEKERS]
-	hiderCountLabel.text = 'Hiders: %d (min: %d, max: %d)' % [(numHiders + numRandomHiders), MIN_HIDERS, MAX_HIDERS]
+	seekerCountLabel.text = 'Cops: %d (min: %d, max: %d)' % [(numSeekers + numRandomSeekers), MIN_SEEKERS, MAX_SEEKERS]
+	hiderCountLabel.text = 'Fugitives: %d (min: %d, max: %d)' % [(numHiders + numRandomHiders), MIN_HIDERS, MAX_HIDERS]
 	
 	if (numSeekers + numRandomSeekers > MAX_SEEKERS):
 		seekerCountLabel.add_color_override("font_color", Color.red)

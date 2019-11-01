@@ -89,14 +89,14 @@ text = "Players:"
 margin_top = 18.0
 margin_right = 243.0
 margin_bottom = 32.0
-text = "Seekers: 0/2"
+text = "Cops: %d (min: %d, max: %d)"
 align = 1
 
 [node name="HidersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 36.0
 margin_right = 243.0
 margin_bottom = 50.0
-text = "Hiders: 0/4"
+text = "Fugitives: %d (min: %d, max: %d)"
 align = 1
 
 [node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
