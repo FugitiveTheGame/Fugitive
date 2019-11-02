@@ -5,46 +5,17 @@
 [ext_resource path="res://actors/seeker/Seeker.tscn" type="PackedScene" id=3]
 [ext_resource path="res://actors/hider/Hider.tscn" type="PackedScene" id=4]
 
-[node name="base" instance=ExtResource( 1 )]
+[node name="base" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="Seeker00" parent="players" index="1" instance=ExtResource( 3 )]
-position = Vector2( 200, 390 )
+position = Vector2( -104.024, 270.748 )
 playerName = "Adam"
 
 [node name="Hider00" parent="players" index="2" instance=ExtResource( 4 )]
-position = Vector2( 500, 470 )
+position = Vector2( 360.523, 243.674 )
 playerName = "Alex"
 
 [node name="Hider01" parent="players" index="3" instance=ExtResource( 4 )]
-position = Vector2( 407.692, 229.711 )
+position = Vector2( 343.423, 501.597 )
 playerName = "Stacy"
-
-[node name="GameStartTimer" parent="." index="5"]
-wait_time = 0.5
-
-[node name="GracePeriodTimer" parent="." index="6"]
-wait_time = 0.5
-
-[node name="GameOverDialog" parent="UiLayer" index="4"]
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="VBoxContainer" parent="UiLayer/GameOverDialog" index="1"]
-alignment = 0
-
-[node name="ScrollContainer" type="ScrollContainer" parent="UiLayer/GameOverDialog/VBoxContainer" index="1"]
-margin_top = 56.0
-margin_right = 512.0
-margin_bottom = 232.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PlayerSummaryContainer" type="VBoxContainer" parent="UiLayer/GameOverDialog/VBoxContainer/ScrollContainer" index="0"]
-margin_right = 512.0
-margin_bottom = 176.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SeekerReleaseAudio" parent="." index="11"]
-volume_db = 0.0

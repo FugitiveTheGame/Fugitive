@@ -1,7 +1,6 @@
 extends Player
 class_name Hider
 
-onready var visibilityBar := $VisibilityBar
 var current_visibility: float = 0.0 setget set_current_visibility
 
 func _get_player_group() -> String:
@@ -9,10 +8,6 @@ func _get_player_group() -> String:
 
 func _get_player_node_type() -> int:
 	return Network.PlayerType.Hider
-
-func set_current_player():
-	.set_current_player()
-	visibilityBar.show()
 
 func _frozen():
 	$FreezeAudio.play()
@@ -30,8 +25,6 @@ func _on_Area2D_body_entered(body):
 
 func set_current_visibility(percentVisible: float):
 	current_visibility = percentVisible
-	
-	visibilityBar.value = (percentVisible * visibilityBar.max_value)
 	
 	# If we are a Seeker, use visibility to fade hider out
 	var currentPlayer = Network.get_current_player()

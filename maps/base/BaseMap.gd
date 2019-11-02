@@ -4,7 +4,11 @@ onready var players := $players
 onready var gracePeriodTimer := $GracePeriodTimer
 onready var winZone : Area2D = $WinZone
 onready var gameTimer := $GameTimer
-onready var gameTimerLabel := $UiLayer/GameTimerLabel
+onready var gameTimerLabel := $UiLayer/PlayerHud/GameTimerLabel
+onready var playerHud := $UiLayer/PlayerHud
+onready var staminaBar := $UiLayer/PlayerHud/StaminaContainer/HBoxContainer/StaminaBar
+onready var visibilityBar := $UiLayer/PlayerHud/VisibilityContainer/HBoxContainer/VisibilityBar
+onready var visibilityContainer := $UiLayer/PlayerHud/VisibilityContainer
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Random
@@ -17,8 +21,14 @@ func _ready():
 	pre_configure_game()
 
 func pre_configure_game():
+	playerHud.hide()
+	
 	get_tree().set_pause(true)
 	create_players(Network.players)
+	
+	# Configure the HUD for this player
+	staminaBar.max_value = currentPlayer.max_stamina
+	
 	rpc_id(1, "done_preconfiguring", get_tree().get_network_unique_id())
 
 remotesync func done_preconfiguring(playerIdDone):
@@ -121,6 +131,13 @@ func _process(delta: float):
 		updateGameTimer()
 		updateStartTimer()
 		handleGraceTimer()
+		updatePlayerHud()
+
+func updatePlayerHud():
+	staminaBar.value = currentPlayer.stamina
+	
+	if currentPlayer._get_player_node_type() == Network.PlayerType.Hider:
+		visibilityBar.value = currentPlayer.current_visibility * 100.0
 
 func handleGraceTimer():
 	if not gracePeriodTimer.is_stopped():
@@ -289,8 +306,13 @@ func _on_GameStartTimer_timeout():
 	$UiLayer/GameStartLabel.hide()
 	$UiLayer/PregameTeamLabel.hide()
 	
+	playerHud.show()
+	if currentPlayer._get_player_node_type() == Network.PlayerType.Hider:
+		visibilityContainer.show()
+	else:
+		visibilityContainer.hide()
+	
 	gameTimer.start()
-	gameTimerLabel.show()
 	updateGameTimer()
 	
 	gracePeriodTimer.start()

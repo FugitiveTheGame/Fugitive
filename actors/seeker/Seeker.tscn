@@ -68,13 +68,3 @@ text = "Player Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="StaminaBar" type="ProgressBar" parent="."]
-margin_left = -16.5968
-margin_top = 62.5767
-margin_right = 16.4032
-margin_bottom = 76.5767
-percent_visible = false
-__meta__ = {
-"_edit_use_anchors_": false
-}

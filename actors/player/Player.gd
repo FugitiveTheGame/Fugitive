@@ -12,7 +12,6 @@ export (float) var sprint_speed = 400.0
 onready var camera := $Camera as Camera2D
 onready var footStepAudio := $FootStepAudio as AudioStreamPlayer2D
 onready var playerNameLabel := $PlayerNameLabel as Label
-onready var staminaBar := $StaminaBar as ProgressBar
 onready var playerCollisionShape := $Collision as CollisionShape2D
 
 onready var playersNode = get_tree().get_root().get_node("base/players")
@@ -35,7 +34,6 @@ func _ready():
 	set_process_input(true)
 	
 	stamina = max_stamina
-	staminaBar.max_value = max_stamina
 	playerNameLabel.text = playerName
 
 func _enter_tree():
@@ -111,10 +109,6 @@ func find_car_inrange():
 			break
 	return nearest_car
 
-# warning-ignore:unused_argument
-func _process(delta: float):
-	staminaBar.value = stamina
-
 # Returns the ammount to rotate by
 func get_input(delta: float) -> float:
 	var new_rotation := 0.0
@@ -189,7 +183,6 @@ func is_moving() -> bool:
 
 func set_current_player():
 	camera.current = true
-	staminaBar.show()
 
 # Only get's called on server
 remotesync func try_get_in_car(car_path: NodePath):

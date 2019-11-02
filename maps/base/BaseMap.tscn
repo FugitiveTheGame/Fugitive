@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://maps/base/BaseMap.gd" type="Script" id=1]
 [ext_resource path="res://actors/spawn_point/spawn_point.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://maps/base/seeker_release.ogg" type="AudioStream" id=4]
+[ext_resource path="res://maps/base/ic_stamina.png" type="Texture" id=5]
+[ext_resource path="res://maps/base/ic_visibility.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 142.869, 392.313 )
@@ -107,28 +109,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GameTimerLabel" type="Label" parent="UiLayer"]
-visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -14.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="GameStartLabel" type="Label" parent="UiLayer"]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -131.0
-margin_top = -26.0
-margin_right = 131.0
-margin_bottom = 26.0
+anchor_right = 1.0
+margin_bottom = 52.0
 custom_fonts/font = ExtResource( 3 )
 text = "Starting in 5"
 align = 1
@@ -139,15 +123,13 @@ __meta__ = {
 
 [node name="PregameTeamLabel" type="Label" parent="UiLayer"]
 visible = false
-anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -193.0
 margin_top = -52.0
-margin_right = 193.0
 custom_fonts/font = ExtResource( 3 )
 text = "You are a Fugitive"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -198,6 +180,101 @@ margin_top = 236.0
 margin_right = 512.0
 margin_bottom = 256.0
 text = "Back to Lobby"
+
+[node name="PlayerHud" type="Control" parent="UiLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaminaContainer" type="Control" parent="UiLayer/PlayerHud"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = -16.0
+margin_right = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/PlayerHud/StaminaContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UiLayer/PlayerHud/StaminaContainer/HBoxContainer"]
+margin_right = 16.0
+margin_bottom = 16.0
+texture = ExtResource( 5 )
+
+[node name="StaminaBar" type="ProgressBar" parent="UiLayer/PlayerHud/StaminaContainer/HBoxContainer"]
+margin_left = 20.0
+margin_right = 128.0
+margin_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VisibilityContainer" type="Control" parent="UiLayer/PlayerHud"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -16.0
+margin_right = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/PlayerHud/VisibilityContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UiLayer/PlayerHud/VisibilityContainer/HBoxContainer"]
+margin_right = 16.0
+margin_bottom = 16.0
+texture = ExtResource( 6 )
+
+[node name="VisibilityBar" type="ProgressBar" parent="UiLayer/PlayerHud/VisibilityContainer/HBoxContainer"]
+margin_left = 20.0
+margin_right = 128.0
+margin_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameTimerLabel" type="Label" parent="UiLayer/PlayerHud"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -14.0
+text = "0:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RoadWalls" type="Node" parent="."]
 
