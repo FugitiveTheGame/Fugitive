@@ -90,7 +90,7 @@ func get_in_car(player) -> bool:
 			driver = player
 			# Unlock the car once the first Seeker gets in
 			if locked:
-				rpc('unlock') 
+				rpc('unlock')
 			rpc('new_driver', driver.get_network_master())
 			success = true
 		elif passengers.size() < MAX_PASSENGERS:

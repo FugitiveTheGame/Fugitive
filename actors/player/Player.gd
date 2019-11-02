@@ -93,7 +93,8 @@ func _input(event):
 		if self.car == null:
 			var new_car = find_car_inrange()
 			if new_car != null:
-				rpc('try_get_in_car', new_car.get_path())
+				# Tell the server you want to get into the car
+				rpc_id(1, 'try_get_in_car', new_car.get_path())
 			else:
 				print('Nothing to use')
 		elif not self.car.is_moving():
@@ -190,12 +191,23 @@ func set_current_player():
 	camera.current = true
 	staminaBar.show()
 
+# Only get's called on server
 remotesync func try_get_in_car(car_path: NodePath):
 	var new_car = get_tree().get_root().get_node(car_path)
+	# If server says you got in the car, tell everyone else about it
 	if new_car.get_in_car(self):
-		on_car_enter(new_car)
+		rpc('do_get_in_car', car_path)
+		self.on_car_enter(new_car)
 	else:
 		print('Could not get into the Car')
+
+# Every other client now gets in the car
+remote func do_get_in_car(car_path: NodePath):
+	print('Server says get in car!')
+	var new_car = get_tree().get_root().get_node(car_path)
+	if not new_car.get_in_car(self):
+		print('ERROR: Could not get into the Car, server told us to, this is goint to be a problem!')
+	on_car_enter(new_car)
 
 func on_car_enter(newCar):
 	print('Enter Car')
