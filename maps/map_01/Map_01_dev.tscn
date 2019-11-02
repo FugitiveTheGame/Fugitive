@@ -19,3 +19,6 @@ playerName = "Alex"
 [node name="Hider01" parent="players" index="3" instance=ExtResource( 4 )]
 position = Vector2( 343.423, 501.597 )
 playerName = "Stacy"
+
+[node name="GameStartTimer" parent="." index="5"]
+wait_time = 0.5
