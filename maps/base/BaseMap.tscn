@@ -276,6 +276,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SafeZoneLabel" type="Label" parent="UiLayer/PlayerHud"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -54.0
+margin_right = 54.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 3 )
+text = "Safe!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RoadWalls" type="Node" parent="."]
 
 [node name="PregameCamera" type="Camera2D" parent="."]

@@ -9,6 +9,7 @@ onready var playerHud := $UiLayer/PlayerHud
 onready var staminaBar := $UiLayer/PlayerHud/StaminaContainer/HBoxContainer/StaminaBar
 onready var visibilityBar := $UiLayer/PlayerHud/VisibilityContainer/HBoxContainer/VisibilityBar
 onready var visibilityContainer := $UiLayer/PlayerHud/VisibilityContainer
+onready var safeZoneLabel := $UiLayer/PlayerHud/SafeZoneLabel
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Random
@@ -45,7 +46,6 @@ remotesync func done_preconfiguring(playerIdDone):
 		rpc("post_configure_game")
 
 remotesync func post_configure_game():
-	
 	# Server determines if sensors are on or not
 	if get_tree().is_network_server():
 		var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
@@ -138,6 +138,13 @@ func updatePlayerHud():
 	
 	if currentPlayer._get_player_node_type() == Network.PlayerType.Hider:
 		visibilityBar.value = currentPlayer.current_visibility * 100.0
+		
+		var safeLabelShowing = safeZoneLabel.is_visible_in_tree()
+		if winZone.overlaps_body(currentPlayer):
+			if not safeLabelShowing:
+				safeZoneLabel.show()
+		elif safeLabelShowing:
+			safeZoneLabel.hide()
 
 func handleGraceTimer():
 	if not gracePeriodTimer.is_stopped():
