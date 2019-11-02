@@ -23,6 +23,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 margin_left = -20.0
 margin_top = -20.0
 margin_right = 20.0
@@ -95,7 +96,6 @@ collision_mask = 4
 shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
 position = Vector2( 0.463293, 0.463295 )
 rotation = -1.57079
 scale = Vector2( 0.623576, 0.623576 )
