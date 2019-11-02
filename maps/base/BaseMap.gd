@@ -19,9 +19,9 @@ func _ready():
 func pre_configure_game():
 	get_tree().set_pause(true)
 	create_players(Network.players)
-	rpc("done_preconfiguring", get_tree().get_network_unique_id())
+	rpc_id(1, "done_preconfiguring", get_tree().get_network_unique_id())
 
-master func done_preconfiguring(playerIdDone):
+remotesync func done_preconfiguring(playerIdDone):
 	if not get_tree().is_network_server():
 		return
 
