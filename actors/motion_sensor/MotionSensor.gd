@@ -24,7 +24,7 @@ remotesync func on_set_enabled(isOn: bool):
 	# This prevents unnecessary processing each tick
 	if is_turned_on:
 		add_to_group(Groups.LIGHTS)
-	else:
+	elif get_groups().has(Groups.LIGHTS):
 		remove_from_group(Groups.LIGHTS)
 
 func _on_MotionSensorArea_body_entered(body):
