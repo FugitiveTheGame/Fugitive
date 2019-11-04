@@ -43,7 +43,7 @@ margin_bottom = 30.0
 color = Color( 0.941176, 0.490196, 0.054902, 1 )
 
 [node name="Camera" type="Camera2D" parent="."]
-zoom = Vector2( 1.5, 1.5 )
+zoom = Vector2( 1.75, 1.75 )
 
 [node name="FootStepAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )
