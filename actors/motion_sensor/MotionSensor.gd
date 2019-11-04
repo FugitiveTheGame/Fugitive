@@ -12,7 +12,6 @@ onready var rayCaster := $RayCast2D
 var is_turned_on := true
 
 func _ready():
-	add_to_group(Groups.LIGHTS)
 	add_to_group(Groups.MOTION_SENSORS)
 
 func set_enabled(isOn: bool):
@@ -21,6 +20,12 @@ func set_enabled(isOn: bool):
 remotesync func on_set_enabled(isOn: bool):
 	#print('Sensor Enabled: ' + str(isOn))
 	is_turned_on = isOn
+	# Only add us to LIGHTS if we are actually enabled
+	# This prevents unnecessary processing each tick
+	if is_turned_on:
+		add_to_group(Groups.LIGHTS)
+	else:
+		remove_from_group(Groups.LIGHTS)
 
 func _on_MotionSensorArea_body_entered(body):
 	if is_turned_on and not $Light2D.enabled:
