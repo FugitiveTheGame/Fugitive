@@ -145,7 +145,7 @@ margin_top = 36.0
 margin_right = 243.0
 margin_bottom = 56.0
 text = "My Neighborhood"
-items = [ "My Neighborhood", null, false, 0, null, "Straight Line", null, false, 1, null, "Break-in", null, false, 25, null ]
+items = [ "My Neighborhood", null, false, 0, null, "Straight Line", null, false, 1, null, "Break-in", null, false, 25, null, "Suburbia", null, false, 3, null ]
 selected = 0
 
 [node name="WinnerLabel" type="Label" parent="MainPanel/OuterContainer"]
