@@ -1,0 +1,108 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export var dead_zone = 5; #joystick deadzone radius
+export var circle_pad_radius = 25; #radius of the circle pad
+export var outer_ring_radius = 70; #radius of the outer ring of the joystick
+export var touch_screen_only = false;
+
+onready var CirclePadHitbox = get_node(\"Circle Pad/Circle Pad Hitbox\"); #retrieve useful nodes
+onready var CirclePad = get_node(\"Circle Pad\");
+
+onready var OuterRingHitbox = get_node(\"Outer Ring/Outer Ring Hitbox\");
+
+var lastScreenTouch = Vector2(); #previous screentouch location
+var lastTouchIndex = null; #records which touch index should be tracked
+
+signal _joystick_pressed; #called when the user pressed the joystick
+signal _joystick_released; #called when the user released the joystick
+signal _joystick_axis_changed(value); #called when the axis is changed by user input
+
+func _draw():
+	if((touch_screen_only && OS.has_touchscreen_ui_hint()) || !touch_screen_only):
+		draw_circle(Vector2(0,0), outer_ring_radius, Color(0,0,0)); #black circle shows outer ring
+		draw_circle(Vector2(0,0), dead_zone, Color(255, 0, 0)); #draw a red circle to show deadzone
+
+func _ready():
+	CirclePadHitbox.shape.radius = circle_pad_radius; #set the user defined radii
+	OuterRingHitbox.shape.radius = outer_ring_radius;
+	
+	if(touch_screen_only && !OS.has_touchscreen_ui_hint()): #conceal the joystick if restricted to touchscreens
+		visible = false;
+
+func getStickPosition(): #returns vector scaled to return a vector between (-1, -1) and (1, 1)
+	if (abs(CirclePad.position.length()) > dead_zone):
+		return CirclePad.position / 70;
+	else:
+		return Vector2(0,0); #return 0,0 if circle pad is inside the deadzone
+
+func _physics_process(delta):
+	CirclePad.move_and_collide(lastScreenTouch - CirclePad.position); #move and collide to is an offset so current location must be subtracted first
+
+func _input(event): #tracks screentouch events
+	if (event.is_class(\"InputEventScreenDrag\")): #if the last touch was outside the joystick range it will be ignored
+		if (lastTouchIndex == event.index):
+			var temp = to_local(event.position); #store and convert touch loaction into a local point
+			if (abs(temp.length()) > outer_ring_radius): #if the length exceeds the allowed range
+				lastScreenTouch = temp.normalized() * outer_ring_radius; #normalize the vector to keep its direction but reduce the length to the maximum radius
+				get_tree().set_input_as_handled(); #stops the input from being sent to other nodes
+				self.emit_signal(\"_joystick_axis_changed\", getStickPosition()); #emit a signal that the axis changed value
+			else:
+				lastScreenTouch = temp; #the circlepad will simply move to the vector if it's in bounds
+				get_tree().set_input_as_handled(); #stops the input from being sent to other nodes
+				self.emit_signal(\"_joystick_axis_changed\", getStickPosition()); #emit a signal that the axis changed value
+
+	elif (event.is_class(\"InputEventScreenTouch\")):
+		if (event.index == lastTouchIndex && !event.pressed): #if the tracked index is being released
+			lastScreenTouch = Vector2(0,0); #reset touch position to the center when released
+			lastTouchIndex = null; #reset touch index when released
+			self.emit_signal(\"_joystick_released\"); #emit a signal when released
+
+func _on_Outer_Ring_input_event(viewport, event, shape_idx): #called when an input event happens inside outer ring
+	if (event.is_class(\"InputEventScreenTouch\")): #blocks undesired input
+		if (event.pressed): #if the screen is being pressed
+			lastScreenTouch = to_local(event.position); #log the previous screen touch relative to the joystick
+			lastTouchIndex = event.index; #record the touch index so it can tracked outside of outer ring
+			get_tree().set_input_as_handled(); #stops the input from being sent to other nodes
+			self.emit_signal(\"_joystick_pressed\"); #emit a signal when pressed
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends KinematicBody2D
+
+
+func _draw():
+	if((get_node(\"..\").touch_screen_only && OS.has_touchscreen_ui_hint()) || !get_node(\"..\").touch_screen_only): #do not draw circle pad if touchscreen only
+		draw_circle(Vector2(0,0), get_node(\"Circle Pad Hitbox\").shape.radius, Color(255,255,255)); #draw a circle to represent circle pad"
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 70.0
+
+[node name="Touch Joystick" type="Node2D"]
+script = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Circle Pad" type="KinematicBody2D" parent="."]
+z_index = 1
+input_pickable = true
+script = SubResource( 2 )
+
+[node name="Circle Pad Hitbox" type="CollisionShape2D" parent="Circle Pad"]
+shape = SubResource( 3 )
+
+[node name="Outer Ring" type="Area2D" parent="."]
+gravity_point = true
+gravity_distance_scale = 70.0
+gravity_vec = Vector2( 0, 0 )
+gravity = 500.0
+
+[node name="Outer Ring Hitbox" type="CollisionShape2D" parent="Outer Ring"]
+shape = SubResource( 4 )
+[connection signal="input_event" from="Outer Ring" to="." method="_on_Outer_Ring_input_event"]

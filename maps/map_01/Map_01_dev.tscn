@@ -13,7 +13,7 @@ position = Vector2( -104.024, 270.748 )
 playerName = "Adam"
 
 [node name="Hider00" parent="players" index="2" instance=ExtResource( 4 )]
-position = Vector2( 360.523, 243.674 )
+position = Vector2( 368.027, 256.014 )
 playerName = "Alex"
 
 [node name="Hider01" parent="players" index="3" instance=ExtResource( 4 )]
@@ -22,3 +22,7 @@ playerName = "Stacy"
 
 [node name="GameStartTimer" parent="." index="5"]
 wait_time = 0.5
+
+[node name="Touch Joystick" parent="UiLayer/TouchControls" index="2"]
+light_mask = 1
+position = Vector2( 80, 520 )
