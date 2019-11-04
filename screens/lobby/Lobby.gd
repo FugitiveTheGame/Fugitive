@@ -212,9 +212,9 @@ func getSelectedMap() -> String:
 		1:
 			return 'res://maps/map_02/Map_02.tscn'
 		2:
-			return 'res://maps/map_breakin/Map_breakin.tscn'
-		3:
 			return 'res://maps/map_03/Map_03.tscn'
+		25:
+			return 'res://maps/map_breakin/Map_breakin.tscn'
 		_:
 			return 'ERROR'
 
