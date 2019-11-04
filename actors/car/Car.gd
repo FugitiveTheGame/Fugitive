@@ -85,7 +85,7 @@ func get_in_car(player) -> bool:
 	var success := false
 	
 	# The car is locked until a Seeker unlocks it by entering it
-	if not locked or player.has_group(Groups.SEEKERS):
+	if player.has_group(Groups.SEEKERS): # or not locked # For now don't allow hiders in the car
 		if driver == null:
 			driver = player
 			# Unlock the car once the first Seeker gets in

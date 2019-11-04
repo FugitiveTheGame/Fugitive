@@ -1,6 +1,6 @@
 extends Node
 
-const GAME_VERSION := '0.01'
+const GAME_VERSION := '0.02'
 
 var file_name := 'user://user_data.json'
 

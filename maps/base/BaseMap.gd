@@ -59,6 +59,8 @@ remotesync func post_configure_game():
 	get_tree().set_pause(false)
 	$PregameCamera.current = true
 	
+	$WinZone/Pregame.show()
+	
 	$UiLayer/GameStartLabel.show()
 	
 	match currentPlayer._get_player_node_type():
@@ -309,9 +311,11 @@ func player_removed(player_id: int):
 		print('Found node for player: %d, removing...' % player_id)
 		playerNode.queue_free()
 
+# Pregame has ended, hide all the pregame stuff and show the main phase stuff
 func _on_GameStartTimer_timeout():
 	$UiLayer/GameStartLabel.hide()
 	$UiLayer/PregameTeamLabel.hide()
+	$WinZone/Pregame.hide()
 	
 	playerHud.show()
 	if currentPlayer._get_player_node_type() == Network.PlayerType.Hider:
