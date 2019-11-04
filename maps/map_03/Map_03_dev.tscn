@@ -9,9 +9,13 @@
 script = ExtResource( 4 )
 
 [node name="Seeker00" parent="players" index="0" instance=ExtResource( 2 )]
-position = Vector2( -160, 100 )
+position = Vector2( -6250, 1200 )
 
 [node name="Hider00" parent="players" index="1" instance=ExtResource( 3 )]
-position = Vector2( 350, 580 )
+position = Vector2( -5220, 1290 )
 
 [node name="Hider01" parent="players" index="2" instance=ExtResource( 3 )]
+position = Vector2( -5150, 1160 )
+
+[node name="GameStartTimer" parent="." index="5"]
+wait_time = 0.5
