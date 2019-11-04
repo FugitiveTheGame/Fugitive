@@ -2,7 +2,7 @@
 
 [ext_resource path="res://maps/base/BaseMap.gd" type="Script" id=1]
 [ext_resource path="res://actors/spawn_point/spawn_point.tscn" type="PackedScene" id=2]
-[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://maps/base/seeker_release.ogg" type="AudioStream" id=4]
 [ext_resource path="res://maps/base/ic_stamina.png" type="Texture" id=5]
 [ext_resource path="res://maps/base/ic_visibility.png" type="Texture" id=6]
@@ -396,7 +396,7 @@ __meta__ = {
 }
 
 [node name="TouchUseButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1260, 510 )
+position = Vector2( 1187.79, 500.646 )
 normal = ExtResource( 9 )
 pressed = ExtResource( 8 )
 shape = SubResource( 9 )
@@ -404,23 +404,22 @@ action = "use"
 visibility_mode = 1
 
 [node name="TouchSprintButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1200, 620 )
+position = Vector2( 1125.84, 602.854 )
 normal = ExtResource( 10 )
 pressed = ExtResource( 7 )
 shape = SubResource( 10 )
-action = "SPRINT"
+action = "sprint"
 visibility_mode = 1
 
 [node name="TouchJoystick" parent="UiLayer/PlayerHud" instance=ExtResource( 11 )]
-margin_left = -260.0
-margin_top = 280.0
-margin_right = -784.0
-margin_bottom = 180.0
-joystick_mode = 1
+anchor_top = 1.0
+anchor_right = 0.0
+margin_top = -440.0
+margin_right = 436.0
+margin_bottom = 0.0
 vector_mode = 1
 _pressed_color = Color( 0.74902, 0.74902, 0.74902, 1 )
-directions = 8
-simmetry_angle = 45
+directions = 4
 visibility = "touchscreen_only"
 
 [node name="RoadWalls" type="Node" parent="."]
