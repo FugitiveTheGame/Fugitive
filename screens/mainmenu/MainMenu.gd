@@ -102,3 +102,6 @@ func _on_HelpButton_pressed():
 	var node = scene.instance()
 	add_child(node)
 	node.popup_centered()
+
+func _on_DebugButton_pressed():
+	assert(get_tree().change_scene("res://maps/map_01/Map_01_dev.tscn") == OK)
