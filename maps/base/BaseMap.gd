@@ -19,10 +19,11 @@ var players_done = []
 
 func _ready():
 	assert(Network.connect("player_removed", self, "player_removed") == OK)
+	
 	pre_configure_game()
 
 func pre_configure_game():
-	playerHud.hide()
+	#playerHud.hide()
 	
 	get_tree().set_pause(true)
 	create_players(Network.players)
