@@ -115,64 +115,65 @@ func _directional_vector(vector: Vector2, n_directions: int, simmetry_angle := P
 	return Vector2(cos(angle), sin(angle)) * vector.length()
 
 func _process(delta):
-	if output.x > 0.1:
-		var event = InputEventAction.new()
-		event.action = 'ui_right'
-		event.pressed = true
-		Input.parse_input_event(event)
-		
-		event = InputEventAction.new()
-		event.action = 'ui_left'
-		event.pressed = false
-		Input.parse_input_event(event)
-	elif output.x < -0.1:
-		var event = InputEventAction.new()
-		event.action = 'ui_right'
-		event.pressed = false
-		Input.parse_input_event(event)
-		
-		event = InputEventAction.new()
-		event.action = 'ui_left'
-		event.pressed = true
-		Input.parse_input_event(event)
-	else:
-		var event = InputEventAction.new()
-		event.action = 'ui_right'
-		event.pressed = false
-		Input.parse_input_event(event)
-		
-		event = InputEventAction.new()
-		event.action = 'ui_left'
-		event.pressed = false
-		Input.parse_input_event(event)
-		
-	if output.y < -0.1:
-		var event = InputEventAction.new()
-		event.action = 'ui_up'
-		event.pressed = true
-		Input.parse_input_event(event)
-		
-		event = InputEventAction.new()
-		event.action = 'ui_down'
-		event.pressed = false
-		Input.parse_input_event(event)
-	elif output.y > 0.1:
-		var event = InputEventAction.new()
-		event.action = 'ui_up'
-		event.pressed = false
-		Input.parse_input_event(event)
-		
-		event = InputEventAction.new()
-		event.action = 'ui_down'
-		event.pressed = true
-		Input.parse_input_event(event)
-	else:
-		var event = InputEventAction.new()
-		event.action = 'ui_up'
-		event.pressed = false
-		Input.parse_input_event(event)
-		
-		event = InputEventAction.new()
-		event.action = 'ui_down'
-		event.pressed = false
-		Input.parse_input_event(event)
+	if visible:
+		if output.x > 0.1:
+			var event = InputEventAction.new()
+			event.action = 'ui_right'
+			event.pressed = true
+			Input.parse_input_event(event)
+			
+			event = InputEventAction.new()
+			event.action = 'ui_left'
+			event.pressed = false
+			Input.parse_input_event(event)
+		elif output.x < -0.1:
+			var event = InputEventAction.new()
+			event.action = 'ui_right'
+			event.pressed = false
+			Input.parse_input_event(event)
+			
+			event = InputEventAction.new()
+			event.action = 'ui_left'
+			event.pressed = true
+			Input.parse_input_event(event)
+		else:
+			var event = InputEventAction.new()
+			event.action = 'ui_right'
+			event.pressed = false
+			Input.parse_input_event(event)
+			
+			event = InputEventAction.new()
+			event.action = 'ui_left'
+			event.pressed = false
+			Input.parse_input_event(event)
+			
+		if output.y < -0.1:
+			var event = InputEventAction.new()
+			event.action = 'ui_up'
+			event.pressed = true
+			Input.parse_input_event(event)
+			
+			event = InputEventAction.new()
+			event.action = 'ui_down'
+			event.pressed = false
+			Input.parse_input_event(event)
+		elif output.y > 0.1:
+			var event = InputEventAction.new()
+			event.action = 'ui_up'
+			event.pressed = false
+			Input.parse_input_event(event)
+			
+			event = InputEventAction.new()
+			event.action = 'ui_down'
+			event.pressed = true
+			Input.parse_input_event(event)
+		else:
+			var event = InputEventAction.new()
+			event.action = 'ui_up'
+			event.pressed = false
+			Input.parse_input_event(event)
+			
+			event = InputEventAction.new()
+			event.action = 'ui_down'
+			event.pressed = false
+			Input.parse_input_event(event)
