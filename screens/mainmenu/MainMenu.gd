@@ -18,6 +18,11 @@ func _ready():
 	assert(get_tree().connect("network_peer_disconnected", self, "network_peer_disconnected") == OK)
 	assert(get_tree().connect("server_disconnected", self, "server_disconnected") == OK)
 	
+	if OS.is_debug_build():
+		$DebugButton.show()
+	else:
+		$DebugButton.hide()
+	
 	var args := OS.get_cmdline_args()
 	print("Command Line args: %d" % [args.size()])
 	if (args.size() > 0):

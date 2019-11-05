@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/joystick_circle.png-857df927955f06b2a663376888df3917.stex"
+path="res://.import/button_left_normal.png-fc509f4b72c9d427649e721d57dc6e95.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Joystick/joystick_circle.png"
-dest_files=[ "res://.import/joystick_circle.png-857df927955f06b2a663376888df3917.stex" ]
+source_file="res://touch_screen/button_left_normal.png"
+dest_files=[ "res://.import/button_left_normal.png-fc509f4b72c9d427649e721d57dc6e95.stex" ]
 
 [params]
 

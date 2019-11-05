@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://maps/base/BaseMap.gd" type="Script" id=1]
 [ext_resource path="res://actors/spawn_point/spawn_point.tscn" type="PackedScene" id=2]
@@ -10,7 +10,14 @@
 [ext_resource path="res://touch_screen/button_use_pressed.png" type="Texture" id=8]
 [ext_resource path="res://touch_screen/button_use_normal.png" type="Texture" id=9]
 [ext_resource path="res://touch_screen/button_sprint_normal.png" type="Texture" id=10]
-[ext_resource path="res://Joystick/Joystick.tscn" type="PackedScene" id=11]
+[ext_resource path="res://touch_screen/button_up_normal.png" type="Texture" id=11]
+[ext_resource path="res://touch_screen/button_left_normal.png" type="Texture" id=12]
+[ext_resource path="res://touch_screen/button_left_pressed.png" type="Texture" id=13]
+[ext_resource path="res://touch_screen/button_down_pressed.png" type="Texture" id=14]
+[ext_resource path="res://touch_screen/button_down_normal.png" type="Texture" id=15]
+[ext_resource path="res://touch_screen/button_right_normal.png" type="Texture" id=16]
+[ext_resource path="res://touch_screen/button_right_pressed.png" type="Texture" id=17]
+[ext_resource path="res://touch_screen/button_up_pressed.png" type="Texture" id=18]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 142.869, 392.313 )
@@ -296,7 +303,6 @@ margin_bottom = 640.0
 text = "Back to Lobby"
 
 [node name="PlayerHud" type="Control" parent="UiLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -393,11 +399,9 @@ __meta__ = {
 
 [node name="GameTimerLabel" type="Label" parent="UiLayer/PlayerHud"]
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 margin_left = -45.0
-margin_top = -25.0
+margin_bottom = 25.0
 text = "0:00"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -417,34 +421,52 @@ __meta__ = {
 }
 
 [node name="TouchUseButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1187.79, 500.646 )
+position = Vector2( 110.081, 623.113 )
 normal = ExtResource( 9 )
 pressed = ExtResource( 8 )
 shape = SubResource( 9 )
 action = "use"
 visibility_mode = 1
 
+[node name="TouchUpButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
+position = Vector2( 23.0526, 538.912 )
+normal = ExtResource( 11 )
+pressed = ExtResource( 18 )
+shape = SubResource( 9 )
+action = "ui_up"
+visibility_mode = 1
+
+[node name="TouchUpButton2" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
+position = Vector2( 1199.9, 562.24 )
+normal = ExtResource( 16 )
+pressed = ExtResource( 17 )
+shape = SubResource( 9 )
+action = "ui_right"
+visibility_mode = 1
+
+[node name="TouchUpButton3" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
+position = Vector2( 1118.26, 563.406 )
+normal = ExtResource( 12 )
+pressed = ExtResource( 13 )
+shape = SubResource( 9 )
+action = "ui_left"
+visibility_mode = 1
+
+[node name="TouchDownButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
+position = Vector2( 23.0526, 622.89 )
+normal = ExtResource( 15 )
+pressed = ExtResource( 14 )
+shape = SubResource( 9 )
+action = "ui_down"
+visibility_mode = 1
+
 [node name="TouchSprintButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1125.84, 602.854 )
+position = Vector2( 1136.34, 642.51 )
 normal = ExtResource( 10 )
 pressed = ExtResource( 7 )
 shape = SubResource( 10 )
 action = "sprint"
 visibility_mode = 1
-
-[node name="TouchJoystick" parent="UiLayer/PlayerHud" instance=ExtResource( 11 )]
-anchor_top = 1.0
-anchor_right = 0.0
-margin_top = -440.0
-margin_right = 436.0
-margin_bottom = 0.0
-vector_mode = 1
-_pressed_color = Color( 0.74902, 0.74902, 0.74902, 1 )
-directions = 36
-simmetry_angle = 10
-dead_zone = 0.2
-clamp_zone = 1.0
-visibility = "touchscreen_only"
 
 [node name="RoadWalls" type="Node" parent="."]
 
