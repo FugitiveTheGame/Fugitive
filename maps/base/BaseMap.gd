@@ -296,14 +296,6 @@ func _on_GracePeriodTimer_timeout():
 	$UiLayer/GraceTimerLabel.hide()
 	$SeekerReleaseAudio.play()
 
-func _on_BackToLobbyButton_pressed():
-	# If the server goes back to lobby, bring everyone
-	if get_tree().is_network_server():
-		rpc('go_back_to_lobby')
-	# If just one person goes back to lobby, they can go and wait for the rest
-	else:
-		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
-
 func player_removed(player_id: int):
 	print('Removing player: %d' % player_id)
 	var playerNode = players.get_node(str(player_id))
@@ -340,3 +332,17 @@ remotesync func go_back_to_lobby():
 func _on_GameTimer_timeout():
 	if get_tree().is_network_server():
 		rpc('end_game', true)
+
+func _on_GameOverDialog_popup_hide():
+	back_to_lobby()
+
+func _on_BackToLobbyButton_pressed():
+	back_to_lobby()
+
+func back_to_lobby():
+	# If the server goes back to lobby, bring everyone
+	if get_tree().is_network_server():
+		rpc('go_back_to_lobby')
+	# If just one person goes back to lobby, they can go and wait for the rest
+	else:
+		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
