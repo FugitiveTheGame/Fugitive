@@ -23,6 +23,10 @@ _global_script_classes=[ {
 "class": "LanServer",
 "language": "GDScript",
 "path": "res://screens/mainmenu/LanServer.gd"
+"base": "Object",
+"class": "InterpolatedObject",
+"language": "GDScript",
+"path": "res://global/InterpolatedVector.gd"
 }, {
 "base": "Node2D",
 "class": "MotionSensor",
@@ -68,6 +72,7 @@ _global_script_class_icons={
 "Car": "",
 "Hider": "",
 "LanServer": "",
+"InterpolatedObject": "",
 "MotionSensor": "",
 "Player": "",
 "PlayerLobbyData": "",
