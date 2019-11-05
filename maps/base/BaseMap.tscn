@@ -440,7 +440,10 @@ margin_right = 436.0
 margin_bottom = 0.0
 vector_mode = 1
 _pressed_color = Color( 0.74902, 0.74902, 0.74902, 1 )
-directions = 4
+directions = 36
+simmetry_angle = 10
+dead_zone = 0.2
+clamp_zone = 1.0
 visibility = "touchscreen_only"
 
 [node name="RoadWalls" type="Node" parent="."]

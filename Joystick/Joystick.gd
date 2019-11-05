@@ -114,9 +114,10 @@ func _directional_vector(vector: Vector2, n_directions: int, simmetry_angle := P
 	angle -= simmetry_angle
 	return Vector2(cos(angle), sin(angle)) * vector.length()
 
+const HORIZONTAL_THRESHOLD := 0.40
 func _process(delta):
 	if visible:
-		if output.x > 0.1:
+		if output.x > HORIZONTAL_THRESHOLD:
 			var event = InputEventAction.new()
 			event.action = 'ui_right'
 			event.pressed = true
@@ -126,7 +127,7 @@ func _process(delta):
 			event.action = 'ui_left'
 			event.pressed = false
 			Input.parse_input_event(event)
-		elif output.x < -0.1:
+		elif output.x < -HORIZONTAL_THRESHOLD:
 			var event = InputEventAction.new()
 			event.action = 'ui_right'
 			event.pressed = false
