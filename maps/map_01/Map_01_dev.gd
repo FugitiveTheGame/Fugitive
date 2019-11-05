@@ -3,7 +3,7 @@ extends "res://maps/base/BaseMap.gd"
 func _ready():
 	#._ready() # We want to override ready and NOT call the base impl!
 	# Change this to false to play as a Hider
-	var be_seeker := false
+	var be_seeker := true
 	
 	var playerData = PlayerLobbyData.new()
 	Network.players[1] = playerData

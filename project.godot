@@ -99,6 +99,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/dpi/allow_hidpi=true
+window/handheld/orientation="sensor_landscape"
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 stretch/aspect="keep"
@@ -191,6 +192,5 @@ shadow_filter=2
 
 [rendering]
 
-quality/filters/use_nearest_mipmap_filter=true
+quality/filters/anisotropic_filter_level=1
 environment/default_clear_color=Color( 0.0627451, 0.0784314, 0.133333, 1 )
-quality/filters/msaa=1

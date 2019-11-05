@@ -4,9 +4,7 @@
 font_path = "res://fonts/content/Ubuntu-Medium.ttf"
 
 [resource]
-size = 12
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
+size = 24
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 1 )

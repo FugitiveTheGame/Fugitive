@@ -22,3 +22,9 @@ playerName = "Stacy"
 
 [node name="GameStartTimer" parent="." index="5"]
 wait_time = 0.5
+
+[node name="TextureRect" parent="UiLayer/PlayerHud/VBoxContainer/StaminaContainer/HBoxContainer" index="0"]
+margin_bottom = 49.0
+
+[node name="StaminaBar" parent="UiLayer/PlayerHud/VBoxContainer/StaminaContainer/HBoxContainer" index="1"]
+margin_bottom = 49.0

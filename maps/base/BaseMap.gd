@@ -6,9 +6,9 @@ onready var winZone : Area2D = $WinZone
 onready var gameTimer := $GameTimer
 onready var gameTimerLabel := $UiLayer/PlayerHud/GameTimerLabel
 onready var playerHud := $UiLayer/PlayerHud
-onready var staminaBar := $UiLayer/PlayerHud/StaminaContainer/HBoxContainer/StaminaBar
-onready var visibilityBar := $UiLayer/PlayerHud/VisibilityContainer/HBoxContainer/VisibilityBar
-onready var visibilityContainer := $UiLayer/PlayerHud/VisibilityContainer
+onready var staminaBar := $UiLayer/PlayerHud/VBoxContainer/StaminaContainer/HBoxContainer/StaminaBar
+onready var visibilityBar := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer/HBoxContainer/VisibilityBar
+onready var visibilityContainer := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer
 onready var safeZoneLabel := $UiLayer/PlayerHud/SafeZoneLabel
 
 var gameOver : bool = false
