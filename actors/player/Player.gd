@@ -37,7 +37,7 @@ func _ready():
 	playerNameLabel.text = playerName
 
 func _enter_tree():
-	assert(SignalManager.connect('game_start', self, '_game_start') == OK)
+	SignalManager.connect('game_start', self, '_game_start')
 
 func _exit_tree():
 	SignalManager.disconnect('game_start', self, '_game_start')

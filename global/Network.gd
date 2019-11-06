@@ -21,9 +21,9 @@ var numGames := 0
 onready var upnp = UPNP.new()
 
 func _ready():
-	assert(get_tree().connect('connected_to_server', self, 'on_connected_to_server') == OK)
-	assert(get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect') == OK)
-	assert(get_tree().connect('server_disconnected', self, 'on_server_disconnect') == OK)
+	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
+	get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect')
+	get_tree().connect('server_disconnected', self, 'on_server_disconnect')
 	
 	# Begin discovery asap
 	upnp.discover()
@@ -186,7 +186,7 @@ func reset_game():
 	self.numGames = 0
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
-	assert(get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn') == OK)
+	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')
 
 func enable_upnp():
 	if upnp.get_device_count() > 0:

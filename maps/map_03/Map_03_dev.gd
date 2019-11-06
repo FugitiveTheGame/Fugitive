@@ -32,7 +32,7 @@ func _ready():
 	$players/Hider01.set_network_master(2)
 	
 	var peer = NetworkedMultiplayerENet.new()
-	assert(peer.create_server(Network.DEFAULT_PORT, Network.MAX_PLAYERS) == OK)
+	peer.create_server(Network.DEFAULT_PORT, Network.MAX_PLAYERS)
 	get_tree().set_network_peer(peer)
 	
 	rpc("post_configure_game")

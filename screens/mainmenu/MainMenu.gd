@@ -13,10 +13,10 @@ func _ready():
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
 	
-	assert(get_tree().connect("connected_to_server", self, "on_server_joined") == OK)
-	assert(get_tree().connect("connection_failed", self, "connection_failed") == OK)
-	assert(get_tree().connect("network_peer_disconnected", self, "network_peer_disconnected") == OK)
-	assert(get_tree().connect("server_disconnected", self, "server_disconnected") == OK)
+	get_tree().connect("connected_to_server", self, "on_server_joined")
+	get_tree().connect("connection_failed", self, "connection_failed")
+	get_tree().connect("network_peer_disconnected", self, "network_peer_disconnected")
+	get_tree().connect("server_disconnected", self, "server_disconnected")
 	
 	if OS.is_debug_build():
 		$DebugButton.show()
@@ -41,7 +41,7 @@ func _ready():
 					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
 	
 	if (args.size() > 0):
-		assert(Network.join_game(playerName, serverIpEditText.text))
+		Network.join_game(playerName, serverIpEditText.text)
 	else:
 		serverIpEditText.text = UserData.data.last_ip
 		playerName = UserData.data.user_name
@@ -64,7 +64,7 @@ func _on_HostGameButton_pressed():
 	
 	var success = Network.host_game(playerName)
 	if success:
-		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+		get_tree().change_scene('res://screens/lobby/Lobby.tscn')
 
 func _on_JoinGameButton_pressed():
 	if playerName == "":
@@ -84,15 +84,15 @@ func _on_ConnectButton_pressed():
 	if serverIp == "":
 		return
 	
-	assert(Network.join_game(playerName, serverIp))
+	Network.join_game(playerName, serverIp)
 
 func _on_CancelButton_pressed():
 	joinDialog.hide()
 
 func on_server_joined():
 	print("JOINED SERVER")
-	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
-	
+	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
+
 func connection_failed():
 	print("CONNECTION FAILED")
 
@@ -109,4 +109,4 @@ func _on_HelpButton_pressed():
 	node.popup_centered()
 
 func _on_DebugButton_pressed():
-	assert(get_tree().change_scene("res://maps/map_01/Map_01_dev.tscn") == OK)
+	get_tree().change_scene("res://maps/map_01/Map_01_dev.tscn")

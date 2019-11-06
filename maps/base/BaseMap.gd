@@ -18,7 +18,7 @@ var currentPlayer: Player
 var players_done = []
 
 func _ready():
-	assert(Network.connect("player_removed", self, "player_removed") == OK)
+	Network.connect("player_removed", self, "player_removed")
 	
 	pre_configure_game()
 
@@ -327,7 +327,7 @@ func _on_GameStartTimer_timeout():
 	SignalManager.emit_game_start()
 
 remotesync func go_back_to_lobby():
-	assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+	get_tree().change_scene('res://screens/lobby/Lobby.tscn')
 
 func _on_GameTimer_timeout():
 	if get_tree().is_network_server():
@@ -345,4 +345,4 @@ func back_to_lobby():
 		rpc('go_back_to_lobby')
 	# If just one person goes back to lobby, they can go and wait for the rest
 	else:
-		assert(get_tree().change_scene('res://screens/lobby/Lobby.tscn') == OK)
+		get_tree().change_scene('res://screens/lobby/Lobby.tscn')

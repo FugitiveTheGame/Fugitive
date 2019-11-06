@@ -29,12 +29,12 @@ func _ready():
 	get_tree().paused = false
 	
 	players_initialize(Network.players)
-	assert(Network.connect("player_updated", self, "player_updated") == OK)
-	assert(Network.connect("new_player_registered", self, "new_player_registered") == OK)
-	assert(Network.connect("player_removed", self, "player_removed") == OK)
+	Network.connect("player_updated", self, "player_updated")
+	Network.connect("new_player_registered", self, "new_player_registered")
+	Network.connect("player_removed", self, "player_removed")
 	
-	assert(Network.connect("send_lobby_state", self, "send_lobby_state") == OK)
-	assert(Network.connect("receive_lobby_state", self, "receive_lobby_state") == OK)
+	Network.connect("send_lobby_state", self, "send_lobby_state")
+	Network.connect("receive_lobby_state", self, "receive_lobby_state")
 	
 	update_player_counts()
 	
