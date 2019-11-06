@@ -4,6 +4,7 @@ class_name Seeker
 onready var seeker_ray_caster := $RayCast2D
 onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONES)
 onready var car_lock_timer := $CarLockTimer
+onready var lock_progress_bar := $LockProgressBar
 
 const CONE_WIDTH = deg2rad(45.0)
 const MAX_DETECT_DISTANCE := 64.0
@@ -23,6 +24,7 @@ func _get_player_node_type() -> int:
 
 func _ready():
 	._ready()
+	lock_progress_bar.hide()
 	self.freeze()
 
 func is_in_winzone(hider) -> bool:
@@ -76,6 +78,14 @@ remotesync func request_car_lock(car_path: NodePath):
 remote func do_lock_car(car_path: NodePath):
 	var car = get_tree().get_root().get_node(car_path)
 	car.locked = true
+
+func _process(delta):
+	if not car_lock_timer.is_stopped():
+		if not lock_progress_bar.visible:
+			lock_progress_bar.show()
+		lock_progress_bar.value = 100.0 - (car_lock_timer.time_left / car_lock_timer.wait_time) * 100.0
+	elif lock_progress_bar.visible:
+		lock_progress_bar.hide()
 
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the

@@ -60,10 +60,10 @@ max_distance = 500.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -42.6602
-margin_top = 46.0179
-margin_right = 38.3398
-margin_bottom = 60.0179
+margin_left = -64.0
+margin_top = 46.018
+margin_right = 76.0
+margin_bottom = 71.018
 text = "Player Name"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -72,4 +72,13 @@ __meta__ = {
 [node name="CarLockTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="LockProgressBar" type="ProgressBar" parent="."]
+margin_left = -64.0
+margin_top = 74.513
+margin_right = 64.0
+margin_bottom = 99.513
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="CarLockTimer" to="." method="_on_CarLockTimer_timeout"]

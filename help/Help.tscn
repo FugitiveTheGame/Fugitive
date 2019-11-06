@@ -22,6 +22,7 @@ bbcode_text = "[center][b]Welcome to Fugitive![/b][/center]
 [b]Sprint:[/b] Shift
 [b]Enter or Leave Car:[/b] E
 [b]Honk Car horn:[/b] H
+[b]Lock Car:[/b] L ([i]hold for 2 seconds[/i])
 [/indent]
 
 [u]Sprinting:[/u]
@@ -45,6 +46,7 @@ Movement: WASD or Arrow Keys
 Sprint: Shift
 Enter or Leave Car: E
 Honk Car horn: H
+Lock Car: L (hold for 2 seconds)
 
 
 Sprinting:
