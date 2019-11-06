@@ -10,7 +10,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 113.218, 121.901 )
+extents = Vector2( 70.0005, 79.9996 )
 
 [node name="Car" type="KinematicBody2D"]
 collision_layer = 8
