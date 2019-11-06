@@ -24,6 +24,7 @@ func set_locked(lock: bool):
 	lockAudio.play()
 	
 	if locked:
+		velocity = Vector2.ZERO
 		print('Car locked')
 
 func get_locked():
@@ -157,8 +158,5 @@ func _on_EnterArea_body_entered(body):
 	# If the car is being driven by a Hider, and hits a Cop
 	if self.driver != null and self.driver._get_player_node_type() == Network.PlayerType.Hider and body is Seeker:
 		# Stop the car, lock it, and kick the hider out
-		velocity = Vector2.ZERO
-		set_locked(true)
-		
 		rpc('set_locked', true)
 		self.driver.force_car_exit()
