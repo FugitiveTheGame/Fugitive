@@ -201,10 +201,10 @@ text = "Server IP"
 
 [node name="ServerIpTextEdit" type="LineEdit" parent="JoinGameDialog/CenterContainer/Verticle"]
 margin_top = 33.0
-margin_right = 256.0
+margin_right = 231.0
 margin_bottom = 78.0
 rect_min_size = Vector2( 128, 0 )
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 clear_button_enabled = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="JoinGameDialog/CenterContainer/Verticle"]
