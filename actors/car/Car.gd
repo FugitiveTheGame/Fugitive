@@ -154,7 +154,7 @@ remotesync func stop_horn():
 	hornAudio.playing = false
 
 func _on_EnterArea_body_entered(body):
-	if not get_tree().is_network_server():
+	if not is_network_master():
 		return
 	
 	# If the car is being driven by a Hider, and hits a Cop
