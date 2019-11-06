@@ -161,4 +161,4 @@ func _on_EnterArea_body_entered(body):
 		set_locked(true)
 		
 		rpc('set_locked', true)
-		body.force_car_exit()
+		self.driver.force_car_exit()

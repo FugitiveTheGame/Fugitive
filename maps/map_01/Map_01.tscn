@@ -9,7 +9,7 @@
 [ext_resource path="res://actors/car_wall/CarWall.tscn" type="PackedScene" id=8]
 [ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=9]
 
-[node name="base" index="0" instance=ExtResource( 7 )]
+[node name="base" instance=ExtResource( 7 )]
 
 [node name="ground" type="TileMap" parent="map" index="0"]
 tile_set = ExtResource( 4 )
