@@ -149,3 +149,11 @@ remotesync func start_horn():
 
 remotesync func stop_horn():
 	hornAudio.playing = false
+
+func _on_EnterArea_body_entered(body):
+	# If the car is being driven by a Hider, and hits a Cop
+	if self.driver != null and self.driver._get_player_node_type() == Network.PlayerType.Hider and body is Seeker:
+		# Stop the car, lock it, and kick the hider out
+		velocity = Vector2.ZERO
+		locked = true
+		body.force_car_exit()

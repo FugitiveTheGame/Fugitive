@@ -214,6 +214,9 @@ func on_car_enter(newCar):
 	self.position = Vector2.ZERO
 	self.rotation = 0
 
+func force_car_exit():
+	rpc('on_car_exit')
+
 remotesync func on_car_exit():
 	print('Exit Car')
 	
