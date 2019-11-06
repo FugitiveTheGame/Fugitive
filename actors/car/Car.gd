@@ -69,6 +69,15 @@ func get_input(delta: float) -> float:
 	new_rotation = rotation_dir * self.rotation_speed * delta
 	return new_rotation
 
+func _process(delta):
+	# Make movement noises if moving
+	if is_moving() and driver != null:
+		if not drivingAudio.playing:
+			drivingAudio.playing = true
+	else:
+		if drivingAudio.playing:
+			drivingAudio.playing = false
+
 func _physics_process(delta: float):
 	if local_player_is_driver():
 		var new_rotation = get_input(delta)
@@ -77,16 +86,9 @@ func _physics_process(delta: float):
 		self.rotation += new_rotation
 		
 		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
+	# If we're just the server, send
 	elif get_network_master() == get_tree().get_network_unique_id():
 		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
-	
-	# Make movement noises if moving
-	if is_moving():
-		if not drivingAudio.playing:
-			drivingAudio.playing = true
-	else:
-		if drivingAudio.playing:
-			drivingAudio.playing = false
 
 remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id, false)
