@@ -402,9 +402,9 @@ __meta__ = {
 [node name="GameTimerLabel" type="Label" parent="UiLayer/PlayerHud"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -51.1665
+margin_left = -71.1665
 margin_top = 10.0
-margin_right = -6.1665
+margin_right = -26.1665
 margin_bottom = 35.0
 text = "0:00"
 __meta__ = {
