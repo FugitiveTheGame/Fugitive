@@ -4,9 +4,8 @@
 
 [node name="Root" type="VBoxContainer"]
 margin_right = 196.0
-margin_bottom = 70.0
+margin_bottom = 85.0
 size_flags_horizontal = 3
-size_flags_vertical = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -14,7 +13,7 @@ __meta__ = {
 
 [node name="MainContainer" type="HBoxContainer" parent="."]
 margin_right = 196.0
-margin_bottom = 20.0
+margin_bottom = 37.0
 rect_min_size = Vector2( 196, 0 )
 size_flags_horizontal = 3
 __meta__ = {
@@ -22,8 +21,8 @@ __meta__ = {
 }
 
 [node name="LabelPlayerName" type="Label" parent="MainContainer"]
-margin_right = 101.0
-margin_bottom = 20.0
+margin_right = 22.0
+margin_bottom = 37.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Player Name"
@@ -34,27 +33,26 @@ __meta__ = {
 }
 
 [node name="OptionPlayerRole" type="OptionButton" parent="MainContainer"]
-margin_left = 105.0
+margin_left = 30.0
 margin_right = 196.0
-margin_bottom = 20.0
+margin_bottom = 37.0
 text = "Fugitive"
 items = [ "Fugitive", null, false, 0, null, "Cop", null, false, 1, null, "Random", null, false, 2, null ]
 selected = 0
 
 [node name="StatsLabel" type="RichTextLabel" parent="."]
-margin_top = 24.0
+margin_top = 45.0
 margin_right = 196.0
-margin_bottom = 44.0
+margin_bottom = 65.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
-size_flags_vertical = 0
 bbcode_enabled = true
 bbcode_text = "[color=green][b][u]Score[/u][/b][/color] %d - [i][color=blue]Cop[/color] %d [color=red]Fug[/color] %d[/i]"
 text = "Score %d - Cop %d Fug %d"
 scroll_active = false
 
 [node name="HSeparator" type="HSeparator" parent="."]
-margin_top = 48.0
+margin_top = 73.0
 margin_right = 196.0
-margin_bottom = 52.0
+margin_bottom = 81.0
 [connection signal="item_selected" from="MainContainer/OptionPlayerRole" to="." method="_on_OptionPlayerRole_item_selected"]
