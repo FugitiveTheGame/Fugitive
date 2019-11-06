@@ -29,6 +29,9 @@ func set_locked(lock: bool):
 func get_locked():
 	return locked
 
+remotesync func lock_the_car():
+	locked = true
+
 puppet func network_update(pos: Vector2, vel: Vector2, rot: float):
 	self.position = pos
 	self.velocity = vel
@@ -156,9 +159,6 @@ func _on_EnterArea_body_entered(body):
 	
 	# If the car is being driven by a Hider, and hits a Cop
 	if self.driver != null and self.driver._get_player_node_type() == Network.PlayerType.Hider and body is Seeker:
-		# Stop the car, lock it, and kick the hider out
-		velocity = Vector2.ZERO
-		set_locked(true)
-		
-		rpc('set_locked', true)
+		# lock it, and kick the hider out
+		rpc('lock_the_car')
 		self.driver.force_car_exit()
