@@ -24,6 +24,7 @@ func set_locked(lock: bool):
 	lockAudio.play()
 	
 	if locked:
+		velocity = Vector2.ZERO
 		print('Car locked')
 
 func get_locked():
@@ -163,6 +164,5 @@ func _on_EnterArea_body_entered(body):
 		# lock it, and kick the hider out
 
 func do_it():
-	velocity = Vector2.ZERO
 	rpc('lock_the_car')
 	self.driver.force_car_exit()
