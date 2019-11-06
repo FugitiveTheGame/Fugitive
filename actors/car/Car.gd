@@ -77,7 +77,9 @@ func _physics_process(delta: float):
 		self.rotation += new_rotation
 		
 		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
-		
+	elif get_network_master() == get_tree().get_network_unique_id():
+		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
+	
 	# Make movement noises if moving
 	if is_moving():
 		if not drivingAudio.playing:
@@ -160,9 +162,9 @@ func _on_EnterArea_body_entered(body):
 	
 	# If the car is being driven by a Hider, and hits a Cop
 	if self.driver != null and self.driver._get_player_node_type() == Network.PlayerType.Hider and body is Seeker:
-		call_deferred('do_it')
-		# lock it, and kick the hider out
+		call_deferred('eject_hider')
 
-func do_it():
+func eject_hider():
+	# lock it, and kick the hider out
 	rpc('lock_the_car')
 	self.driver.force_car_exit()
