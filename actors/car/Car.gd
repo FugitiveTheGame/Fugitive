@@ -30,6 +30,9 @@ func set_locked(lock: bool):
 func get_locked():
 	return locked
 
+remotesync func lock_the_car():
+	locked = true
+
 puppet func network_update(pos: Vector2, vel: Vector2, rot: float):
 	self.position = pos
 	self.velocity = vel
@@ -66,6 +69,15 @@ func get_input(delta: float) -> float:
 	new_rotation = rotation_dir * self.rotation_speed * delta
 	return new_rotation
 
+func _process(delta):
+	# Make movement noises if moving
+	if is_moving() and driver != null:
+		if not drivingAudio.playing:
+			drivingAudio.playing = true
+	else:
+		if drivingAudio.playing:
+			drivingAudio.playing = false
+
 func _physics_process(delta: float):
 	if local_player_is_driver():
 		var new_rotation = get_input(delta)
@@ -74,14 +86,9 @@ func _physics_process(delta: float):
 		self.rotation += new_rotation
 		
 		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
-		
-	# Make movement noises if moving
-	if is_moving():
-		if not drivingAudio.playing:
-			drivingAudio.playing = true
-	else:
-		if drivingAudio.playing:
-			drivingAudio.playing = false
+	# If we're just the server, send
+	elif get_network_master() == get_tree().get_network_unique_id():
+		rpc_unreliable("network_update", self.position, self.velocity, self.rotation)
 
 remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id, false)
@@ -157,6 +164,9 @@ func _on_EnterArea_body_entered(body):
 	
 	# If the car is being driven by a Hider, and hits a Cop
 	if self.driver != null and self.driver._get_player_node_type() == Network.PlayerType.Hider and body is Seeker:
-		# Stop the car, lock it, and kick the hider out
-		rpc('set_locked', true)
-		self.driver.force_car_exit()
+		call_deferred('eject_hider')
+
+func eject_hider():
+	# lock it, and kick the hider out
+	rpc('lock_the_car')
+	self.driver.force_car_exit()
