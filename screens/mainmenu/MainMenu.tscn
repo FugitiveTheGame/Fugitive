@@ -163,7 +163,6 @@ size_flags_horizontal = 3
 text = "0"
 
 [node name="JoinGameDialog" type="WindowDialog" parent="."]
-visible = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -227.5
@@ -234,11 +233,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -52.0
-margin_top = -14.0
+margin_left = -140.0
+margin_top = -40.0
+margin_right = -52.0
+margin_bottom = -15.0
+rect_pivot_offset = Vector2( 90, 30 )
 text = "Version:"
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="DebugButton" type="Button" parent="."]
