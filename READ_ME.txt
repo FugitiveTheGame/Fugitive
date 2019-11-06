@@ -22,6 +22,7 @@ Controls:
 	Sprint: Shift
 	Enter or Leave Car: E
 	Honk Car horn: H
+	Lock Car: L (hold for 2 seconds)
 
 
 Sprinting:

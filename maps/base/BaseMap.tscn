@@ -303,7 +303,6 @@ margin_bottom = 640.0
 text = "Back to Lobby"
 
 [node name="PlayerHud" type="Control" parent="UiLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.16635
@@ -403,8 +402,10 @@ __meta__ = {
 [node name="GameTimerLabel" type="Label" parent="UiLayer/PlayerHud"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -45.0
-margin_bottom = 25.0
+margin_left = -51.1665
+margin_top = 10.0
+margin_right = -6.1665
+margin_bottom = 35.0
 text = "0:00"
 __meta__ = {
 "_edit_use_anchors_": false
