@@ -6,10 +6,11 @@ class_name Car
 onready var enterArea := $EnterArea
 onready var drivingAudio := $DrivingAudio
 onready var hornAudio := $HornAudio
+onready var lockAudio := $LockAudio
 
 export (int) var speed = 600
 export (float) var rotation_speed = 2.5
-export (bool) var locked := true
+export (bool) var locked := true setget set_locked, get_locked
 
 var velocity := Vector2()
 
@@ -17,6 +18,16 @@ var driver = null
 var passengers = []
 
 const MAX_PASSENGERS = 3
+
+func set_locked(lock: bool):
+	locked = lock
+	lockAudio.play()
+	
+	if locked:
+		print('Car locked')
+
+func get_locked():
+	return locked
 
 puppet func network_update(pos: Vector2, vel: Vector2, rot: float):
 	self.position = pos
@@ -77,6 +88,9 @@ remotesync func new_driver(network_id: int):
 remotesync func unlock():
 	locked = false
 	print('Car unlockled')
+
+func has_occupants() -> bool:
+	return driver != null or passengers.size() > 0
 
 func is_driver(player) -> bool:
 	return driver == player

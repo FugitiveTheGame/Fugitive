@@ -3,6 +3,7 @@ class_name Seeker
 
 onready var seeker_ray_caster := $RayCast2D
 onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONES)
+onready var car_lock_timer := $CarLockTimer
 
 const CONE_WIDTH = deg2rad(45.0)
 const MAX_DETECT_DISTANCE := 64.0
@@ -32,6 +33,49 @@ func is_in_winzone(hider) -> bool:
 
 remotesync func record_capture():
 	num_captures += 1
+
+func _input(event):
+	if not is_network_master() or not gameStarted:
+		return
+	
+	if event.is_action_pressed("lock_car"):
+		print('lock pressed')
+		var car = find_car_inrange()
+		if can_lock_car(car):
+			print('can lock')
+			car_lock_timer.start()
+		else:
+			print('cant lock')
+			car_lock_timer.stop()
+	elif event.is_action_released("lock_car"):
+		print('lock button released')
+		car_lock_timer.stop()
+
+func _on_CarLockTimer_timeout():
+	var car = find_car_inrange()
+	if can_lock_car(car):
+		rpc_id(1, 'request_car_lock', car.get_path())
+	else:
+		print('Cant lock car, out of range')
+
+func can_lock_car(car) -> bool:
+	return car != null and not car.locked and not car.has_occupants()
+
+# Server determines if the car can be locked, if so,
+# locks it locally, and tell all clients that it is now locked
+remotesync func request_car_lock(car_path: NodePath):
+	if not get_tree().is_network_server():
+		return
+	
+	var car = get_tree().get_root().get_node(car_path)
+	if not car.locked and not car.has_occupants():
+		do_lock_car(car_path)
+		rpc('do_lock_car', car_path)
+
+# Lock the car on each client
+remote func do_lock_car(car_path: NodePath):
+	var car = get_tree().get_root().get_node(car_path)
+	car.locked = true
 
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the

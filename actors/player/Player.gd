@@ -81,13 +81,10 @@ func _unfrozen():
 	pass
 
 func _input(event):
-	if not is_network_master():
+	if not is_network_master() or not gameStarted:
 		return
 	
-	if not gameStarted:
-		return
-	
-	if(event.is_action_pressed("use")):
+	if event.is_action_pressed("use"):
 		if self.car == null:
 			var new_car = find_car_inrange()
 			if new_car != null:

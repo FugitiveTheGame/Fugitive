@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/car_lock.ogg-fc80ac38ed0bf8544820e4e627e34e28.oggstr"
+
+[deps]
+
+source_file="res://actors/car/car_lock.ogg"
+dest_files=[ "res://.import/car_lock.ogg-fc80ac38ed0bf8544820e4e627e34e28.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
