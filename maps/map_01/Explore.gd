@@ -13,19 +13,20 @@ func _ready():
 	var playerData = PlayerLobbyData.new()
 	Network.players[1] = playerData
 	
-	var playerData2 = PlayerLobbyData.new()
-	Network.players[2] = playerData2
-	
-	# Lower this sound for testing, it's real annoying
-	$SeekerReleaseAudio.volume_db = -80
+	# All hiders need their network master set to 2
+	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
+	var i := 1
+	for hider in hiders:
+		i += 1
+		hider.set_network_master(i)
+		var data = PlayerLobbyData.new()
+		Network.players[i] = data
 	
 	if be_seeker:
 		$players/Seeker00.set_current_player()
 		$players/Seeker00.set_network_master(1)
 		playerData.assigned_type = Network.PlayerType.Seeker
 		currentPlayer = $players/Seeker00
-		
-		$players/Hider00.set_network_master(2)
 	else:
 		$players/Seeker00.set_network_master(2)
 		
@@ -34,14 +35,33 @@ func _ready():
 		playerData.assigned_type = Network.PlayerType.Hider
 		currentPlayer = $players/Hider00
 	
-	$players/Hider01.set_network_master(2)
-	
 	rpc("post_configure_game")
 
 func pre_configure_game():
 	# Skip the parent impl, we dont want none of that code in dev
 	pass
 
+func _process(delta):
+	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
+	
+	var numHiders : int = hiders.size()
+	var numHidersFrozen := 0
+	
+	for hider in hiders:
+		if hider.frozen:
+			numHidersFrozen += 1
+	
+	$UiLayer/HidersLabel.text = "Hiders to be found: %d/%d" % [numHidersFrozen, numHiders]
+	
+	if numHiders == numHidersFrozen:
+		call_deferred('back_to_main_menu')
+	
 remotesync func end_game(seekersWon: bool):
+	back_to_main_menu()
+
+func _on_ExitButton_pressed():
+	back_to_main_menu()
+
+func back_to_main_menu():
 	Network.reset_game()
 	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')

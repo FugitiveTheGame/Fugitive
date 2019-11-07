@@ -269,4 +269,4 @@ __meta__ = {
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/CenterJoin/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/CenterContainer/Verticle/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/CenterContainer/Verticle/HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
-[connection signal="pressed" from="ExploreButton" to="." method="_on_DebugButton_pressed"]
+[connection signal="pressed" from="ExploreButton" to="." method="_on_ExploreButton_pressed"]

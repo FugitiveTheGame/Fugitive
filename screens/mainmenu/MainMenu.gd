@@ -110,5 +110,5 @@ func _on_HelpButton_pressed():
 	add_child(node)
 	node.popup_centered()
 
-func _on_DebugButton_pressed():
-	get_tree().change_scene("res://maps/map_01/Map_01_dev.tscn")
+func _on_ExploreButton_pressed():
+	get_tree().change_scene("res://maps/map_01/Explore.tscn")
