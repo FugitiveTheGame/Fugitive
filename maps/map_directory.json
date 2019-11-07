@@ -1,0 +1,28 @@
+{
+	"maps" : [
+		{
+			"path": "res://maps/map_01/Map_01.tscn",
+			"name": "My Neighborhood",
+			"size": "Medium",
+			"description": "Well balanced"
+		},
+		{
+			"path": "res://maps/map_03/Map_03.tscn",
+			"name": "Suburbia",
+			"size": "Large",
+			"description": "Long game for a lot of players"
+		},
+		{
+			"path": "res://maps/map_02/Map_02.tscn",
+			"name": "Straight Line",
+			"size": "Small",
+			"description": "Short and chaotic"
+		},
+		{
+			"path": "res://maps/map_breakin/Map_breakin.tscn",
+			"name": "Break-In",
+			"size": "Large",
+			"description": "Try to get to the center.\n\nUNFINISHED"
+		}
+	]
+}

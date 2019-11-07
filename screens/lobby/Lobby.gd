@@ -18,7 +18,7 @@ const HIDER_TO_SEEKER_RATIO = 3
 const MAX_SEEKERS = 5
 const MAX_HIDERS = 10
 
-var maps = {}
+var maps = []
 
 func _ready():
 	randomize()
@@ -60,33 +60,19 @@ func _ready():
 		mapSelectButton.disabled = true
 
 func populate_map_list():
-	maps[0] = {
-		path = 'res://maps/map_01/Map_01.tscn',
-		name = 'My Neighborhood',
-		size = 'Medium',
-		description = 'Well balanced'
-	}
-	maps[1] = {
-		path = 'res://maps/map_03/Map_03.tscn',
-		name = 'Suburbia',
-		size = 'Large',
-		description = 'Long game for a lot of players'
-	}
-	maps[2] = {
-		path = 'res://maps/map_02/Map_02.tscn',
-		name = 'Straight Line',
-		size = 'Medium',
-		description = 'Short and chaotic'
-	}
-	maps[3] = {
-		path = 'res://maps/map_breakin/Map_breakin.tscn',
-		name = 'Break-In',
-		size = 'Large',
-		description = "Try to get to the center.\n\nUNFINISHED"
-	}
+	var file = File.new()
+	if file.open('res://maps/map_directory.json', File.READ) != 0:
+		print("Error opening file")
+		return
 	
-	for map_id in maps.keys():
-		var map = maps[map_id]
+	var serialized = file.get_as_text()
+	var parsed = JSON.parse(serialized)
+	file.close()
+	
+	var mapDirectory = parsed.result
+	for i in mapDirectory.maps.size():
+		var map = mapDirectory.maps[i]
+		self.maps.push_back(map)
 		mapSelectButton.add_item(map.name)
 
 # Server collects it's lobby data, and passes it back to the Network
@@ -364,7 +350,7 @@ func _on_MapSelectButton_item_selected(id):
 
 remotesync func update_map_selection(id):
 	mapSelectButton.selected = id
-	var map = maps[id]
+	var map = self.maps[id]
 	$OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
 
 func fetch_external_ip():
