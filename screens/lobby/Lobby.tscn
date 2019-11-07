@@ -17,9 +17,9 @@ __meta__ = {
 
 [node name="MainPanel" type="PanelContainer" parent="."]
 margin_left = 297.0
-margin_top = 9.0
+margin_top = 10.0
 margin_right = 982.0
-margin_bottom = 709.0
+margin_bottom = 710.0
 rect_min_size = Vector2( 512, 700 )
 
 [node name="OuterContainer" type="VBoxContainer" parent="MainPanel"]
@@ -145,8 +145,15 @@ margin_top = 66.0
 margin_right = 279.0
 margin_bottom = 103.0
 text = "My Neighborhood"
-items = [ "My Neighborhood", null, false, 0, null, "Straight Line", null, false, 1, null, "Break-in", null, false, 25, null, "Suburbia", null, false, 2, null ]
+items = [ "My Neighborhood", null, false, 0, null, "Suburbia", null, false, 1, null, "Straight Line", null, false, 2, null, "Break-In [WIP]", null, false, 3, null ]
 selected = 0
+
+[node name="MapInfoLabel" type="RichTextLabel" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+margin_top = 111.0
+margin_right = 279.0
+margin_bottom = 452.0
+size_flags_vertical = 3
+bbcode_enabled = true
 
 [node name="WinnerLabel" type="Label" parent="MainPanel/OuterContainer"]
 margin_top = 569.0

@@ -23,10 +23,37 @@ const MIN_SEEKERS = 1
 const MIN_HIDERS = 1
 """
 
+var maps = {}
+
 func _ready():
 	randomize()
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
+	
+	maps[0] = {
+		path = 'res://maps/map_01/Map_01.tscn',
+		name = 'My Neighborhood',
+		size = 'Medium',
+		description = 'Well balanced'
+	}
+	maps[1] = {
+		path = 'res://maps/map_03/Map_03.tscn',
+		name = 'Saburbia',
+		size = 'Large',
+		description = 'Long game for a lot of players'
+	}
+	maps[2] = {
+		path = 'res://maps/map_02/Map_02.tscn',
+		name = 'Straight Line',
+		size = 'Medium',
+		description = 'Short and chaotic'
+	}
+	maps[3] = {
+		path = 'res://maps/map_breakin/Map_breakin.tscn',
+		name = 'Break-In',
+		size = 'Large',
+		description = "Try to get to the center.\n\nUNFINISHED"
+	}
 	
 	players_initialize(Network.players)
 	Network.connect("player_updated", self, "player_updated")
@@ -206,17 +233,7 @@ func validate_game() -> bool:
 		return true
 
 func getSelectedMap() -> String:
-	match mapSelectButton.get_selected_id():
-		0:
-			return 'res://maps/map_01/Map_01.tscn'
-		1:
-			return 'res://maps/map_02/Map_02.tscn'
-		2:
-			return 'res://maps/map_03/Map_03.tscn'
-		25:
-			return 'res://maps/map_breakin/Map_breakin.tscn'
-		_:
-			return 'ERROR'
+	return maps[mapSelectButton.get_selected_id()].path
 
 func _on_StartGameButton_pressed():
 	# Only the host can start the game
@@ -307,8 +324,10 @@ func _on_UPNPButton_pressed():
 func _on_MapSelectButton_item_selected(id):
 	rpc('update_map_selection', id)
 
-remote func update_map_selection(id):
+remotesync func update_map_selection(id):
 	mapSelectButton.selected = id
+	var map = maps[id]
+	$MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
 
 func fetch_external_ip():
 	$HTTPRequest.request("https://api.ipify.org/?format=json")
