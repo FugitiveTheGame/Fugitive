@@ -8,13 +8,13 @@ func _enter_tree():
 
 func _ready():
 	# Change this to false to play as a Hider
-	var be_seeker := true
+	var be_seeker := false
 	
 	var playerData = PlayerLobbyData.new()
-	Network.players[1] = playerData
+	Network.gameData.players[1] = playerData
 	
 	var playerData2 = PlayerLobbyData.new()
-	Network.players[2] = playerData2
+	Network.gameData.players[2] = playerData2
 	
 	# Lower this sound for testing, it's real annoying
 	$SeekerReleaseAudio.volume_db = -80
