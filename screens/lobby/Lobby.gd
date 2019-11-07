@@ -3,7 +3,8 @@ extends Control
 onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
 onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
 onready var upnpButton := $MainPanel/OuterContainer/HBoxContainer/UPNPButton
-onready var serverIpLabel := $MainPanel/OuterContainer/ServerIpLabel
+onready var serverIpContainer := $MainPanel/OuterContainer/ServerIpContainer
+onready var serverIpLabel := $MainPanel/OuterContainer/ServerIpContainer/ServerIpLabel
 onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/SeekersCount
 onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
 onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
@@ -71,7 +72,7 @@ func _ready():
 	if not get_tree().is_network_server():
 		startGameButton.hide()
 		upnpButton.hide()
-		serverIpLabel.hide()
+		serverIpContainer.hide()
 	else:
 		# Returning to the lobby, allow new players to join
 		get_tree().network_peer.refuse_new_connections = false
@@ -349,3 +350,6 @@ func _on_HelpButton_pressed():
 func game_updated():
 	var gameNumberLabel := $MainPanel/OuterContainer/GameNumberLabel
 	gameNumberLabel.text = "Game: %d" % (Network.numGames+1)
+
+func _on_CopyServerIpButton_pressed():
+	OS.clipboard = serverIpLabel.text

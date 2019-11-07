@@ -72,13 +72,13 @@ margin_bottom = 101.0
 [node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
 margin_top = 109.0
 margin_right = 657.0
-margin_bottom = 561.0
+margin_bottom = 549.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayersContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_right = 354.0
-margin_bottom = 452.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 
 [node name="PlayersTitle" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
@@ -104,13 +104,13 @@ align = 1
 [node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 99.0
 margin_right = 354.0
-margin_bottom = 452.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerList" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
 margin_right = 354.0
-margin_bottom = 353.0
+margin_bottom = 341.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 __meta__ = {
@@ -120,12 +120,12 @@ __meta__ = {
 [node name="VSeparator" type="VSeparator" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_left = 362.0
 margin_right = 370.0
-margin_bottom = 452.0
+margin_bottom = 440.0
 
 [node name="OptionsContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
 margin_left = 378.0
 margin_right = 657.0
-margin_bottom = 452.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -151,14 +151,14 @@ selected = 0
 [node name="MapInfoLabel" type="RichTextLabel" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 111.0
 margin_right = 279.0
-margin_bottom = 452.0
+margin_bottom = 440.0
 size_flags_vertical = 3
 bbcode_enabled = true
 
 [node name="WinnerLabel" type="Label" parent="MainPanel/OuterContainer"]
-margin_top = 569.0
+margin_top = 557.0
 margin_right = 657.0
-margin_bottom = 594.0
+margin_bottom = 582.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/shadow_offset_y = 2
@@ -167,16 +167,31 @@ align = 1
 uppercase = true
 
 [node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
-margin_top = 602.0
+margin_top = 590.0
 margin_right = 657.0
-margin_bottom = 639.0
+margin_bottom = 627.0
 text = "Start Game"
 
-[node name="ServerIpLabel" type="Label" parent="MainPanel/OuterContainer"]
-margin_top = 647.0
+[node name="ServerIpContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+margin_top = 635.0
 margin_right = 657.0
 margin_bottom = 672.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ServerIpLabel" type="Label" parent="MainPanel/OuterContainer/ServerIpContainer"]
+margin_right = 96.0
+margin_bottom = 37.0
+size_flags_vertical = 5
 text = "127.0.0.1"
+valign = 1
+
+[node name="CopyServerIpButton" type="Button" parent="MainPanel/OuterContainer/ServerIpContainer"]
+margin_left = 104.0
+margin_right = 182.0
+margin_bottom = 37.0
+text = "Copy"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 use_threads = true
@@ -185,4 +200,5 @@ use_threads = true
 [connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="item_selected" from="MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton" to="." method="_on_MapSelectButton_item_selected"]
 [connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
+[connection signal="pressed" from="MainPanel/OuterContainer/ServerIpContainer/CopyServerIpButton" to="." method="_on_CopyServerIpButton_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
