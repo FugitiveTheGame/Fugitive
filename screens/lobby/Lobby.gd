@@ -257,6 +257,13 @@ func getSelectedMap() -> String:
 func _process(delta):
 	if get_tree().is_network_server():
 		startGameButton.disabled = not validate_game()
+		
+		# Only show the UPNP button if we have discovered some devices
+		if Network.upnp.get_device_count() > 0:
+			if not upnpButton.visible:
+				upnpButton.show()
+		elif upnpButton.visible:
+			upnpButton.hide()
 
 func _on_StartGameButton_pressed():
 	# Only the host can start the game
