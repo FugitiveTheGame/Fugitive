@@ -128,6 +128,11 @@ func create_hider(id: int, player: Object, spawnPoint: Vector2) -> Player:
 func set_current_player(playerNode: Player):
 	currentPlayer = playerNode
 	playerNode.set_current_player()
+	if currentPlayer is Hider:
+		currentPlayer.connect('current_player_hider_frozen', self, 'go_to_spectator_view')
+
+func go_to_spectator_view():
+	$PregameCamera.current = true
 
 # warning-ignore:unused_argument
 func _process(delta: float):

@@ -1,6 +1,8 @@
 extends Player
 class_name Hider
 
+signal current_player_hider_frozen
+
 var current_visibility: float = 0.0 setget set_current_visibility
 
 func _get_player_group() -> String:
@@ -11,9 +13,15 @@ func _get_player_node_type() -> int:
 
 func _frozen():
 	$FreezeAudio.play()
+	# Tell the map to take you to spectator view
+	if is_network_master():
+		emit_signal('current_player_hider_frozen')
 
 func _unfrozen():
 	$FreezeAudio.play()
+	# Go back to player view
+	if is_network_master():
+		$Camera.current = true
 
 func _on_Area2D_body_entered(body):
 	# Freeze tag! Unfreeze your friends!
