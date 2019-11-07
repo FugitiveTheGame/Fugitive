@@ -10,7 +10,8 @@ onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/Players
 onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
 
 # Production values:
-const MIN_PLAYERS = 3
+const MIN_PLAYERS = 2
+const MIN_SEEKERS_EXCEPTION = 1 # Special case for 1v1 games
 const MIN_SEEKERS = 2
 const MIN_HIDERS = 1
 const HIDER_TO_SEEKER_RATIO = 3
@@ -139,6 +140,17 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 	
 	update_player_counts()
 
+func get_min_seekers() -> int:
+	var minSeekers: int
+	# Special case for 1v1 games
+	if Network.players.size() < 3:
+		minSeekers = 1
+	# General case
+	else:
+		minSeekers = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
+	
+	return minSeekers
+
 func update_player_counts():
 	var numSeekers := 0
 	var numHiders := 0
@@ -153,7 +165,7 @@ func update_player_counts():
 		else:
 			numRandom += 1
 	
-	var minSeekers : int = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
+	var minSeekers := get_min_seekers()
 	var minHiders : int = max(MIN_HIDERS, Network.players.size() - minSeekers)
 	
 	var numRandomSeekers : int = min(minSeekers - numSeekers, numRandom)
@@ -163,12 +175,12 @@ func update_player_counts():
 	if (numRandomHiders < 0):
 		numRandomHiders = 0
 	
-	seekerCountLabel.text = 'Cops: %d (min: %d, max: %d)' % [(numSeekers + numRandomSeekers), MIN_SEEKERS, MAX_SEEKERS]
+	seekerCountLabel.text = 'Cops: %d (min: %d, max: %d)' % [(numSeekers + numRandomSeekers), minSeekers, MAX_SEEKERS]
 	hiderCountLabel.text = 'Fugitives: %d (min: %d, max: %d)' % [(numHiders + numRandomHiders), MIN_HIDERS, MAX_HIDERS]
 	
 	if (numSeekers + numRandomSeekers > MAX_SEEKERS):
 		seekerCountLabel.add_color_override("font_color", Color.red)
-	elif (numSeekers + numRandomSeekers < MIN_SEEKERS):
+	elif (numSeekers + numRandomSeekers < minSeekers):
 		seekerCountLabel.add_color_override("font_color", Color.red)
 	else:
 		seekerCountLabel.add_color_override("font_color", Color.white)
@@ -207,6 +219,9 @@ func player_removed(playerId: int):
 func validate_game() -> bool:
 	var numSeekers := 0
 	var numHiders := 0
+	
+	var minSeekers := get_min_seekers()
+	
 	for player_id in Network.players:
 		var player = Network.players[player_id]
 		if player.lobby_type == Network.PlayerType.Seeker:
@@ -215,14 +230,14 @@ func validate_game() -> bool:
 			numHiders += 1
 		else:
 			# If random, assume seeker allocation first, then hiders
-			if (numSeekers < MIN_SEEKERS):
+			if (numSeekers < minSeekers):
 				numSeekers += 1
 			else:
 				numHiders += 1
 	
 	if Network.players.size() < MIN_PLAYERS:
 		return false
-	elif numSeekers < MIN_SEEKERS:
+	elif numSeekers < MIN_SEEKERS and numSeekers < MIN_SEEKERS_EXCEPTION:
 		return false
 	elif numHiders < MIN_HIDERS:
 		return false
@@ -295,7 +310,15 @@ func assign_random_players():
 				randomPlayerValues.append(newRandomValue)
 	
 	# Determine how many seekers to assign to randoms.  The rest will be hiders.
-	var seekersToSpawn := max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO) - seekerCount
+	var seekersToSpawn: int
+	# Special case for 1v1 games
+	if Network.players.size() < 3:
+		seekersToSpawn = 1
+	# General case
+	else:
+		seekersToSpawn = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
+	# Remove pre-selected seekers
+	seekersToSpawn -= seekerCount
 	
 	# sort the random players by their assigned seed, lowest first.
 	randomPlayerValues.sort_custom(PlayerValue, "sort")
