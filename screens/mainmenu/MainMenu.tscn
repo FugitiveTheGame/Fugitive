@@ -243,12 +243,12 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="DebugButton" type="Button" parent="."]
+[node name="ExploreButton" type="Button" parent="."]
 margin_left = 30.3252
 margin_top = 30.3252
 margin_right = 88.3252
 margin_bottom = 50.3252
-text = "DEBUG"
+text = "Explore"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -258,4 +258,4 @@ __meta__ = {
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/CenterJoin/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/CenterContainer/Verticle/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="JoinGameDialog/CenterContainer/Verticle/HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
-[connection signal="pressed" from="DebugButton" to="." method="_on_DebugButton_pressed"]
+[connection signal="pressed" from="ExploreButton" to="." method="_on_DebugButton_pressed"]

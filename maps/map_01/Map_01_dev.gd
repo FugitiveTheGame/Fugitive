@@ -40,3 +40,7 @@ func _ready():
 func pre_configure_game():
 	# Skip the parent impl, we dont want none of that code in dev
 	pass
+
+remotesync func end_game(seekersWon: bool):
+	Network.reset_game()
+	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')
