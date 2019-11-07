@@ -1,6 +1,7 @@
 extends Node
 
-const GAME_VERSION := '0.05'
+const GAME_VERSION := '0.06'
+const USER_DATA_VERSION := 1
 
 var file_name := 'user://user_data.json'
 
@@ -8,6 +9,7 @@ var data = get_default_data()
 
 static func get_default_data():
 	var default = {
+		version = USER_DATA_VERSION,
 		user_name = '',
 		last_ip = Network.DEFAULT_IP,
 		lifetime_stats = PlayerStats.new().toDTO()
@@ -44,6 +46,14 @@ func load_data():
 	var serialized = file.get_line()
 	data = parse_json(serialized)
 	file.close()
+	
+	# Data must be purged!
+	if not data.has('version') or data.version < USER_DATA_VERSION:
+		print('User Data out of data, regenerating')
+		# Regenerate user data
+		var defaultData = get_default_data()
+		save_data(defaultData)
+		data = defaultData
 
 func save_data(save_data = self.data):
 	print('Saving user data...')
