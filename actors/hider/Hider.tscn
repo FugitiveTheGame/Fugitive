@@ -8,7 +8,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 50, 50 )
 
-[node name="Hider" index="0" instance=ExtResource( 2 )]
+[node name="Hider" instance=ExtResource( 2 )]
 collision_layer = 4
 script = ExtResource( 1 )
 

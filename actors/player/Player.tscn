@@ -4,7 +4,7 @@
 [ext_resource path="res://actors/player/player_move.ogg" type="AudioStream" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 31.6228
+radius = 30.0
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
