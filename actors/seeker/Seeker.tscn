@@ -25,6 +25,9 @@ margin_left = -390.0
 margin_top = -270.0
 margin_right = 410.0
 margin_bottom = 330.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -74,10 +77,10 @@ wait_time = 2.0
 one_shot = true
 
 [node name="LockProgressBar" type="ProgressBar" parent="."]
-margin_left = -61.156
-margin_top = -132.531
-margin_right = 66.844
-margin_bottom = -107.531
+margin_left = 70.2125
+margin_top = -12.2122
+margin_right = 198.212
+margin_bottom = 12.7878
 __meta__ = {
 "_edit_use_anchors_": false
 }

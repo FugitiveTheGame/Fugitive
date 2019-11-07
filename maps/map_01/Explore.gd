@@ -11,7 +11,7 @@ func _ready():
 	var be_seeker := true
 	
 	var playerData = PlayerLobbyData.new()
-	Network.players[1] = playerData
+	Network.gameData.players[1] = playerData
 	
 	# All hiders need their network master set to 2
 	var hiders = get_tree().get_nodes_in_group(Groups.HIDERS)
@@ -20,7 +20,7 @@ func _ready():
 		i += 1
 		hider.set_network_master(i)
 		var data = PlayerLobbyData.new()
-		Network.players[i] = data
+		Network.gameData.players[i] = data
 	
 	if be_seeker:
 		$players/Seeker00.set_current_player()
