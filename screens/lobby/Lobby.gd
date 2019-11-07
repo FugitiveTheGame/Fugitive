@@ -27,7 +27,7 @@ func _ready():
 	
 	populate_map_list()
 	
-	players_initialize(Network.players)
+	players_initialize(Network.gameData.players)
 	Network.connect("player_updated", self, "player_updated")
 	Network.connect("new_player_registered", self, "new_player_registered")
 	Network.connect("player_removed", self, "player_removed")
@@ -88,7 +88,7 @@ class ScoreSorter:
 func find_winner() -> PlayerLobbyData:
 	var playersByScore = []
 	
-	for player in Network.players.values():
+	for player in Network.gameData.players.values():
 		playersByScore.push_back(player)
 	
 	playersByScore.sort_custom(ScoreSorter, 'sort')
@@ -97,7 +97,7 @@ func find_winner() -> PlayerLobbyData:
 
 func update_winner():
 	var winnerLabel := $OuterContainer/WinnerLabel
-	if Network.numGames > 0:
+	if Network.gameData.numGames > 0:
 		var winner = find_winner()
 		
 		winnerLabel.text = "Winning: %s" % [winner.name]
@@ -117,18 +117,18 @@ func player_updated(playerId: int, playerData: PlayerLobbyData):
 		Network.get_current_player().lobby_type = playerData.lobby_type
 	
 	# Update assigned type for the player
-	Network.players[playerId].assigned_type = playerData.assigned_type
+	Network.gameData.players[playerId].assigned_type = playerData.assigned_type
 	
 	update_player_counts()
 
 func get_min_seekers() -> int:
 	var minSeekers: int
 	# Special case for 1v1 games
-	if Network.players.size() < 3:
+	if Network.gameData.players.size() < 3:
 		minSeekers = 1
 	# General case
 	else:
-		minSeekers = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
+		minSeekers = max(MIN_SEEKERS, Network.gameData.players.size() / HIDER_TO_SEEKER_RATIO)
 	
 	return minSeekers
 
@@ -137,8 +137,8 @@ func update_player_counts():
 	var numHiders := 0
 	var numRandom := 0
 		
-	for player_id in Network.players:
-		var player = Network.players[player_id]
+	for player_id in Network.gameData.players:
+		var player = Network.gameData.players[player_id]
 		if player.lobby_type == Network.PlayerType.Seeker:
 			numSeekers += 1
 		elif player.lobby_type == Network.PlayerType.Hider:
@@ -147,7 +147,7 @@ func update_player_counts():
 			numRandom += 1
 	
 	var minSeekers := get_min_seekers()
-	var minHiders : int = max(MIN_HIDERS, Network.players.size() - minSeekers)
+	var minHiders : int = max(MIN_HIDERS, Network.gameData.players.size() - minSeekers)
 	
 	var numRandomSeekers : int = min(minSeekers - numSeekers, numRandom)
 	if (numRandomSeekers < 0):
@@ -203,8 +203,8 @@ func validate_game() -> bool:
 	
 	var minSeekers := get_min_seekers()
 	
-	for player_id in Network.players:
-		var player = Network.players[player_id]
+	for player_id in Network.gameData.players:
+		var player = Network.gameData.players[player_id]
 		if player.lobby_type == Network.PlayerType.Seeker:
 			numSeekers += 1
 		elif player.lobby_type == Network.PlayerType.Hider:
@@ -216,7 +216,7 @@ func validate_game() -> bool:
 			else:
 				numHiders += 1
 	
-	if Network.players.size() < MIN_PLAYERS:
+	if Network.gameData.players.size() < MIN_PLAYERS:
 		return false
 	elif numSeekers < MIN_SEEKERS and numSeekers < MIN_SEEKERS_EXCEPTION:
 		return false
@@ -255,7 +255,7 @@ func _on_StartGameButton_pressed():
 	
 	var selectedMap = getSelectedMap()
 	
-	if Network.players.size() >= MIN_PLAYERS:
+	if Network.gameData.players.size() >= MIN_PLAYERS:
 		# Starting the game, refuse any new player joins mid-game
 		if get_tree().is_network_server():
 			get_tree().network_peer.refuse_new_connections = true
@@ -278,8 +278,8 @@ func assign_random_players():
 	
 	# Find the count of players in assigned types vs. random,
 	# this will determine the mix of random assignments.
-	for player_id in Network.players.keys():
-		var player = Network.players[player_id]
+	for player_id in Network.gameData.players.keys():
+		var player = Network.gameData.players[player_id]
 		
 		# By default, assign them to the type that they chose.
 		player.assigned_type = player.lobby_type
@@ -304,11 +304,11 @@ func assign_random_players():
 	# Determine how many seekers to assign to randoms.  The rest will be hiders.
 	var seekersToSpawn: int
 	# Special case for 1v1 games
-	if Network.players.size() < 3:
+	if Network.gameData.players.size() < 3:
 		seekersToSpawn = 1
 	# General case
 	else:
-		seekersToSpawn = max(MIN_SEEKERS, Network.players.size() / HIDER_TO_SEEKER_RATIO)
+		seekersToSpawn = max(MIN_SEEKERS, Network.gameData.players.size() / HIDER_TO_SEEKER_RATIO)
 	# Remove pre-selected seekers
 	seekersToSpawn -= seekerCount
 	
@@ -318,13 +318,13 @@ func assign_random_players():
 	# The lowest X random players will be seekers, the rest hiders.
 	for index in range(0, randomPlayerValues.size()):
 		if (index < seekersToSpawn):
-			Network.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Seeker
+			Network.gameData.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Seeker
 		else:
-			Network.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Hider
+			Network.gameData.players[randomPlayerValues[index].player_id].assigned_type = Network.PlayerType.Hider
 		
 	# Now, update all clients' player assignments before we spawn them on the map.
-	for player_id in Network.players.keys():
-		var player = Network.players[player_id]
+	for player_id in Network.gameData.players.keys():
+		var player = Network.gameData.players[player_id]
 		Network.broadcast_set_player_assigned_type(player_id, player.assigned_type)
 
 remotesync func startGame(map):
@@ -338,7 +338,7 @@ func _on_UPNPButton_pressed():
 	#serverIpLabel.text = Network.get_external_ip()
 
 func _on_MapSelectButton_item_selected(id):
-	Network.currentMapId = id
+	Network.gameData.currentMapId = id
 	rpc('update_map_selection', id)
 
 remotesync func update_map_selection(id):
@@ -365,7 +365,7 @@ func _on_HelpButton_pressed():
 
 func game_updated():
 	var gameNumberLabel := $OuterContainer/GameNumberLabel
-	gameNumberLabel.text = "Game: %d" % (Network.numGames+1)
+	gameNumberLabel.text = "Game: %d" % (Network.gameData.numGames+1)
 
 func _on_CopyServerIpButton_pressed():
 	OS.clipboard = serverIpLabel.text

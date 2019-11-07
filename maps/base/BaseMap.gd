@@ -29,7 +29,7 @@ func _ready():
 func pre_configure_game():
 	
 	get_tree().set_pause(true)
-	create_players(Network.players)
+	create_players(Network.gameData.players)
 	
 	# Configure the HUD for this player
 	staminaBar.max_value = currentPlayer.max_stamina
@@ -44,9 +44,9 @@ remotesync func done_preconfiguring(playerIdDone):
 	
 	players_done.append(playerIdDone)
 	
-	print("%d players registered, %d total" % [players_done.size(), Network.players.keys().size()])
+	print("%d players registered, %d total" % [players_done.size(), Network.gameData.players.keys().size()])
 	
-	if (players_done.size() == Network.players.keys().size()):
+	if (players_done.size() == Network.gameData.players.keys().size()):
 		rpc("post_configure_game")
 
 remotesync func post_configure_game():
@@ -264,7 +264,7 @@ remotesync func end_game(seekersWon: bool):
 	var seekers := get_tree().get_nodes_in_group(Groups.SEEKERS)
 	for seeker in seekers:
 		var playerId = seeker.get_network_master()
-		var playerData = Network.players[playerId]
+		var playerData = Network.gameData.players[playerId]
 		
 		playerData.stats.seeker_captures += seeker.num_captures
 		
@@ -282,7 +282,7 @@ remotesync func end_game(seekersWon: bool):
 	var hiders := get_tree().get_nodes_in_group(Groups.HIDERS)
 	for hider in hiders:
 		var playerId = hider.get_network_master()
-		var playerData: PlayerLobbyData = Network.players[playerId]
+		var playerData: PlayerLobbyData = Network.gameData.players[playerId]
 		
 		var statusText: String
 		if hider.frozen:

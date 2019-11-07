@@ -13,14 +13,19 @@ enum PlayerType {Hider, Seeker, Random }
 
 var random = RandomNumberGenerator.new()
 
-var players = {}
-var playerName: String
-var numGames := 0
-var currentMapId: int
+class GameData:
+	var players = {}
+	var playerName: String
+	var numGames := 0
+	var currentMapId: int
+
+var gameData: GameData
 
 onready var upnp = UPNP.new()
 
 func _ready():
+	gameData = GameData.new()
+	
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
 	get_tree().connect('network_peer_disconnected', self, 'on_player_disconnect')
 	get_tree().connect('server_disconnected', self, 'on_server_disconnect')
@@ -31,7 +36,7 @@ func _ready():
 	random.seed = OS.get_unix_time()
 
 func get_current_player() -> PlayerLobbyData:
-	return players[get_current_player_id()]
+	return gameData.players[get_current_player_id()]
 	
 func get_current_player_id() -> int:
 	return get_tree().get_network_unique_id();
@@ -44,38 +49,38 @@ func broadcast_all_player_data():
 	if not get_tree().is_network_server():
 		return
 	
-	for player_id in players:
-		var player = players[player_id]
+	for player_id in gameData.players:
+		var player = gameData.players[player_id]
 		var dto = player.toDTO()
 		rpc('set_player_data', player_id, dto)
 
 remote func set_player_data(playerId: int, playerDto: Dictionary):
 	var playerData = PlayerLobbyData.new()
 	playerData.fromDTO(playerDto)
-	players[playerId] = playerData
-	emit_signal('player_updated', playerId, self.players[playerId])
+	gameData.players[playerId] = gameData.playerData
+	emit_signal('player_updated', playerId, self.gameData.players[playerId])
 
 func broadcast_set_player_lobby_type(playerId: int, playerType: int):
 	rpc('set_player_lobby_type', playerId, playerType)
 
 remotesync func set_player_lobby_type(playerId: int, playerType: int):
-	self.players[playerId].lobby_type = playerType
-	emit_signal('player_updated', playerId, self.players[playerId])
+	self.gameData.players[playerId].lobby_type = playerType
+	emit_signal('player_updated', playerId, self.gameData.players[playerId])
 	
 func broadcast_set_player_assigned_type(playerId: int, playerType: int):
 	rpc('set_player_assigned_type', playerId, playerType)
 
 remotesync func set_player_assigned_type(playerId: int, playerType: int):
-	self.players[playerId].assigned_type = playerType
-	emit_signal('player_updated', playerId, self.players[playerId])
+	self.gameData.players[playerId].assigned_type = playerType
+	emit_signal('player_updated', playerId, self.gameData.players[playerId])
 
 func host_game(name: String) -> bool:
-	self.playerName = name
+	self.gameData.playerName = name
 	
 	var selfData = PlayerLobbyData.new()
-	selfData.name = playerName
+	selfData.name = gameData.playerName
 	selfData.lobby_type = PlayerType.Random
-	players[1] = selfData
+	gameData.players[1] = selfData
 	
 	var peer = NetworkedMultiplayerENet.new()
 	#peer.allow_object_decoding = true
@@ -89,7 +94,7 @@ func host_game(name: String) -> bool:
 		return false
 
 func join_game(name: String, serverIp: String) -> bool:
-	self.playerName = name
+	self.gameData.playerName = name
 		
 	var peer = NetworkedMultiplayerENet.new()
 	#peer.allow_object_decoding = true
@@ -104,7 +109,7 @@ func join_game(name: String, serverIp: String) -> bool:
 
 func on_player_disconnect(id):
 	print('Player disconnect: ' + str(id))
-	self.players.erase(id)
+	self.gameData.players.erase(id)
 	emit_signal('player_removed', id)
 	
 func on_connected_to_server():
@@ -112,7 +117,7 @@ func on_connected_to_server():
 	print('Connected.  Assigned to player %d' % currentPlayerId)
 	
 	var selfData = PlayerLobbyData.new()
-	selfData.name = playerName
+	selfData.name = gameData.playerName
 	selfData.lobby_type = PlayerType.Random
 	
 	# Send the new player to the server for distribution,
@@ -120,24 +125,24 @@ func on_connected_to_server():
 	rpc_id(1, 'on_new_player_server', currentPlayerId, selfData.toDTO())
 
 remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
-	var orderedPlayers = self.players.keys()
+	var orderedPlayers = self.gameData.players.keys()
 	orderedPlayers.sort()
 	
 	for playerId in orderedPlayers:
-		var existingPlayer = self.players[playerId]
+		var existingPlayer = self.gameData.players[playerId]
 		rpc_id(newPlayerId, 'on_new_player_client', playerId, existingPlayer.toDTO())
 	
 	# Register the new player and tell all the new clients about them
 	var playerDataReal := PlayerLobbyData.new()
 	playerDataReal.fromDTO(playerDataDTO)
-	self.players[newPlayerId] = playerDataReal
+	self.gameData.players[newPlayerId] = playerDataReal
 	rpc('on_new_player_client', newPlayerId, playerDataDTO)
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
 
 remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 	var playerDataReal := PlayerLobbyData.new()
 	playerDataReal.fromDTO(playerDataDTO)
-	self.players[newPlayerId] = playerDataReal
+	self.gameData.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
 
 # 1) A client calls this in their Lobby's _ready() function
@@ -149,15 +154,15 @@ func request_lobby_state():
 remote func send_lobby_state(id: int):
 	# If you send 1 as the ID, it will broadcast the update to all clients
 	if id == 1:
-		rpc('receive_lobby_state', currentMapId, self.numGames)
+		rpc('receive_lobby_state', self.gameData.currentMapId, self.gameData.numGames)
 	else:
-		rpc_id(id, 'receive_lobby_state', currentMapId, self.numGames)
+		rpc_id(id, 'receive_lobby_state', self.gameData.currentMapId, self.gameData.numGames)
 
 # 3) The new client receives the lobby state data, and emits a singal
 # letting the lobby know the data is ready
 remote func receive_lobby_state(mapId: int, games: int):
-	self.numGames = games
-	self.currentMapId = mapId
+	self.gameData.numGames = games
+	self.gameData.currentMapId = mapId
 	emit_signal('receive_lobby_state', mapId)
 
 func on_server_disconnect():
@@ -168,15 +173,13 @@ func broadcast_game_complete():
 	if not get_tree().is_network_server():
 		return
 	
-	self.numGames += 1
+	self.gameData.numGames += 1
 	broadcast_all_player_data()
 
 func reset_game():
 	get_tree().network_peer.close_connection()
 	# Cleanup all state related to the game session
-	self.players = {}
-	self.playerName = ""
-	self.numGames = 0
+	self.gameData = GameData.new()
 	# Return to the main menu
 	# If we have a more legit "game management" class, this could instead signal to that class
 	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')
