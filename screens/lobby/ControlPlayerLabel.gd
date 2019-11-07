@@ -1,12 +1,19 @@
 extends VBoxContainer
 
-var playerId := 0;
+var playerId := 0
+
+func _ready():
+	# Only the current player or the server are allows to change this
+	if get_tree().get_network_unique_id() == self.playerId or get_tree().is_network_server():
+		$MainContainer/OptionPlayerRole.disabled = false
+	else:
+		$MainContainer/OptionPlayerRole.disabled = true
 
 func set_player_id(value: int):
-	self.playerId = value
+	playerId = value
 
 func get_player_id() -> int:
-	return self.playerId
+	return playerId
 
 func set_player_name(text: String):
 	$MainContainer/LabelPlayerName.text = text

@@ -68,7 +68,7 @@ func populate_map_list():
 	}
 	maps[1] = {
 		path = 'res://maps/map_03/Map_03.tscn',
-		name = 'Saburbia',
+		name = 'Suburbia',
 		size = 'Large',
 		description = 'Long game for a lot of players'
 	}
@@ -253,6 +253,10 @@ func validate_game() -> bool:
 
 func getSelectedMap() -> String:
 	return maps[mapSelectButton.get_selected_id()].path
+
+func _process(delta):
+	if get_tree().is_network_server():
+		startGameButton.disabled = not validate_game()
 
 func _on_StartGameButton_pressed():
 	# Only the host can start the game
