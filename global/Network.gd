@@ -3,7 +3,6 @@ extends Node
 signal player_updated
 signal new_player_registered
 signal player_removed
-signal send_lobby_state
 signal receive_lobby_state
 
 const DEFAULT_IP := '127.0.0.1'
@@ -17,6 +16,7 @@ var random = RandomNumberGenerator.new()
 var players = {}
 var playerName: String
 var numGames := 0
+var currentMapId: int
 
 onready var upnp = UPNP.new()
 
@@ -145,26 +145,19 @@ func request_lobby_state():
 	if not get_tree().is_network_server():
 		rpc_id(1, 'send_lobby_state', get_tree().get_network_unique_id())
 
-# 2) The server receives the request, and notifies the server's
-# Lobby that it needs to respond
-# If you send 1 as the ID, it will broadcast the update to all clients
+# 2) The server receives the request to update a client's Lobby
 remote func send_lobby_state(id: int):
-	emit_signal('send_lobby_state', id)
+	# If you send 1 as the ID, it will broadcast the update to all clients
+	if id == 1:
+		rpc('receive_lobby_state', currentMapId, self.numGames)
+	else:
+		rpc_id(id, 'receive_lobby_state', currentMapId, self.numGames)
 
-# 3) The servers lobby collects the data, and then passes it back here,
-# to the Network class so it can be transmitted back to the new client
-func update_lobby_state(id: int, mapId: int):
-	rpc_id(id, 'receive_lobby_state', mapId, self.numGames)
-
-# 3a) The servers lobby collects the data, and then passes it back here,
-# to the Network class so it can be transmitted back to the new client
-func broadcast_update_lobby_state(mapId: int):
-	rpc('receive_lobby_state', mapId, self.numGames)
-
-# 4) The new client receives the lobby state data, and emits a singal
+# 3) The new client receives the lobby state data, and emits a singal
 # letting the lobby know the data is ready
 remote func receive_lobby_state(mapId: int, games: int):
 	self.numGames = games
+	self.currentMapId = mapId
 	emit_signal('receive_lobby_state', mapId)
 
 func on_server_disconnect():

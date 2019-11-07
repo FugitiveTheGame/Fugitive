@@ -32,7 +32,6 @@ func _ready():
 	Network.connect("new_player_registered", self, "new_player_registered")
 	Network.connect("player_removed", self, "player_removed")
 	
-	Network.connect("send_lobby_state", self, "send_lobby_state")
 	Network.connect("receive_lobby_state", self, "receive_lobby_state")
 	
 	update_player_counts()
@@ -74,13 +73,6 @@ func populate_map_list():
 		var map = mapDirectory.maps[i]
 		self.maps.push_back(map)
 		mapSelectButton.add_item(map.name)
-
-# Server collects it's lobby data, and passes it back to the Network
-func send_lobby_state(id: int):
-	if id == 1:
-		Network.broadcast_update_lobby_state(mapSelectButton.selected)
-	else:
-		Network.update_lobby_state(id, mapSelectButton.selected)
 
 func receive_lobby_state(mapId: int):
 	update_map_selection(mapId)
@@ -346,6 +338,7 @@ func _on_UPNPButton_pressed():
 	#serverIpLabel.text = Network.get_external_ip()
 
 func _on_MapSelectButton_item_selected(id):
+	Network.currentMapId = id
 	rpc('update_map_selection', id)
 
 remotesync func update_map_selection(id):
