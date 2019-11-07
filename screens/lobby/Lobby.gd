@@ -1,13 +1,13 @@
-extends Control
+extends PanelContainer
 
-onready var playerListControl := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
-onready var startGameButton := $MainPanel/OuterContainer/StartGameButton
-onready var upnpButton := $MainPanel/OuterContainer/HBoxContainer/UPNPButton
-onready var serverIpContainer := $MainPanel/OuterContainer/ServerIpContainer
-onready var serverIpLabel := $MainPanel/OuterContainer/ServerIpContainer/ServerIpLabel
-onready var seekerCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/SeekersCount
-onready var hiderCountLabel := $MainPanel/OuterContainer/CenterContainer/PlayersContainer/HidersCount
-onready var mapSelectButton := $MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
+onready var playerListControl := $OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
+onready var startGameButton := $OuterContainer/StartGameButton
+onready var upnpButton := $OuterContainer/HBoxContainer/UPNPButton
+onready var serverIpContainer := $OuterContainer/ServerIpContainer
+onready var serverIpLabel := $OuterContainer/ServerIpContainer/ServerIpLabel
+onready var seekerCountLabel := $OuterContainer/CenterContainer/PlayersContainer/SeekersCount
+onready var hiderCountLabel := $OuterContainer/CenterContainer/PlayersContainer/HidersCount
+onready var mapSelectButton := $OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
 
 # Production values:
 const MIN_PLAYERS = 2
@@ -18,13 +18,6 @@ const HIDER_TO_SEEKER_RATIO = 3
 const MAX_SEEKERS = 5
 const MAX_HIDERS = 10
 
-# Testing values:
-"""
-const MIN_PLAYERS = 2
-const MIN_SEEKERS = 1
-const MIN_HIDERS = 1
-"""
-
 var maps = {}
 
 func _ready():
@@ -32,30 +25,7 @@ func _ready():
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
 	
-	maps[0] = {
-		path = 'res://maps/map_01/Map_01.tscn',
-		name = 'My Neighborhood',
-		size = 'Medium',
-		description = 'Well balanced'
-	}
-	maps[1] = {
-		path = 'res://maps/map_03/Map_03.tscn',
-		name = 'Saburbia',
-		size = 'Large',
-		description = 'Long game for a lot of players'
-	}
-	maps[2] = {
-		path = 'res://maps/map_02/Map_02.tscn',
-		name = 'Straight Line',
-		size = 'Medium',
-		description = 'Short and chaotic'
-	}
-	maps[3] = {
-		path = 'res://maps/map_breakin/Map_breakin.tscn',
-		name = 'Break-In',
-		size = 'Large',
-		description = "Try to get to the center.\n\nUNFINISHED"
-	}
+	populate_map_list()
 	
 	players_initialize(Network.players)
 	Network.connect("player_updated", self, "player_updated")
@@ -84,7 +54,40 @@ func _ready():
 	
 	# Update all clients to the server's network state
 	if get_tree().is_network_server():
+		update_map_selection(0)
 		Network.send_lobby_state(1)
+	else:
+		mapSelectButton.disabled = true
+
+func populate_map_list():
+	maps[0] = {
+		path = 'res://maps/map_01/Map_01.tscn',
+		name = 'My Neighborhood',
+		size = 'Medium',
+		description = 'Well balanced'
+	}
+	maps[1] = {
+		path = 'res://maps/map_03/Map_03.tscn',
+		name = 'Saburbia',
+		size = 'Large',
+		description = 'Long game for a lot of players'
+	}
+	maps[2] = {
+		path = 'res://maps/map_02/Map_02.tscn',
+		name = 'Straight Line',
+		size = 'Medium',
+		description = 'Short and chaotic'
+	}
+	maps[3] = {
+		path = 'res://maps/map_breakin/Map_breakin.tscn',
+		name = 'Break-In',
+		size = 'Large',
+		description = "Try to get to the center.\n\nUNFINISHED"
+	}
+	
+	for map_id in maps.keys():
+		var map = maps[map_id]
+		mapSelectButton.add_item(map.name)
 
 # Server collects it's lobby data, and passes it back to the Network
 func send_lobby_state(id: int):
@@ -115,7 +118,7 @@ func find_winner() -> PlayerLobbyData:
 	return playersByScore[0]
 
 func update_winner():
-	var winnerLabel := $MainPanel/OuterContainer/WinnerLabel
+	var winnerLabel := $OuterContainer/WinnerLabel
 	if Network.numGames > 0:
 		var winner = find_winner()
 		
@@ -351,7 +354,7 @@ func _on_MapSelectButton_item_selected(id):
 remotesync func update_map_selection(id):
 	mapSelectButton.selected = id
 	var map = maps[id]
-	$MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
+	$OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
 
 func fetch_external_ip():
 	$HTTPRequest.request("https://api.ipify.org/?format=json")
@@ -371,7 +374,7 @@ func _on_HelpButton_pressed():
 	node.popup_centered()
 
 func game_updated():
-	var gameNumberLabel := $MainPanel/OuterContainer/GameNumberLabel
+	var gameNumberLabel := $OuterContainer/GameNumberLabel
 	gameNumberLabel.text = "Game: %d" % (Network.numGames+1)
 
 func _on_CopyServerIpButton_pressed():

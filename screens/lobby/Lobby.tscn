@@ -3,112 +3,108 @@
 [ext_resource path="res://screens/lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=2]
 
-[node name="LobbyRoot" type="CenterContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 3.25806
-margin_top = 3.73427
-margin_right = 3.25806
-margin_bottom = 3.73425
+[node name="MainPanel" type="PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -342.5
+margin_top = -350.0
+margin_right = 357.5
+margin_bottom = 350.0
+rect_min_size = Vector2( 700, 700 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MainPanel" type="PanelContainer" parent="."]
-margin_left = 297.0
-margin_top = 10.0
-margin_right = 982.0
-margin_bottom = 710.0
-rect_min_size = Vector2( 512, 700 )
-
-[node name="OuterContainer" type="VBoxContainer" parent="MainPanel"]
+[node name="OuterContainer" type="VBoxContainer" parent="."]
 margin_left = 14.0
 margin_top = 14.0
-margin_right = 671.0
+margin_right = 686.0
 margin_bottom = 686.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
-margin_right = 657.0
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterContainer"]
+margin_right = 672.0
 margin_bottom = 52.0
 
-[node name="LeaveButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
+[node name="LeaveButton" type="Button" parent="OuterContainer/HBoxContainer"]
 margin_right = 37.0
 margin_bottom = 52.0
 text = "X"
 
-[node name="TitleLabel" type="Label" parent="MainPanel/OuterContainer/HBoxContainer"]
+[node name="TitleLabel" type="Label" parent="OuterContainer/HBoxContainer"]
 margin_left = 45.0
-margin_right = 383.0
+margin_right = 398.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
 
-[node name="UPNPButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_left = 391.0
-margin_right = 575.0
+[node name="UPNPButton" type="Button" parent="OuterContainer/HBoxContainer"]
+margin_left = 406.0
+margin_right = 590.0
 margin_bottom = 52.0
 text = "Perform UPNP"
 
-[node name="HelpButton" type="Button" parent="MainPanel/OuterContainer/HBoxContainer"]
-margin_left = 583.0
-margin_right = 657.0
+[node name="HelpButton" type="Button" parent="OuterContainer/HBoxContainer"]
+margin_left = 598.0
+margin_right = 672.0
 margin_bottom = 52.0
 text = "Help"
 
-[node name="GameNumberLabel" type="Label" parent="MainPanel/OuterContainer"]
+[node name="GameNumberLabel" type="Label" parent="OuterContainer"]
 margin_top = 60.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 85.0
 text = "Game Number: 1"
 align = 2
 
-[node name="HSeparator" type="HSeparator" parent="MainPanel/OuterContainer"]
+[node name="HSeparator" type="HSeparator" parent="OuterContainer"]
 margin_top = 93.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 101.0
 
-[node name="CenterContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+[node name="CenterContainer" type="HBoxContainer" parent="OuterContainer"]
 margin_top = 109.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 549.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PlayersContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
+[node name="PlayersContainer" type="VBoxContainer" parent="OuterContainer/CenterContainer"]
 margin_right = 354.0
 margin_bottom = 440.0
 size_flags_horizontal = 3
 
-[node name="PlayersTitle" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+[node name="PlayersTitle" type="Label" parent="OuterContainer/CenterContainer/PlayersContainer"]
 margin_right = 354.0
 margin_bottom = 25.0
 size_flags_vertical = 1
 text = "Players:"
 
-[node name="SeekersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+[node name="SeekersCount" type="Label" parent="OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 33.0
 margin_right = 354.0
 margin_bottom = 58.0
 text = "Cops: %d (min: %d, max: %d)"
 align = 1
 
-[node name="HidersCount" type="Label" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+[node name="HidersCount" type="Label" parent="OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 66.0
 margin_right = 354.0
 margin_bottom = 91.0
 text = "Fugitives: %d (min: %d, max: %d)"
 align = 1
 
-[node name="PlayersScrollContainer" type="ScrollContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer"]
+[node name="PlayersScrollContainer" type="ScrollContainer" parent="OuterContainer/CenterContainer/PlayersContainer"]
 margin_top = 99.0
 margin_right = 354.0
 margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PlayerList" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
+[node name="PlayerList" type="VBoxContainer" parent="OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
 margin_right = 354.0
 margin_bottom = 341.0
 size_flags_horizontal = 3
@@ -117,47 +113,46 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSeparator" type="VSeparator" parent="MainPanel/OuterContainer/CenterContainer"]
+[node name="VSeparator" type="VSeparator" parent="OuterContainer/CenterContainer"]
 margin_left = 362.0
 margin_right = 370.0
 margin_bottom = 440.0
 
-[node name="OptionsContainer" type="VBoxContainer" parent="MainPanel/OuterContainer/CenterContainer"]
+[node name="OptionsContainer" type="VBoxContainer" parent="OuterContainer/CenterContainer"]
 margin_left = 378.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="OptionsLabel" type="Label" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
-margin_right = 279.0
+[node name="OptionsLabel" type="Label" parent="OuterContainer/CenterContainer/OptionsContainer"]
+margin_right = 294.0
 margin_bottom = 25.0
 text = "Options:"
 
-[node name="MapSelectLabel" type="Label" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+[node name="MapSelectLabel" type="Label" parent="OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 33.0
-margin_right = 279.0
+margin_right = 294.0
 margin_bottom = 58.0
 text = "Select Map:"
 
-[node name="MapSelectButton" type="OptionButton" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+[node name="MapSelectButton" type="OptionButton" parent="OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 66.0
-margin_right = 279.0
+margin_right = 294.0
 margin_bottom = 103.0
-text = "My Neighborhood"
-items = [ "My Neighborhood", null, false, 0, null, "Suburbia", null, false, 1, null, "Straight Line", null, false, 2, null, "Break-In [WIP]", null, false, 3, null ]
+text = "Select Map"
 selected = 0
 
-[node name="MapInfoLabel" type="RichTextLabel" parent="MainPanel/OuterContainer/CenterContainer/OptionsContainer"]
+[node name="MapInfoLabel" type="RichTextLabel" parent="OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 111.0
-margin_right = 279.0
+margin_right = 294.0
 margin_bottom = 440.0
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="WinnerLabel" type="Label" parent="MainPanel/OuterContainer"]
+[node name="WinnerLabel" type="Label" parent="OuterContainer"]
 margin_top = 557.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 582.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 2
@@ -166,28 +161,28 @@ text = "Current Winner: Adam"
 align = 1
 uppercase = true
 
-[node name="StartGameButton" type="Button" parent="MainPanel/OuterContainer"]
+[node name="StartGameButton" type="Button" parent="OuterContainer"]
 margin_top = 590.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 627.0
 text = "Start Game"
 
-[node name="ServerIpContainer" type="HBoxContainer" parent="MainPanel/OuterContainer"]
+[node name="ServerIpContainer" type="HBoxContainer" parent="OuterContainer"]
 margin_top = 635.0
-margin_right = 657.0
+margin_right = 672.0
 margin_bottom = 672.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ServerIpLabel" type="Label" parent="MainPanel/OuterContainer/ServerIpContainer"]
+[node name="ServerIpLabel" type="Label" parent="OuterContainer/ServerIpContainer"]
 margin_right = 96.0
 margin_bottom = 37.0
 size_flags_vertical = 5
 text = "127.0.0.1"
 valign = 1
 
-[node name="CopyServerIpButton" type="Button" parent="MainPanel/OuterContainer/ServerIpContainer"]
+[node name="CopyServerIpButton" type="Button" parent="OuterContainer/ServerIpContainer"]
 margin_left = 104.0
 margin_right = 182.0
 margin_bottom = 37.0
@@ -195,10 +190,4 @@ text = "Copy"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 use_threads = true
-[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
-[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/UPNPButton" to="." method="_on_UPNPButton_pressed"]
-[connection signal="pressed" from="MainPanel/OuterContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
-[connection signal="item_selected" from="MainPanel/OuterContainer/CenterContainer/OptionsContainer/MapSelectButton" to="." method="_on_MapSelectButton_item_selected"]
-[connection signal="pressed" from="MainPanel/OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
-[connection signal="pressed" from="MainPanel/OuterContainer/ServerIpContainer/CopyServerIpButton" to="." method="_on_CopyServerIpButton_pressed"]
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="item_selected" from="OuterContainer/CenterContainer/OptionsContainer/MapSelectButton" to="." method="_on_MapSelectButton_item_selected"]
