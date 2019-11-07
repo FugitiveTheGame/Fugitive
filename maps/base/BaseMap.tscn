@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://maps/base/BaseMap.gd" type="Script" id=1]
 [ext_resource path="res://actors/spawn_point/spawn_point.tscn" type="PackedScene" id=2]
@@ -18,6 +18,10 @@
 [ext_resource path="res://touch_screen/button_right_normal.png" type="Texture" id=16]
 [ext_resource path="res://touch_screen/button_right_pressed.png" type="Texture" id=17]
 [ext_resource path="res://touch_screen/button_up_pressed.png" type="Texture" id=18]
+[ext_resource path="res://touch_screen/button_horn_pressed.png" type="Texture" id=19]
+[ext_resource path="res://touch_screen/button_lock_normal.png" type="Texture" id=20]
+[ext_resource path="res://touch_screen/button_horn_normal.png" type="Texture" id=21]
+[ext_resource path="res://touch_screen/button_lock_pressed.png" type="Texture" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 142.869, 392.313 )
@@ -431,6 +435,24 @@ normal = ExtResource( 9 )
 pressed = ExtResource( 8 )
 shape = SubResource( 9 )
 action = "use"
+visibility_mode = 1
+
+[node name="TouchLockButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
+position = Vector2( 158.834, 480 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 20 )
+pressed = ExtResource( 22 )
+shape = SubResource( 9 )
+action = "lock_car"
+visibility_mode = 1
+
+[node name="TouchHornButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
+position = Vector2( 948.834, 600 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 21 )
+pressed = ExtResource( 19 )
+shape = SubResource( 9 )
+action = "car_horn"
 visibility_mode = 1
 
 [node name="TouchRightButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]

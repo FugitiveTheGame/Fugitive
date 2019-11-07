@@ -10,6 +10,9 @@ onready var staminaBar := $UiLayer/PlayerHud/VBoxContainer/StaminaContainer/HBox
 onready var visibilityBar := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer/HBoxContainer/VisibilityBar
 onready var visibilityContainer := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer
 onready var safeZoneLabel := $UiLayer/PlayerHud/SafeZoneLabel
+onready var lockCarButton := $UiLayer/PlayerHud/TouchLockButton
+onready var carHornButton := $UiLayer/PlayerHud/TouchHornButton
+onready var useButton := $UiLayer/PlayerHud/TouchUseButton
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Random
@@ -138,6 +141,29 @@ func _process(delta: float):
 
 func updatePlayerHud():
 	staminaBar.value = currentPlayer.stamina
+	
+	# Handle dynamic touch screen UI
+	if OS.has_touchscreen_ui_hint():
+		if currentPlayer.car != null and currentPlayer.car.driver == currentPlayer:
+			if not carHornButton.visible:
+				carHornButton.show()
+		elif carHornButton.visible:
+			carHornButton.hide()
+		
+		if currentPlayer.car == null :
+			var car = currentPlayer.find_car_inrange()
+			
+			if car != null:
+				if not useButton.visible:
+					useButton.show()
+			elif useButton.visible:
+				useButton.hide()
+			
+			if currentPlayer._get_player_node_type() == Network.PlayerType.Seeker and currentPlayer.can_lock_car(car):
+				if not lockCarButton.visible:
+					lockCarButton.show()
+			elif lockCarButton.visible:
+				lockCarButton.hide()
 	
 	if currentPlayer._get_player_node_type() == Network.PlayerType.Hider:
 		visibilityBar.value = currentPlayer.current_visibility * 100.0

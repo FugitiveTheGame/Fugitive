@@ -74,10 +74,10 @@ wait_time = 2.0
 one_shot = true
 
 [node name="LockProgressBar" type="ProgressBar" parent="."]
-margin_left = -64.0
-margin_top = 74.513
-margin_right = 64.0
-margin_bottom = 99.513
+margin_left = -61.156
+margin_top = -132.531
+margin_right = 66.844
+margin_bottom = -107.531
 __meta__ = {
 "_edit_use_anchors_": false
 }
