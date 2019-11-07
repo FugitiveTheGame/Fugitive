@@ -57,7 +57,7 @@ func broadcast_all_player_data():
 remote func set_player_data(playerId: int, playerDto: Dictionary):
 	var playerData = PlayerLobbyData.new()
 	playerData.fromDTO(playerDto)
-	gameData.players[playerId] = gameData.playerData
+	self.gameData.players[playerId] = playerData
 	emit_signal('player_updated', playerId, self.gameData.players[playerId])
 
 func broadcast_set_player_lobby_type(playerId: int, playerType: int):
