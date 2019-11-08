@@ -31,7 +31,6 @@ func _ready():
 	Network.connect("player_updated", self, "player_updated")
 	Network.connect("new_player_registered", self, "new_player_registered")
 	Network.connect("player_removed", self, "player_removed")
-	
 	Network.connect("receive_lobby_state", self, "receive_lobby_state")
 	
 	update_player_counts()
@@ -50,6 +49,8 @@ func _ready():
 	update_winner()
 	game_updated()
 	Network.request_lobby_state()
+	
+	$OuterContainer/ServerIpContainer/PortLabel.text = "Port: %d" % Network.DEFAULT_PORT
 	
 	# Update all clients to the server's network state
 	if get_tree().is_network_server():

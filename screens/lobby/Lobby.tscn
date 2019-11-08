@@ -141,7 +141,6 @@ margin_top = 66.0
 margin_right = 294.0
 margin_bottom = 103.0
 text = "Select Map"
-selected = 0
 
 [node name="MapInfoLabel" type="RichTextLabel" parent="OuterContainer/CenterContainer/OptionsContainer"]
 margin_top = 111.0
@@ -187,6 +186,15 @@ margin_left = 104.0
 margin_right = 182.0
 margin_bottom = 37.0
 text = "Copy"
+
+[node name="PortLabel" type="Label" parent="OuterContainer/ServerIpContainer"]
+margin_left = 190.0
+margin_right = 313.0
+margin_bottom = 37.0
+size_flags_vertical = 5
+text = "Port: 31400"
+align = 2
+valign = 1
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 use_threads = true
