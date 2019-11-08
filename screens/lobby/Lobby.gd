@@ -348,7 +348,7 @@ remotesync func update_map_selection(id):
 	$OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
 
 func fetch_external_ip():
-	$HTTPRequest.request("https://api.ipify.org/?format=json")
+	$HTTPRequest.request("https://api6.ipify.org/?format=json")
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	if response_code == 200:

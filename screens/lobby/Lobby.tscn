@@ -204,3 +204,4 @@ use_threads = true
 [connection signal="item_selected" from="OuterContainer/CenterContainer/OptionsContainer/MapSelectButton" to="." method="_on_MapSelectButton_item_selected"]
 [connection signal="pressed" from="OuterContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
 [connection signal="pressed" from="OuterContainer/ServerIpContainer/CopyServerIpButton" to="." method="_on_CopyServerIpButton_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
