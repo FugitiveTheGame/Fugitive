@@ -5,7 +5,7 @@
  | |  | |_| | (_| | | |_| |\ V /  __/
  |_|   \__,_|\__, |_|\__|_| \_/ \___|
               __/ |                  
-             |___/        Alpha 0.02
+             |___/        Alpha 0.07
 
 
 Installing:
@@ -28,6 +28,11 @@ Controls:
 Sprinting:
 ----------
 A short burst of speed, you must stop moving completely to regenerate your stamina.
+
+
+Hosting:
+--------
+The host will need to ensure that the port: 31400 is forwarded to their computer.
 
 
 Goal of the game:
