@@ -280,6 +280,9 @@ position = Vector2( 385.166, 264.826 )
 [node name="WinZone" parent="." index="4"]
 position = Vector2( 634, -7924 )
 
+[node name="GracePeriodTimer" parent="." index="6"]
+wait_time = 15.0
+
 [node name="PregameCamera" parent="." index="10"]
 position = Vector2( 695.166, -3850.57 )
 zoom = Vector2( 13, 13 )
