@@ -9,7 +9,7 @@
 [ext_resource path="res://maps/base/BaseMap.tscn" type="PackedScene" id=7]
 [ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=8]
 
-[node name="base" instance=ExtResource( 7 )]
+[node name="base" index="0" instance=ExtResource( 7 )]
 
 [node name="ground" type="TileMap" parent="map" index="0"]
 tile_set = ExtResource( 5 )
@@ -228,9 +228,6 @@ position = Vector2( 460, 602 )
 
 [node name="Car1" parent="players" index="0" instance=ExtResource( 3 )]
 position = Vector2( 120, 400 )
-
-[node name="Car2" parent="players" index="1" instance=ExtResource( 3 )]
-position = Vector2( 630, 400 )
 
 [node name="WinZone" parent="." index="4"]
 position = Vector2( 6020.11, 388.217 )

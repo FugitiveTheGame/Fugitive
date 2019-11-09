@@ -1,15 +1,20 @@
 extends "res://maps/base/BaseMap.gd"
 
+func _enter_tree():
+	var peer = NetworkedMultiplayerENet.new()
+	peer.create_server(Network.DEFAULT_PORT, Network.MAX_PLAYERS)
+	peer.refuse_new_connections = true
+	get_tree().set_network_peer(peer)
+
 func _ready():
-	#._ready() # We want to override ready and NOT call the base impl!
 	# Change this to false to play as a Hider
-	var be_seeker := true
+	var be_seeker := false
 	
 	var playerData = PlayerLobbyData.new()
-	Network.players[1] = playerData
+	Network.gameData.players[1] = playerData
 	
 	var playerData2 = PlayerLobbyData.new()
-	Network.players[2] = playerData2
+	Network.gameData.players[2] = playerData2
 	
 	# Lower this sound for testing, it's real annoying
 	$SeekerReleaseAudio.volume_db = -80
@@ -31,12 +36,12 @@ func _ready():
 	
 	$players/Hider01.set_network_master(2)
 	
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(Network.DEFAULT_PORT, Network.MAX_PLAYERS)
-	get_tree().set_network_peer(peer)
-	
 	rpc("post_configure_game")
 
 func pre_configure_game():
 	# Skip the parent impl, we dont want none of that code in dev
 	pass
+
+remotesync func end_game(seekersWon: bool):
+	Network.reset_game()
+	get_tree().change_scene('res://screens/mainmenu/MainMenu.tscn')
