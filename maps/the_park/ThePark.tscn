@@ -401,7 +401,6 @@ position = Vector2( 890, -120 )
 position = Vector2( 840, 390 )
 
 [node name="WinZone" parent="." index="4"]
-visible = false
 position = Vector2( 6267.02, -3477.54 )
 
 [node name="GracePeriodTimer" parent="." index="6"]
