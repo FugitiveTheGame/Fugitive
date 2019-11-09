@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://maps/base/BaseMap.gd" type="Script" id=1]
 [ext_resource path="res://actors/spawn_point/spawn_point.tscn" type="PackedScene" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://touch_screen/button_lock_normal.png" type="Texture" id=20]
 [ext_resource path="res://touch_screen/button_horn_normal.png" type="Texture" id=21]
 [ext_resource path="res://touch_screen/button_lock_pressed.png" type="Texture" id=22]
+[ext_resource path="res://utilities/wallclock_timer/WallClockTimer.gd" type="Script" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 142.869, 392.313 )
@@ -191,27 +192,26 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="GameStartTimer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
-autostart = true
+[node name="GameStartTimer" type="Node" parent="."]
+script = ExtResource( 23 )
 __meta__ = {
 "_editor_description_": "Warm up time, everyone gets to look at the map, and get ready."
 }
+wait_time = 10
 
-[node name="GracePeriodTimer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
+[node name="GracePeriodTimer" type="Node" parent="."]
+script = ExtResource( 23 )
 __meta__ = {
 "_editor_description_": "Seekers are held captive for this ammount of time. Lets hiders get a head start."
 }
+wait_time = 10
 
-[node name="GameTimer" type="Timer" parent="."]
-wait_time = 600.0
-one_shot = true
+[node name="GameTimer" type="Node" parent="."]
+script = ExtResource( 23 )
 __meta__ = {
 "_editor_description_": "If this timer expires, the hiders lose."
 }
+wait_time = 900
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 

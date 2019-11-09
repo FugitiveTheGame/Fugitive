@@ -53,6 +53,11 @@ _global_script_classes=[ {
 "class": "StreetLight",
 "language": "GDScript",
 "path": "res://actors/street_light/StreetLight.gd"
+}, {
+"base": "Node",
+"class": "WallClockTimer",
+"language": "GDScript",
+"path": "res://utilities/wallclock_timer/WallClockTimer.gd"
 } ]
 _global_script_class_icons={
 "Car": "",
@@ -63,7 +68,8 @@ _global_script_class_icons={
 "PlayerStats": "",
 "Seeker": "",
 "SpawnPoint": "",
-"StreetLight": ""
+"StreetLight": "",
+"WallClockTimer": "res://utilities/wallclock_timer/icon.png"
 }
 
 [application]

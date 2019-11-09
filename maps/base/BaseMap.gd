@@ -74,6 +74,8 @@ remotesync func post_configure_game():
 			$UiLayer/PregameTeamLabel.text = 'You are a Fugitive'
 	
 	$UiLayer/PregameTeamLabel.show()
+	
+	$GameStartTimer.start()
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
