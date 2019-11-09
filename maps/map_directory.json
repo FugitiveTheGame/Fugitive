@@ -25,6 +25,12 @@
 			"description": "Short and chaotic, not particularly well balanced, but still fun with a lot of Fugitives."
 		},
 		{
+			"path": "res://maps/the_park/ThePark.tscn",
+			"name": "The Park",
+			"size": "Medium",
+			"description": "A neighborhood with parks and lots of cover. It's your choice whether to hide... or RUN!"
+		},
+		{
 			"path": "res://maps/map_breakin/Map_breakin.tscn",
 			"name": "Break-In",
 			"size": "Large",
