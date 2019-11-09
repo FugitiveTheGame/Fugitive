@@ -8,9 +8,10 @@
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
 
-[node name="Seeker" instance=ExtResource( 4 )]
+[node name="Seeker" index="0" instance=ExtResource( 4 )]
 collision_layer = 2
 script = ExtResource( 1 )
+speed = 250
 
 [node name="BodySprite" type="Sprite" parent="." index="4"]
 material = SubResource( 1 )
