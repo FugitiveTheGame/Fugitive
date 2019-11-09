@@ -91,14 +91,15 @@ text = "Cops: %d (min: %d, max: %d)"
 align = 1
 
 [node name="HidersCount" type="Label" parent="OuterContainer/CenterContainer/PlayersContainer"]
-margin_top = 66.0
+margin_top = 65.0
 margin_right = 354.0
-margin_bottom = 91.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 0, 60 )
 text = "Fugitives: %d (min: %d, max: %d)"
 align = 1
 
 [node name="PlayersScrollContainer" type="ScrollContainer" parent="OuterContainer/CenterContainer/PlayersContainer"]
-margin_top = 99.0
+margin_top = 134.0
 margin_right = 354.0
 margin_bottom = 440.0
 size_flags_horizontal = 3
@@ -106,7 +107,7 @@ size_flags_vertical = 3
 
 [node name="PlayerList" type="VBoxContainer" parent="OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer"]
 margin_right = 354.0
-margin_bottom = 341.0
+margin_bottom = 306.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 __meta__ = {

@@ -4,7 +4,7 @@
 
 [node name="Root" type="VBoxContainer"]
 margin_right = 196.0
-margin_bottom = 85.0
+margin_bottom = 90.0
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
@@ -43,16 +43,17 @@ selected = 0
 [node name="StatsLabel" type="RichTextLabel" parent="."]
 margin_top = 45.0
 margin_right = 196.0
-margin_bottom = 65.0
-rect_min_size = Vector2( 0, 20 )
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
+size_flags_vertical = 3
 bbcode_enabled = true
 bbcode_text = "[color=green][b][u]Score[/u][/b][/color] %d - [i][color=blue]Cop[/color] %d [color=red]Fug[/color] %d[/i]"
 text = "Score %d - Cop %d Fug %d"
 scroll_active = false
 
 [node name="HSeparator" type="HSeparator" parent="."]
-margin_top = 73.0
+margin_top = 83.0
 margin_right = 196.0
-margin_bottom = 81.0
+margin_bottom = 91.0
 [connection signal="item_selected" from="MainContainer/OptionPlayerRole" to="." method="_on_OptionPlayerRole_item_selected"]
