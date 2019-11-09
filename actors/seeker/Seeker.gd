@@ -37,7 +37,7 @@ remotesync func record_capture():
 	num_captures += 1
 
 func _input(event):
-	if not is_network_master() or not gameStarted:
+	if is_fake or not is_network_master() or not gameStarted:
 		return
 	
 	if event.is_action_pressed("lock_car"):
