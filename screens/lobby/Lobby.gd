@@ -129,7 +129,7 @@ func get_min_seekers() -> int:
 		minSeekers = 1
 	# General case
 	else:
-		minSeekers = max(MIN_SEEKERS, Network.gameData.players.size() / HIDER_TO_SEEKER_RATIO)
+		minSeekers = max(MIN_SEEKERS, Network.gameData.players.size() / HIDER_TO_SEEKER_RATIO) as int
 	
 	return minSeekers
 
@@ -148,9 +148,8 @@ func update_player_counts():
 			numRandom += 1
 	
 	var minSeekers := get_min_seekers()
-	var minHiders : int = max(MIN_HIDERS, Network.gameData.players.size() - minSeekers)
 	
-	var numRandomSeekers : int = min(minSeekers - numSeekers, numRandom)
+	var numRandomSeekers : int = min(minSeekers - numSeekers, numRandom) as int
 	if (numRandomSeekers < 0):
 		numRandomSeekers = 0
 	var numRandomHiders : int = numRandom - numRandomSeekers
@@ -309,7 +308,7 @@ func assign_random_players():
 		seekersToSpawn = 1
 	# General case
 	else:
-		seekersToSpawn = max(MIN_SEEKERS, Network.gameData.players.size() / HIDER_TO_SEEKER_RATIO)
+		seekersToSpawn = max(MIN_SEEKERS, Network.gameData.players.size() / HIDER_TO_SEEKER_RATIO) as int
 	# Remove pre-selected seekers
 	seekersToSpawn -= seekerCount
 	
