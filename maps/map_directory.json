@@ -4,25 +4,31 @@
 			"path": "res://maps/map_01/Map_01.tscn",
 			"name": "My Neighborhood",
 			"size": "Medium",
-			"description": "Well balanced"
+			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented."
 		},
 		{
 			"path": "res://maps/map_03/Map_03.tscn",
 			"name": "Suburbia",
 			"size": "Large",
-			"description": "Long game for a lot of players"
+			"description": "Long game for a lot of players. Work through apartment complexes and parks. Do you dare take the shortcut?"
+		},
+		{
+			"path": "res://maps/map_04/Map_04.tscn",
+			"name": "Greenway",
+			"size": "Medium",
+			"description": "A neighborhood with a central park running the whole length and ringed by roads. Foot cops will be doing a lot of work in there!"
 		},
 		{
 			"path": "res://maps/map_02/Map_02.tscn",
 			"name": "Straight Line",
 			"size": "Small",
-			"description": "Short and chaotic"
+			"description": "Short and chaotic, not particularly well balanced, but still fun with a lot of Fugitives."
 		},
 		{
 			"path": "res://maps/map_breakin/Map_breakin.tscn",
 			"name": "Break-In",
 			"size": "Large",
-			"description": "Try to get to the center.\n\nUNFINISHED"
+			"description": "UNFINISHED\n\nTry to get to the center."
 		}
 	]
 }

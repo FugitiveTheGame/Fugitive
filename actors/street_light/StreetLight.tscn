@@ -4,7 +4,8 @@
 [ext_resource path="res://actors/street_light/street_light.png" type="Texture" id=2]
 [ext_resource path="res://actors/street_light/StreetLight.gd" type="Script" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.0
 
 [node name="StreetLight" type="Sprite"]
 z_index = 1
@@ -26,6 +27,7 @@ position = Vector2( 20, 0 )
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 5, 0 )
 shape = SubResource( 1 )
 
 [node name="RayCast2D" type="RayCast2D" parent="StaticBody2D"]

@@ -1,13 +1,14 @@
 extends KinematicBody2D
 class_name Player
 
-export (int) var speed = 200
-export (float) var rotation_speed = 4.0
+export (int) var speed := 200
+export (float) var rotation_speed := 4.0
 export (String) var playerName: String
-export (float) var max_stamina = 100.0
-export (float) var stamina_depletion_rate = 100.0
-export (float) var stamina_regen_rate = 25.0
-export (float) var sprint_speed = 400.0
+export (float) var max_stamina := 100.0
+export (float) var stamina_depletion_rate := 100.0
+export (float) var stamina_regen_rate := 25.0
+export (float) var sprint_speed := 400.0
+export (bool) var is_fake := false
 
 onready var camera := $Camera as Camera2D
 onready var footStepAudio := $FootStepAudio as AudioStreamPlayer2D
@@ -62,6 +63,9 @@ remotesync func onUnfreeze():
 	print('unfreeze')
 
 func freeze():
+	if is_fake:
+		return
+	
 	rpc("onFreeze")
 
 remotesync func onFreeze():
@@ -81,7 +85,7 @@ func _unfrozen():
 	pass
 
 func _input(event):
-	if not is_network_master() or not gameStarted:
+	if is_fake or not is_network_master() or not gameStarted:
 		return
 	
 	if event.is_action_pressed("use"):
@@ -150,7 +154,7 @@ func process_stamina(delta: float):
 	stamina = clamp(stamina, 0.0, max_stamina)
 
 func _physics_process(delta: float):
-	if not gameStarted:
+	if not gameStarted or is_fake:
 		return
 	
 	# If we're in a car, do nothing

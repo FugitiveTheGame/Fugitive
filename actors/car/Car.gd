@@ -11,6 +11,7 @@ onready var lockAudio := $LockAudio
 export (int) var speed = 600
 export (float) var rotation_speed = 2.5
 export (bool) var locked := true setget set_locked, get_locked
+export (bool) var is_fake := false
 
 var velocity := Vector2()
 
@@ -79,6 +80,9 @@ func _process(delta):
 			drivingAudio.playing = false
 
 func _physics_process(delta: float):
+	if is_fake:
+		return
+	
 	if local_player_is_driver():
 		var new_rotation = get_input(delta)
 		
@@ -159,7 +163,7 @@ remotesync func stop_horn():
 	hornAudio.playing = false
 
 func _on_EnterArea_body_entered(body):
-	if not get_tree().is_network_server():
+	if is_fake or not get_tree().is_network_server():
 		return
 	
 	# If the car is being driven by a Hider, and hits a Cop

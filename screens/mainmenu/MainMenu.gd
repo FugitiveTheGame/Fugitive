@@ -1,7 +1,7 @@
 extends Node
 
-onready var joinDialog := $JoinGameDialog
-onready var serverIpEditText := $JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
+onready var joinDialog := $UiLayer/JoinGameDialog
+onready var serverIpEditText := $UiLayer/JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
 
 var playerName: String = ""
 
@@ -48,11 +48,11 @@ func _ready():
 		serverIpEditText.text = UserData.data.last_ip
 		playerName = UserData.data.user_name
 		
-	$PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
-	$GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
-	$PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures.text = str(UserData.data.lifetime_stats.seeker_captures)
-	$PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes.text = str(UserData.data.lifetime_stats.hider_escapes)
-	$PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured.text = str(UserData.data.lifetime_stats.hider_captures)
+	$UiLayer/PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
+	$UiLayer/GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
+	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures.text = str(UserData.data.lifetime_stats.seeker_captures)
+	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes.text = str(UserData.data.lifetime_stats.hider_escapes)
+	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured.text = str(UserData.data.lifetime_stats.hider_captures)
 
 func _exit_tree():
 	# Save any user data that changed
@@ -107,8 +107,14 @@ func server_disconnected():
 func _on_HelpButton_pressed():
 	var scene = preload("res://help/Help.tscn")
 	var node = scene.instance()
-	add_child(node)
+	$UiLayer.add_child(node)
 	node.popup_centered()
 
 func _on_ExploreButton_pressed():
 	get_tree().change_scene("res://maps/map_01/Explore.tscn")
+
+func prepare_background():
+	var seekers = get_tree().get_nodes_in_group(Groups.SEEKERS)
+	
+	for seeker in seekers:
+		seeker.get_node('LockProgressBar').hide()
