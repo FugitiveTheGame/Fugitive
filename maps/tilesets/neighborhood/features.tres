@@ -18,10 +18,10 @@ polygon = PoolVector2Array( 64, 64, 80, 64, 80, 80, 64, 80 )
 points = PoolVector2Array( 64, 64, 80, 64, 80, 80, 64, 80 )
 
 [sub_resource type="ConvexPolygonShape2D" id=6]
-points = PoolVector2Array( 0, 16, 64, 16, 64, 48, 0, 48 )
+points = PoolVector2Array( 0, 24, 64, 24, 64, 40, 0, 40 )
 
 [sub_resource type="ConvexPolygonShape2D" id=7]
-points = PoolVector2Array( 16, 16, 64, 16, 64, 48, 48, 48, 48, 64, 16, 64 )
+points = PoolVector2Array( 24, 24, 64, 24, 64, 40, 40, 40, 40, 64, 24, 64 )
 
 [resource]
 0/name = "wall_1x1.png 0"
