@@ -24,5 +24,6 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="." index="6"]
 rotation = -1.57079
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 4 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
