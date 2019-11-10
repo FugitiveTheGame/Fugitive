@@ -35,7 +35,8 @@ func _ready():
 		playerData.assigned_type = Network.PlayerType.Hider
 		currentPlayer = $players/Hider00
 	
-	rpc("post_configure_game")
+	var startTime = OS.get_unix_time() + $GameStartTimer.wait_time
+	rpc("post_configure_game", startTime)
 
 func pre_configure_game():
 	# Skip the parent impl, we dont want none of that code in dev

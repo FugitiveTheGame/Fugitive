@@ -47,9 +47,11 @@ remotesync func done_preconfiguring(playerIdDone):
 	print("%d players registered, %d total" % [players_done.size(), Network.gameData.players.keys().size()])
 	
 	if (players_done.size() == Network.gameData.players.keys().size()):
-		rpc("post_configure_game")
+		var startTime = OS.get_unix_time() + $GameStartTimer.wait_time + 1 # Give it an extra second to account for network BS
+		print('start at: ' + str(startTime))
+		rpc("post_configure_game", startTime)
 
-remotesync func post_configure_game():
+remotesync func post_configure_game(startTime: int):
 	# Server determines if sensors are on or not
 	if get_tree().is_network_server():
 		var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
@@ -75,7 +77,7 @@ remotesync func post_configure_game():
 	
 	$UiLayer/PregameTeamLabel.show()
 	
-	$GameStartTimer.start()
+	$GameStartTimer.start(startTime)
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):

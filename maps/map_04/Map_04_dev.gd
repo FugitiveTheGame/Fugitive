@@ -36,7 +36,8 @@ func _ready():
 	
 	$players/Hider01.set_network_master(2)
 	
-	rpc("post_configure_game")
+	var startTime = OS.get_unix_time() + $GameStartTimer.wait_time
+	rpc("post_configure_game", startTime)
 
 func pre_configure_game():
 	# Skip the parent impl, we dont want none of that code in dev
