@@ -404,4 +404,4 @@ position = Vector2( 840, 390 )
 position = Vector2( 6260, -3470 )
 
 [node name="GracePeriodTimer" parent="." index="6"]
-wait_time = 15.0
+wait_time = 0
