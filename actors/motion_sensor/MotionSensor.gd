@@ -15,9 +15,6 @@ func _ready():
 	add_to_group(Groups.MOTION_SENSORS)
 
 func set_enabled(isOn: bool):
-	rpc('on_set_enabled', isOn)
-
-remotesync func on_set_enabled(isOn: bool):
 	#print('Sensor Enabled: ' + str(isOn))
 	is_turned_on = isOn
 	# Only add us to LIGHTS if we are actually enabled

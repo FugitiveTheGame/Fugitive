@@ -27,9 +27,22 @@ func _ready():
 	pre_configure_game()
 
 func pre_configure_game():
-	
 	get_tree().set_pause(true)
+	
+	print('shared seed: ' + str(Network.gameData.sharedSeed))
+	# Reset the random seed for the pre-config setup
+	seed(Network.gameData.sharedSeed)
+	
 	create_players(Network.gameData.players)
+	
+	# Randomly enable sensors
+	var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
+	for sensor in sensors:
+		# Random chance of being enabled
+		if randi() % 6 == 0:
+			sensor.set_enabled(true)
+		else:
+			sensor.set_enabled(false)
 	
 	# Configure the HUD for this player
 	staminaBar.max_value = currentPlayer.max_stamina
@@ -52,17 +65,6 @@ remotesync func done_preconfiguring(playerIdDone):
 		rpc("post_configure_game", startTime)
 
 remotesync func post_configure_game(startTime: int):
-	seed(Network.gameData.sharedSeed)
-	# Server determines if sensors are on or not
-	if get_tree().is_network_server():
-		var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
-		for sensor in sensors:
-			# Random chance of being enabled
-			if randi() % 6 == 0:
-				sensor.set_enabled(true)
-			else:
-				sensor.set_enabled(false)
-	
 	get_tree().set_pause(false)
 	$PregameCamera.current = true
 	
@@ -90,8 +92,6 @@ func create_players(newPlayers: Dictionary):
 	var seekerSpawns = get_tree().get_nodes_in_group(SpawnPoint.SEEKER_SPAWN)
 	var hiderSpawns = get_tree().get_nodes_in_group(SpawnPoint.HIDER_SPAWN)
 	
-	print('shared seed: ' + str(Network.gameData.sharedSeed))
-	seed(Network.gameData.sharedSeed)
 	seekerSpawns.shuffle()
 	hiderSpawns.shuffle()
 	
