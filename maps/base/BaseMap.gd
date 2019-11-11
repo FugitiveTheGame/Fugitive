@@ -47,17 +47,18 @@ remotesync func done_preconfiguring(playerIdDone):
 	print("%d players registered, %d total" % [players_done.size(), Network.gameData.players.keys().size()])
 	
 	if (players_done.size() == Network.gameData.players.keys().size()):
-		var startTime = OS.get_unix_time() + $GameStartTimer.wait_time + 1 # Give it an extra second to account for network BS
+		var startTime = OS.get_unix_time() + $GameStartTimer.wait_time
 		print('start at: ' + str(startTime))
 		rpc("post_configure_game", startTime)
 
 remotesync func post_configure_game(startTime: int):
+	seed(Network.gameData.sharedSeed)
 	# Server determines if sensors are on or not
 	if get_tree().is_network_server():
 		var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
 		for sensor in sensors:
-			# 1 in 4 chance of being enabled
-			if Network.random.randi_range(0, 5) == 0:
+			# Random chance of being enabled
+			if randi() % 6 == 0:
 				sensor.set_enabled(true)
 			else:
 				sensor.set_enabled(false)
@@ -88,6 +89,11 @@ func create_players(newPlayers: Dictionary):
 	
 	var seekerSpawns = get_tree().get_nodes_in_group(SpawnPoint.SEEKER_SPAWN)
 	var hiderSpawns = get_tree().get_nodes_in_group(SpawnPoint.HIDER_SPAWN)
+	
+	print('shared seed: ' + str(Network.gameData.sharedSeed))
+	seed(Network.gameData.sharedSeed)
+	seekerSpawns.shuffle()
+	hiderSpawns.shuffle()
 	
 	for player_id in playerIds:
 		var player = newPlayers[player_id]

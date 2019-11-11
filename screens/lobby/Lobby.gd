@@ -274,6 +274,8 @@ func assign_random_players():
 	var hiderCount := 0
 	var randomCount := 0
 	
+	seed(Network.gameData.sharedSeed)
+	
 	var randomPlayerValues := []
 	
 	# Find the count of players in assigned types vs. random,

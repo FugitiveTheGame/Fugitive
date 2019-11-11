@@ -25,7 +25,7 @@
 [ext_resource path="res://utilities/wallclock_timer/WallClockTimer.gd" type="Script" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 142.869, 392.313 )
+extents = Vector2( 121.767, 379.178 )
 
 [sub_resource type="VisualShaderNodeScalarFunc" id=2]
 output_port_for_preview = 0

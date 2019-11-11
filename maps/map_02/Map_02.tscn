@@ -9,7 +9,7 @@
 [ext_resource path="res://maps/base/BaseMap.tscn" type="PackedScene" id=7]
 [ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=8]
 
-[node name="base" index="0" instance=ExtResource( 7 )]
+[node name="base" instance=ExtResource( 7 )]
 
 [node name="ground" type="TileMap" parent="map" index="0"]
 tile_set = ExtResource( 5 )
@@ -232,6 +232,9 @@ position = Vector2( 120, 400 )
 [node name="WinZone" parent="." index="4"]
 position = Vector2( 6020.11, 388.217 )
 rotation = 1.57079
+
+[node name="GameTimer" parent="." index="7"]
+wait_time = 300
 
 [node name="CarWall" parent="RoadWalls" index="0" instance=ExtResource( 1 )]
 position = Vector2( 5879.81, 137.056 )

@@ -11,13 +11,12 @@ const MAX_PLAYERS := 15
 
 enum PlayerType {Hider, Seeker, Random }
 
-var random = RandomNumberGenerator.new()
-
 class GameData:
 	var players = {}
 	var playerName: String
 	var numGames := 0
 	var currentMapId: int
+	var sharedSeed: int
 
 var gameData: GameData
 
@@ -33,7 +32,7 @@ func _ready():
 	# Begin discovery asap
 	upnp.discover()
 	
-	random.seed = OS.get_unix_time()
+	gameData.sharedSeed = OS.get_unix_time()
 
 func get_current_player() -> PlayerLobbyData:
 	return gameData.players[get_current_player_id()]
@@ -154,16 +153,23 @@ func request_lobby_state():
 remote func send_lobby_state(id: int):
 	# If you send 1 as the ID, it will broadcast the update to all clients
 	if id == 1:
-		rpc('receive_lobby_state', self.gameData.currentMapId, self.gameData.numGames)
+		rpc('receive_lobby_state', self.gameData.currentMapId, self.gameData.numGames, self.gameData.sharedSeed)
 	else:
-		rpc_id(id, 'receive_lobby_state', self.gameData.currentMapId, self.gameData.numGames)
+		rpc_id(id, 'receive_lobby_state', self.gameData.currentMapId, self.gameData.numGames, self.gameData.sharedSeed)
 
 # 3) The new client receives the lobby state data, and emits a singal
 # letting the lobby know the data is ready
-remote func receive_lobby_state(mapId: int, games: int):
+remotesync func receive_lobby_state(mapId: int, games: int, sharedSeed: int):
 	self.gameData.numGames = games
 	self.gameData.currentMapId = mapId
+	self.gameData.sharedSeed = sharedSeed
 	emit_signal('receive_lobby_state', mapId)
+
+func broadcast_lobby_state():
+	if not get_tree().is_network_server():
+		return
+		
+	send_lobby_state(1)
 
 func on_server_disconnect():
 	reset_game()
@@ -174,7 +180,10 @@ func broadcast_game_complete():
 		return
 	
 	self.gameData.numGames += 1
+	# Generate a new random shared seed for the next game
+	self.gameData.sharedSeed = OS.get_unix_time()
 	broadcast_all_player_data()
+	broadcast_lobby_state()
 
 func reset_game():
 	get_tree().network_peer.close_connection()

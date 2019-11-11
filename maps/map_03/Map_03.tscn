@@ -587,7 +587,7 @@ position = Vector2( -4090, -1210 )
 rotation = 1.57079
 
 [node name="Seeker1" parent="PlayerSpawns" index="0"]
-position = Vector2( -6122.38, 1209.77 )
+position = Vector2( -6119.38, 1209.77 )
 
 [node name="Seeker2" parent="PlayerSpawns" index="1"]
 position = Vector2( -5927.66, 1209.77 )
@@ -635,13 +635,19 @@ position = Vector2( -4959.03, 1317.5 )
 position = Vector2( -6165.14, 1352.68 )
 
 [node name="WinZone" parent="." index="4"]
-position = Vector2( 2433.94, 260.216 )
+position = Vector2( 2470.07, 242.153 )
+
+[node name="CollisionShape2D" parent="WinZone" index="0"]
+position = Vector2( -38.376, 15.3311 )
+
+[node name="ColorRect" parent="WinZone/Pregame" index="0"]
+margin_left = -414.0
+margin_top = -240.0
+margin_right = 344.0
+margin_bottom = 267.0
 
 [node name="GracePeriodTimer" parent="." index="6"]
-wait_time = 0
-
-[node name="GameTimer" parent="." index="7"]
-wait_time = 0
+wait_time = 15
 
 [node name="PregameCamera" parent="." index="10"]
 position = Vector2( -722.791, -2665 )

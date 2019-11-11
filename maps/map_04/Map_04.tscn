@@ -9,7 +9,7 @@
 [ext_resource path="res://actors/motion_sensor/MotionSensor.gd" type="Script" id=7]
 [ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=8]
 
-[node name="base" index="0" instance=ExtResource( 1 )]
+[node name="base" instance=ExtResource( 1 )]
 
 [node name="ground" type="TileMap" parent="map" index="0"]
 tile_set = ExtResource( 4 )
@@ -282,6 +282,9 @@ position = Vector2( 634, -7924 )
 
 [node name="GracePeriodTimer" parent="." index="6"]
 wait_time = 0
+
+[node name="GameTimer" parent="." index="7"]
+wait_time = 600
 
 [node name="PregameCamera" parent="." index="10"]
 position = Vector2( 695.166, -3850.57 )
