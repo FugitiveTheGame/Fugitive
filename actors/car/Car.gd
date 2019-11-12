@@ -69,15 +69,14 @@ func get_input(delta: float) -> float:
 	
 	self.velocity.setTarget(target)
 	
-	# Honk the car horn!
-	if Input.is_action_pressed('car_horn'):
-		if not hornAudio.playing:
-			rpc('start_horn')
-	elif hornAudio.playing:
-		rpc('stop_horn')
-	
 	if self.is_moving:
 		new_rotation = rotation_dir * self.rotation_speed * delta
+		driver.rotation = 0.0
+	# If we are sitting still, let the driver look around
+	else:
+		var driver_rotation = rotation_dir * self.rotation_speed * delta
+		driver.rotate(driver_rotation)
+	
 	return new_rotation
 
 func _process(delta):
@@ -88,6 +87,13 @@ func _process(delta):
 	else:
 		if drivingAudio.playing:
 			drivingAudio.playing = false
+	
+	# Honk the car horn!
+	if Input.is_action_pressed('car_horn'):
+		if not hornAudio.playing:
+			rpc('start_horn')
+	elif hornAudio.playing:
+		rpc('stop_horn')
 
 func _physics_process(delta: float):
 	if is_fake:
@@ -102,7 +108,7 @@ func _physics_process(delta: float):
 		self.rotation += new_rotation
 		
 		rpc_unreliable("network_update", self.position, self.velocity.getCurrentValue(), self.velocity.getTarget(), self.rotation)
-	# If we're just the server, send
+	# If the server owns this car, send no matter what
 	elif get_network_master() == get_tree().get_network_unique_id():
 		rpc_unreliable("network_update", self.position, self.velocity.getCurrentValue(), self.velocity.getTarget(), self.rotation)
 
