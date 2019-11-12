@@ -81,19 +81,20 @@ func get_input(delta: float) -> float:
 
 func _process(delta):
 	# Make movement noises if moving
-	if is_moving() and driver != null:
+	if is_moving and driver != null:
 		if not drivingAudio.playing:
 			drivingAudio.playing = true
 	else:
 		if drivingAudio.playing:
 			drivingAudio.playing = false
 	
-	# Honk the car horn!
-	if Input.is_action_pressed('car_horn'):
-		if not hornAudio.playing:
-			rpc('start_horn')
-	elif hornAudio.playing:
-		rpc('stop_horn')
+	if local_player_is_driver():
+		# Honk the car horn!
+		if Input.is_action_pressed('car_horn'):
+			if not hornAudio.playing:
+				rpc('start_horn')
+		elif hornAudio.playing:
+			rpc('stop_horn')
 
 func _physics_process(delta: float):
 	if is_fake:
@@ -175,11 +176,12 @@ func local_player_is_driver():
 	return driver != null and driver.get_network_master() == get_tree().get_network_unique_id()
 
 remotesync func start_horn():
-	hornAudio.playing = true
-	print('Honk Honk!')
+	if not hornAudio.playing:
+		hornAudio.play()
+		print('Honk Honk!')
 
 remotesync func stop_horn():
-	hornAudio.playing = false
+	hornAudio.stop()
 
 func _on_EnterArea_body_entered(body):
 	if is_fake or not get_tree().is_network_server():
