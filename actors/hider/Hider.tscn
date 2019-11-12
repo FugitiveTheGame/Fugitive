@@ -1,12 +1,33 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://actors/hider/Hider.gd" type="Script" id=1]
 [ext_resource path="res://actors/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://actors/hider/freeze.ogg" type="AudioStream" id=3]
-[ext_resource path="res://actors/hider/fugitive.png" type="Texture" id=4]
+[ext_resource path="res://actors/hider/walking_00.png" type="Texture" id=4]
+[ext_resource path="res://actors/hider/idle_01.png" type="Texture" id=5]
+[ext_resource path="res://actors/hider/idle_00.png" type="Texture" id=6]
+[ext_resource path="res://actors/hider/idle_02.png" type="Texture" id=7]
+[ext_resource path="res://actors/hider/walking_02.png" type="Texture" id=8]
+[ext_resource path="res://actors/hider/walking_01.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 50, 50 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 3.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 3.0
+} ]
 
 [node name="Hider" index="0" instance=ExtResource( 2 )]
 collision_layer = 4
@@ -23,8 +44,19 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="." index="6"]
-rotation = -1.57079
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 4 )
+[node name="IdleSprite" type="AnimatedSprite" parent="." index="6"]
+frames = SubResource( 2 )
+playing = true
+
+[node name="WalkingSprite" type="AnimatedSprite" parent="." index="7"]
+visible = false
+frames = SubResource( 3 )
+frame = 2
+playing = true
+
+[node name="SprintingSprite" type="AnimatedSprite" parent="." index="8"]
+visible = false
+frames = SubResource( 3 )
+speed_scale = 5.0
+playing = true
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

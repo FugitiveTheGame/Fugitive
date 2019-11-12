@@ -140,6 +140,9 @@ func get_input(delta: float) -> float:
 	new_rotation = rotation_dir * self.rotation_speed * delta
 	return new_rotation
 
+func is_moving() -> bool:
+	return velocity.length() > 0.0
+
 func is_moving_fast():
 	return velocity.length() > (speed * 1.1)
 
@@ -147,9 +150,9 @@ func is_sprinting():
 	return Input.is_action_pressed('sprint') and stamina > 0.0
 
 func process_stamina(delta: float):
-	if is_sprinting():
+	if is_sprinting() and is_moving():
 		stamina -= (stamina_depletion_rate * delta)
-	elif not Input.is_action_pressed('sprint') and not is_moving():
+	elif not is_moving():
 		stamina += (stamina_regen_rate * delta)
 	stamina = clamp(stamina, 0.0, max_stamina)
 
@@ -178,9 +181,6 @@ func _physics_process(delta: float):
 	else:
 		if footStepAudio.playing:
 			footStepAudio.playing = false
-
-func is_moving() -> bool:
-	return velocity.length() > 0.0
 
 func set_current_player():
 	camera.current = true
