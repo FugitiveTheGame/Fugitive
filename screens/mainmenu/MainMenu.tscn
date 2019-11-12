@@ -402,6 +402,32 @@ by yourself:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ServerListContainer" type="PanelContainer" parent="UiLayer"]
+margin_left = 923.0
+margin_top = 90.0
+margin_right = 1252.0
+margin_bottom = 446.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/ServerListContainer"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 315.0
+margin_bottom = 342.0
+
+[node name="TitleLabel" type="Label" parent="UiLayer/ServerListContainer/VBoxContainer"]
+margin_right = 301.0
+margin_bottom = 25.0
+text = "LAN Games"
+
+[node name="ServerList" type="VBoxContainer" parent="UiLayer/ServerListContainer/VBoxContainer"]
+margin_top = 33.0
+margin_right = 301.0
+margin_bottom = 328.0
+size_flags_vertical = 3
 [connection signal="pressed" from="UiLayer/PanelContainer/VBoxContainer/TitleContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="text_changed" from="UiLayer/PanelContainer/VBoxContainer/PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="pressed" from="UiLayer/PanelContainer/VBoxContainer/HBoxContainer/CenterHost/HostGameButton" to="." method="_on_HostGameButton_pressed"]

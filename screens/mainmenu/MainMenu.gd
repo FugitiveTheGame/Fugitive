@@ -2,6 +2,8 @@ extends Node
 
 onready var joinDialog := $UiLayer/JoinGameDialog
 onready var serverIpEditText := $UiLayer/JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
+onready var serverListContainer := $UiLayer/ServerListContainer
+onready var serverList := $UiLayer/ServerListContainer/VBoxContainer/ServerList
 
 var playerName: String = ""
 
@@ -53,6 +55,10 @@ func _ready():
 	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures.text = str(UserData.data.lifetime_stats.seeker_captures)
 	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes.text = str(UserData.data.lifetime_stats.hider_escapes)
 	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured.text = str(UserData.data.lifetime_stats.hider_captures)
+	
+	serverListContainer.hide()
+	
+	fake_server()
 
 func _exit_tree():
 	# Save any user data that changed
@@ -118,3 +124,24 @@ func prepare_background():
 	
 	for seeker in seekers:
 		seeker.get_node('LockProgressBar').hide()
+
+func on_join_server_request(serverIp: String):
+	if playerName == "":
+		return
+	
+	Network.join_game(playerName, serverIp)
+
+func fake_server():
+	var scene = preload('res://screens/mainmenu/LanServer.tscn')
+	
+	var fakeServer1 := scene.instance() as LanServer
+	fakeServer1.populate('Adam', '192.168.1.42')
+	fakeServer1.connect('join_server', self, 'on_join_server_request')
+	serverList.add_child(fakeServer1)
+	
+	var fakeServer2 := scene.instance() as LanServer
+	fakeServer2.populate('Billy', '192.168.1.96')
+	fakeServer2.connect('join_server', self, 'on_join_server_request')
+	serverList.add_child(fakeServer2)
+	
+	serverListContainer.show()
