@@ -25,6 +25,9 @@ func _ready():
 	# Maps pause the game when they end, we need to re-enable them
 	get_tree().paused = false
 	
+	# Set the server to the host's player name
+	$ServerAdvertiser.server_name = Network.gameData.playerName
+	
 	populate_map_list()
 	
 	players_initialize(Network.gameData.players)
@@ -50,7 +53,7 @@ func _ready():
 	game_updated()
 	Network.request_lobby_state()
 	
-	$OuterContainer/ServerIpContainer/PortLabel.text = "Port: %d" % Network.DEFAULT_PORT
+	$OuterContainer/ServerIpContainer/PortLabel.text = "Port: %d" % Network.gameData.serverPort
 	
 	# Update all clients to the server's network state
 	if get_tree().is_network_server():

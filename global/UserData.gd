@@ -62,6 +62,6 @@ func save_data(save_data = self.data):
 		print("Error opening file")
 		return
 	
-	var serialized =to_json(save_data)
+	var serialized = to_json(save_data)
 	file.store_line(serialized)
 	file.close()

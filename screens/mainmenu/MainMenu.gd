@@ -2,6 +2,8 @@ extends Node
 
 onready var joinDialog := $UiLayer/JoinGameDialog
 onready var serverIpEditText := $UiLayer/JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
+onready var serverListContainer := $UiLayer/ServerListContainer
+onready var serverList := $UiLayer/ServerListContainer/VBoxContainer/ScrollContainer/ServerList
 
 var playerName: String = ""
 
@@ -118,3 +120,28 @@ func prepare_background():
 	
 	for seeker in seekers:
 		seeker.get_node('LockProgressBar').hide()
+
+func on_join_server_request(serverIp: String, serverPort: int):
+	if playerName == "":
+		return
+	
+	Network.join_game(playerName, serverIp, serverPort)
+
+func _on_ServerListener_new_server(serverInfo):
+	var scene = preload('res://screens/mainmenu/LanServer.tscn')
+	
+	var server := scene.instance() as LanServer
+	server.populate(serverInfo.name, serverInfo.ip, serverInfo.port, serverInfo.players, serverInfo.numGames)
+	server.connect('join_server', self, 'on_join_server_request')
+	serverList.add_child(server)
+	
+	serverListContainer.show()
+
+func _on_ServerListener_remove_server(serverIp: String):
+	for child in serverList.get_children():
+		if child.serverIp == serverIp:
+			serverList.remove_child(child)
+			break
+	
+	if serverList.get_child_count() == 0:
+		serverListContainer.hide()
