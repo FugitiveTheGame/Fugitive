@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://screens/mainmenu/LanServer.gd" type="Script" id=1]
+
+[node name="LanServer" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1024.0
+margin_bottom = -656.0
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 256.0
+margin_bottom = 37.0
+
+[node name="ServerNameLabel" type="Label" parent="HBoxContainer"]
+margin_top = 6.0
+margin_right = 183.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Server Name"
+
+[node name="JoinButton" type="Button" parent="HBoxContainer"]
+margin_left = 191.0
+margin_right = 256.0
+margin_bottom = 37.0
+size_flags_vertical = 4
+text = "Join"
+
+[node name="PlayerCountLabel" type="Label" parent="."]
+margin_top = 45.0
+margin_right = 256.0
+margin_bottom = 70.0
+text = "2 Players"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 78.0
+margin_right = 256.0
+margin_bottom = 86.0
+[connection signal="pressed" from="HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]

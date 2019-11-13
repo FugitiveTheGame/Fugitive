@@ -13,6 +13,7 @@ enum PlayerType {Hider, Seeker, Random }
 
 class GameData:
 	var players = {}
+	var serverPort: int
 	var playerName: String
 	var numGames := 0
 	var currentMapId: int
@@ -73,8 +74,9 @@ remotesync func set_player_assigned_type(playerId: int, playerType: int):
 	self.gameData.players[playerId].assigned_type = playerType
 	emit_signal('player_updated', playerId, self.gameData.players[playerId])
 
-func host_game(name: String) -> bool:
+func host_game(name: String, serverPort: int = DEFAULT_PORT) -> bool:
 	self.gameData.playerName = name
+	self.gameData.serverPort = serverPort
 	
 	var selfData = PlayerLobbyData.new()
 	selfData.name = gameData.playerName
@@ -83,7 +85,7 @@ func host_game(name: String) -> bool:
 	
 	var peer = NetworkedMultiplayerENet.new()
 	#peer.allow_object_decoding = true
-	var result = peer.create_server(DEFAULT_PORT, MAX_PLAYERS)
+	var result = peer.create_server(serverPort, MAX_PLAYERS)
 	
 	if result == OK:
 		get_tree().set_network_peer(peer)
@@ -92,12 +94,13 @@ func host_game(name: String) -> bool:
 	else:
 		return false
 
-func join_game(name: String, serverIp: String) -> bool:
+func join_game(name: String, serverIp: String, serverPort: int = DEFAULT_PORT) -> bool:
 	self.gameData.playerName = name
+	self.gameData.serverPort = serverPort
 		
 	var peer = NetworkedMultiplayerENet.new()
 	#peer.allow_object_decoding = true
-	var result = peer.create_client(serverIp, DEFAULT_PORT)
+	var result = peer.create_client(serverIp, serverPort)
 	
 	if result == OK:
 		get_tree().set_network_peer(peer)

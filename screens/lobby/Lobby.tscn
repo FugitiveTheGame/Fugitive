@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://screens/lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://utilities/server_advertiser/ServerAdvertiser.gd" type="Script" id=3]
 
 [node name="MainPanel" type="PanelContainer"]
 anchor_left = 0.5
@@ -91,9 +92,9 @@ text = "Cops: %d (min: %d, max: %d)"
 align = 1
 
 [node name="HidersCount" type="Label" parent="OuterContainer/CenterContainer/PlayersContainer"]
-margin_top = 65.0
+margin_top = 66.0
 margin_right = 354.0
-margin_bottom = 125.0
+margin_bottom = 126.0
 rect_min_size = Vector2( 0, 60 )
 text = "Fugitives: %d (min: %d, max: %d)"
 align = 1
@@ -199,6 +200,9 @@ valign = 1
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 use_threads = true
+
+[node name="ServerAdvertiser" type="Node" parent="."]
+script = ExtResource( 3 )
 [connection signal="pressed" from="OuterContainer/HBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="OuterContainer/HBoxContainer/UPNPButton" to="." method="_on_UPNPButton_pressed"]
 [connection signal="pressed" from="OuterContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
