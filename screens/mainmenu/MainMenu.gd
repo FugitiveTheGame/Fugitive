@@ -3,7 +3,7 @@ extends Node
 onready var joinDialog := $UiLayer/JoinGameDialog
 onready var serverIpEditText := $UiLayer/JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
 onready var serverListContainer := $UiLayer/ServerListContainer
-onready var serverList := $UiLayer/ServerListContainer/VBoxContainer/ServerList
+onready var serverList := $UiLayer/ServerListContainer/VBoxContainer/ScrollContainer/ServerList
 
 var playerName: String = ""
 
@@ -55,10 +55,6 @@ func _ready():
 	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures.text = str(UserData.data.lifetime_stats.seeker_captures)
 	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes.text = str(UserData.data.lifetime_stats.hider_escapes)
 	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured.text = str(UserData.data.lifetime_stats.hider_captures)
-	
-	serverListContainer.hide()
-	
-	fake_server()
 
 func _exit_tree():
 	# Save any user data that changed
@@ -125,23 +121,27 @@ func prepare_background():
 	for seeker in seekers:
 		seeker.get_node('LockProgressBar').hide()
 
-func on_join_server_request(serverIp: String):
+func on_join_server_request(serverIp: String, serverPort: int):
 	if playerName == "":
 		return
 	
-	Network.join_game(playerName, serverIp)
+	Network.join_game(playerName, serverIp, serverPort)
 
-func fake_server():
+func _on_ServerListener_new_server(serverInfo):
 	var scene = preload('res://screens/mainmenu/LanServer.tscn')
 	
-	var fakeServer1 := scene.instance() as LanServer
-	fakeServer1.populate('Adam', '192.168.1.42')
-	fakeServer1.connect('join_server', self, 'on_join_server_request')
-	serverList.add_child(fakeServer1)
-	
-	var fakeServer2 := scene.instance() as LanServer
-	fakeServer2.populate('Billy', '192.168.1.96')
-	fakeServer2.connect('join_server', self, 'on_join_server_request')
-	serverList.add_child(fakeServer2)
+	var server := scene.instance() as LanServer
+	server.populate(serverInfo.name, serverInfo.ip, serverInfo.port, serverInfo.players, serverInfo.numGames)
+	server.connect('join_server', self, 'on_join_server_request')
+	serverList.add_child(server)
 	
 	serverListContainer.show()
+
+func _on_ServerListener_remove_server(serverIp: String):
+	for child in serverList.get_children():
+		if child.serverIp == serverIp:
+			serverList.remove_child(child)
+			break
+	
+	if serverList.get_child_count() == 0:
+		serverListContainer.hide()
