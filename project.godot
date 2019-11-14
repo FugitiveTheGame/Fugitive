@@ -216,5 +216,7 @@ shadow_filter=2
 
 [rendering]
 
-quality/filters/anisotropic_filter_level=1
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=1
+quality/filters/anisotropic_filter_level=2
 environment/default_clear_color=Color( 0.0627451, 0.0784314, 0.133333, 1 )
