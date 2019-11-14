@@ -12,10 +12,6 @@ Installing:
 -----------
 Unzip all of the files, then run Fugitive.exe
 
-(If you try to run Fugitive.exe from with-in the zip file without extracting everything,
-it won't work, and I'll just tell you to read these instructions again... It's going to happen.)
-
-
 Controls:
 ---------
 	Movement: WASD or Arrow Keys
