@@ -20,7 +20,7 @@ func process_hider(hider: Hider):
 	
 		if(rayCaster.is_colliding()):
 			var bodySeen = rayCaster.get_collider()
-		
+			
 			# If the ray hits a wall or something else first, then this Hider is fully occluded
 			if(bodySeen == hider):
 				var percent_visible = 1.0 - (distance / illumination_range)
