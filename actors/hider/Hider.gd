@@ -5,7 +5,7 @@ signal current_player_hider_frozen
 
 var current_visibility: float = 0.0 setget set_current_visibility
 
-onready var sprite := $Sprite
+onready var animation = $Container/Skeleton/AnimationTree.get("parameters/playback")
 
 func _get_player_group() -> String:
 	return Groups.HIDERS
@@ -36,13 +36,13 @@ func _on_Area2D_body_entered(body):
 func _process(delta):
 		# If walking, make sure we're showing the walk anim
 	if is_moving_fast():
-		sprite.animation = 'sprinting'
+		animation.travel('sprinting')
 	# If walking, make sure we're showing the walk anim
 	elif is_moving():
-		sprite.animation = 'walking'
+		animation.travel('walking')
 	# We're idle, make sure we're showing the idle anim
 	else:
-		sprite.animation = 'idle'
+		animation.travel('idle')
 
 func set_current_visibility(percentVisible: float):
 	current_visibility = percentVisible

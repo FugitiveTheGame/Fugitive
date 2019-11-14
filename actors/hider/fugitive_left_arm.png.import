@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/idle_02.png-3839d1795d2ca1015043de6ef2a56472.stex"
+path="res://.import/fugitive_left_arm.png-92826612f802aee93b17157d3bf9875f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://actors/hider/idle_02.png"
-dest_files=[ "res://.import/idle_02.png-3839d1795d2ca1015043de6ef2a56472.stex" ]
+source_file="res://actors/hider/fugitive_left_arm.png"
+dest_files=[ "res://.import/fugitive_left_arm.png-92826612f802aee93b17157d3bf9875f.stex" ]
 
 [params]
 

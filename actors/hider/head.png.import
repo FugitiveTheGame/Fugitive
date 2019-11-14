@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/walking_02.png-9e3f02c739e3cadca7d4da43fcac79b5.stex"
+path="res://.import/head.png-2504f05bc50dd760ae6d3c01b02ec00c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://actors/hider/walking_02.png"
-dest_files=[ "res://.import/walking_02.png-9e3f02c739e3cadca7d4da43fcac79b5.stex" ]
+source_file="res://actors/hider/head.png"
+dest_files=[ "res://.import/head.png-2504f05bc50dd760ae6d3c01b02ec00c.stex" ]
 
 [params]
 
@@ -21,8 +21,8 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
+flags/mipmaps=true
+flags/anisotropic=true
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
