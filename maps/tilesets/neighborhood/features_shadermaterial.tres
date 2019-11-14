@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://maps/tilesets/neighborhood/features.shader" type="Shader" id=1]
+
+[resource]
+render_priority = 99
+shader = ExtResource( 1 )
