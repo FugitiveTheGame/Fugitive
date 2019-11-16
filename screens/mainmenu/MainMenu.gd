@@ -5,6 +5,15 @@ onready var serverIpEditText := $UiLayer/JoinGameDialog/CenterContainer/Verticle
 onready var serverListContainer := $UiLayer/ServerListContainer
 onready var serverList := $UiLayer/ServerListContainer/VBoxContainer/ScrollContainer/ServerList
 
+export (NodePath) var joiningDialogPath: NodePath
+onready var joiningDialog: WindowDialog = get_node(joiningDialogPath)
+
+export (NodePath) var joinFailedDialogPath: NodePath
+onready var joinFailedDialog: AcceptDialog = get_node(joinFailedDialogPath)
+
+export (NodePath) var hostFailedDialogPath: NodePath
+onready var hostFailedDialog: AcceptDialog = get_node(hostFailedDialogPath)
+
 var playerName: String = ""
 
 func _init():
@@ -38,10 +47,12 @@ func _ready():
 					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
 	
 	if (args.size() > 0):
-		Network.join_game(playerName, serverIpEditText.text)
+		join_game(playerName, serverIpEditText.text)
 	else:
 		serverIpEditText.text = UserData.data.last_ip
 		playerName = UserData.data.user_name
+		
+	joiningDialog.get_close_button().hide()
 		
 	$UiLayer/PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
 	$UiLayer/GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
@@ -54,6 +65,8 @@ func _exit_tree():
 	UserData.data.last_ip = serverIpEditText.text
 	UserData.data.user_name = playerName
 	UserData.save_data()
+	
+	joiningDialog.hide()
 
 func _on_HostGameButton_pressed():
 	if playerName == "":
@@ -62,6 +75,9 @@ func _on_HostGameButton_pressed():
 	var success = Network.host_game(playerName)
 	if success:
 		get_tree().change_scene('res://screens/lobby/Lobby.tscn')
+	else:
+		Network.reset_game()
+		hostFailedDialog.show()
 
 func _on_JoinGameButton_pressed():
 	if playerName == "":
@@ -73,15 +89,16 @@ func _on_PlayerNameTextEdit_text_changed(text):
 	playerName = text
 
 func _on_ConnectButton_pressed():
-	joinDialog.hide()
+	self.joinDialog.hide()
 	
 	var serverIp: String
 	serverIp = serverIpEditText.text
 	
 	if serverIp == "":
-		return
-	
-	Network.join_game(playerName, serverIp)
+		joinFailedDialog.show()
+	else:
+		self.joiningDialog.show()
+		join_game(playerName, serverIp)
 
 func _on_CancelButton_pressed():
 	joinDialog.hide()
@@ -114,11 +131,18 @@ func prepare_background():
 	for seeker in seekers:
 		seeker.get_node('LockProgressBar').hide()
 
+func join_game(playerName: String, serverIp: String, serverPort: int = Network.DEFAULT_PORT):
+	
+	if Network.join_game(playerName, serverIp, serverPort):
+		joiningDialog.show()
+	else:
+		joinFailedDialog.show()
+
 func on_join_server_request(serverIp: String, serverPort: int):
 	if playerName == "":
 		return
 	
-	Network.join_game(playerName, serverIp, serverPort)
+	join_game(playerName, serverIp, serverPort)
 
 func _on_ServerListener_new_server(serverInfo):
 	var scene = preload('res://screens/mainmenu/LanServer.tscn')
@@ -138,3 +162,7 @@ func _on_ServerListener_remove_server(serverIp: String):
 	
 	if serverList.get_child_count() == 0:
 		serverListContainer.hide()
+
+func _on_CancelJoiningButton_pressed():
+	Network.reset_game()
+	self.joiningDialog.hide()

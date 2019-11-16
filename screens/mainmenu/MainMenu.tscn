@@ -76,6 +76,9 @@ tracks/0/keys = {
 
 [node name="base" type="Node"]
 script = ExtResource( 1 )
+joiningDialogPath = NodePath("UiLayer/JoiningDialog")
+joinFailedDialogPath = NodePath("UiLayer/JoinFailedDialog")
+hostFailedDialogPath = NodePath("UiLayer/HostFailedDialog")
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -436,6 +439,73 @@ size_flags_vertical = 3
 margin_right = 301.0
 size_flags_horizontal = 3
 
+[node name="JoiningDialog" type="WindowDialog" parent="UiLayer"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -100.0
+margin_right = 160.0
+margin_bottom = 100.0
+popup_exclusive = true
+window_title = "Joining Game"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/JoiningDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UiLayer/JoiningDialog/VBoxContainer"]
+margin_top = 34.0
+margin_right = 320.0
+margin_bottom = 121.0
+size_flags_vertical = 6
+text = "Joinging Game
+
+Please Wait..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CancelJoiningButton" type="Button" parent="UiLayer/JoiningDialog/VBoxContainer"]
+margin_top = 163.0
+margin_right = 320.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="JoinFailedDialog" type="AcceptDialog" parent="UiLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -70.5
+margin_right = 160.0
+margin_bottom = 70.5
+popup_exclusive = true
+dialog_text = "Failed to join game!"
+dialog_autowrap = true
+
+[node name="HostFailedDialog" type="AcceptDialog" parent="UiLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -70.5
+margin_right = 160.0
+margin_bottom = 70.5
+popup_exclusive = true
+dialog_text = "Failed to host game!"
+dialog_autowrap = true
+
 [node name="ServerListener" type="Node" parent="."]
 script = ExtResource( 10 )
 [connection signal="pressed" from="UiLayer/PanelContainer/VBoxContainer/TitleContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
@@ -445,5 +515,6 @@ script = ExtResource( 10 )
 [connection signal="pressed" from="UiLayer/JoinGameDialog/CenterContainer/Verticle/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="UiLayer/JoinGameDialog/CenterContainer/Verticle/HBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
 [connection signal="pressed" from="UiLayer/ExploreButton" to="." method="_on_ExploreButton_pressed"]
+[connection signal="pressed" from="UiLayer/JoiningDialog/VBoxContainer/CancelJoiningButton" to="." method="_on_CancelJoiningButton_pressed"]
 [connection signal="new_server" from="ServerListener" to="." method="_on_ServerListener_new_server"]
 [connection signal="remove_server" from="ServerListener" to="." method="_on_ServerListener_remove_server"]
