@@ -1,18 +1,73 @@
 extends Node2D
 
-onready var players := $players
-onready var gracePeriodTimer := $GracePeriodTimer
-onready var winZone : Area2D = $WinZone
-onready var gameTimer := $GameTimer
-onready var gameTimerLabel := $UiLayer/PlayerHud/GameTimerLabel
-onready var playerHud := $UiLayer/PlayerHud
-onready var staminaBar := $UiLayer/PlayerHud/VBoxContainer/StaminaContainer/HBoxContainer/StaminaBar
-onready var visibilityBar := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer/HBoxContainer/VisibilityBar
-onready var visibilityContainer := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer
-onready var safeZoneLabel := $UiLayer/PlayerHud/SafeZoneLabel
-onready var lockCarButton := $UiLayer/PlayerHud/LeftTouchContainer/TouchLockButton
-onready var carHornButton := $UiLayer/PlayerHud/RightTouchContainer/TouchHornButton
-onready var useButton := $UiLayer/PlayerHud/LeftTouchContainer/TouchUseButton
+export (NodePath) var playersPath: NodePath
+onready var players := get_node(playersPath)
+
+export (NodePath) var gracePeriodTimerPath: NodePath
+onready var gracePeriodTimer := get_node(gracePeriodTimerPath)
+
+export (NodePath) var winZonePath: NodePath
+onready var winZone : Area2D = get_node(winZonePath)
+
+export (NodePath) var gameTimerPath: NodePath
+onready var gameTimer := get_node(gameTimerPath)
+
+export (NodePath) var gameTimerLabelPath: NodePath
+onready var gameTimerLabel := get_node(gameTimerLabelPath)
+
+export (NodePath) var playerHudPath: NodePath
+onready var playerHud := get_node(playerHudPath)
+
+export (NodePath) var staminaBarPath: NodePath
+onready var staminaBar := get_node(staminaBarPath)
+
+export (NodePath) var visibilityBarPath: NodePath
+onready var visibilityBar := get_node(visibilityBarPath)
+
+export (NodePath) var visibilityContainerPath: NodePath
+onready var visibilityContainer := get_node(visibilityContainerPath)
+
+export (NodePath) var safeZoneLabelPath: NodePath
+onready var safeZoneLabel := get_node(safeZoneLabelPath)
+
+export (NodePath) var lockCarButtonPath: NodePath
+onready var lockCarButton := get_node(lockCarButtonPath)
+
+export (NodePath) var carHornButtonPath: NodePath
+onready var carHornButton := get_node(carHornButtonPath)
+
+export (NodePath) var useButtonPath: NodePath
+onready var useButton := get_node(useButtonPath)
+
+export (NodePath) var pregameCameraPath: NodePath
+onready var pregameCamera := get_node(pregameCameraPath)
+
+export (NodePath) var gameStartTimerPath: NodePath
+onready var gameStartTimer := get_node(gameStartTimerPath)
+
+export (NodePath) var gameStartLabelPath: NodePath
+onready var gameStartLabel := get_node(gameStartLabelPath)
+
+export (NodePath) var winZonePregamePath: NodePath
+onready var winZonePregame := get_node(winZonePregamePath)
+
+export (NodePath) var pregameTeamLabelPath: NodePath
+onready var pregameTeamLabel := get_node(pregameTeamLabelPath)
+
+export (NodePath) var graceTimerLabelPath: NodePath
+onready var graceTimerLabel := get_node(graceTimerLabelPath)
+
+export (NodePath) var playerSummaryPath: NodePath
+onready var playerSummary := get_node(playerSummaryPath)
+
+export (NodePath) var gameOverDialogPath: NodePath
+onready var gameOverDialog := get_node(gameOverDialogPath)
+
+export (NodePath) var winnerLabelPath: NodePath
+onready var winnerLabel := get_node(winnerLabelPath)
+
+export (NodePath) var seekerReleaseAudioPath: NodePath
+onready var seekerReleaseAudio := get_node(seekerReleaseAudioPath)
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Random
@@ -60,27 +115,27 @@ remotesync func done_preconfiguring(playerIdDone):
 	print("%d players registered, %d total" % [players_done.size(), Network.gameData.players.keys().size()])
 	
 	if (players_done.size() == Network.gameData.players.keys().size()):
-		var startTime = OS.get_unix_time() + $GameStartTimer.wait_time
+		var startTime = OS.get_unix_time() + gameStartTimer.wait_time
 		print('start at: ' + str(startTime))
 		rpc("post_configure_game", startTime)
 
 remotesync func post_configure_game(startTime: int):
 	get_tree().set_pause(false)
-	$PregameCamera.current = true
+	pregameCamera.current = true
 	
-	$WinZone/Pregame.show()
+	winZonePregame.show()
 	
-	$UiLayer/GameStartLabel.show()
+	gameStartLabel.show()
 	
 	match currentPlayer._get_player_node_type():
 		Network.PlayerType.Seeker:
-			$UiLayer/PregameTeamLabel.text = 'You are a Cop'
+			pregameTeamLabel.text = 'You are a Cop'
 		Network.PlayerType.Hider:
-			$UiLayer/PregameTeamLabel.text = 'You are a Fugitive'
+			pregameTeamLabel.text = 'You are a Fugitive'
 	
-	$UiLayer/PregameTeamLabel.show()
+	pregameTeamLabel.show()
 	
-	$GameStartTimer.start(startTime)
+	gameStartTimer.start(startTime)
 	print("*** UNPAUSED ***")
 
 func create_players(newPlayers: Dictionary):
@@ -142,7 +197,7 @@ func set_current_player(playerNode: Player):
 		currentPlayer.connect('current_player_hider_frozen', self, 'go_to_spectator_view')
 
 func go_to_spectator_view():
-	$PregameCamera.current = true
+	pregameCamera.current = true
 
 # warning-ignore:unused_argument
 func _process(delta: float):
@@ -192,12 +247,12 @@ func updatePlayerHud():
 
 func handleGraceTimer():
 	if not gracePeriodTimer.is_stopped():
-		$UiLayer/GraceTimerLabel.text = "Cops released in %d..." % self.gracePeriodTimer.time_left
+		graceTimerLabel.text = "Cops released in %d..." % self.gracePeriodTimer.time_left
 
 func updateStartTimer():
-	if not $GameStartTimer.is_stopped():
-		var sec = $GameStartTimer.time_left as int
-		$UiLayer/GameStartLabel.text = "Starting in %d" % sec
+	if not gameStartTimer.is_stopped():
+		var sec = gameStartTimer.time_left as int
+		gameStartLabel.text = "Starting in %d" % sec
 
 func updateGameTimer():
 	if not gameTimer.is_stopped():
@@ -263,10 +318,10 @@ remotesync func end_game(seekersWon: bool):
 	
 	if seekersWon:
 		self.winner = Network.PlayerType.Seeker
-		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Cops win!"
+		winnerLabel.text = "Cops win!"
 	else:
 		self.winner = Network.PlayerType.Hider
-		$UiLayer/GameOverDialog/VBoxContainer/WinnerLabel.text = "Fugitives win!"
+		winnerLabel.text = "Fugitives win!"
 	
 	var currentPlayerId := Network.get_current_player_id()
 	var statsForCurrentPlayer := PlayerStats.new()
@@ -317,14 +372,13 @@ remotesync func end_game(seekersWon: bool):
 		
 		summaryBbcode += "  %s - [i]%s[/i]\n" % [playerData.name, statusText]
 	
-	var playerSummaryContainer = $UiLayer/GameOverDialog/VBoxContainer/PlayerSummary
-	playerSummaryContainer.bbcode_text = summaryBbcode
+	playerSummary.bbcode_text = summaryBbcode
 	
 	# Save the stats for your own data
 	UserData.add_to_stats(statsForCurrentPlayer)
 	UserData.save_data()
 	
-	$UiLayer/GameOverDialog.popup_centered()
+	gameOverDialog.popup_centered()
 	
 	Network.broadcast_game_complete()
 
@@ -334,8 +388,8 @@ func _on_GracePeriodTimer_timeout():
 		var seeker: Seeker = seekerNode
 		seeker.unfreeze()
 	
-	$UiLayer/GraceTimerLabel.hide()
-	$SeekerReleaseAudio.play()
+	graceTimerLabel.hide()
+	seekerReleaseAudio.play()
 
 func player_removed(player_id: int):
 	print('Removing player: %d' % player_id)
@@ -347,9 +401,9 @@ func player_removed(player_id: int):
 
 # Pregame has ended, hide all the pregame stuff and show the main phase stuff
 func _on_GameStartTimer_timeout():
-	$UiLayer/GameStartLabel.hide()
-	$UiLayer/PregameTeamLabel.hide()
-	$WinZone/Pregame.hide()
+	gameStartLabel.hide()
+	pregameTeamLabel.hide()
+	winZonePregame.hide()
 	
 	playerHud.show()
 	if currentPlayer._get_player_node_type() == Network.PlayerType.Hider:
@@ -361,7 +415,7 @@ func _on_GameStartTimer_timeout():
 	updateGameTimer()
 	
 	gracePeriodTimer.start()
-	$UiLayer/GraceTimerLabel.show()
+	graceTimerLabel.show()
 	
 	currentPlayer.set_current_player()
 	
