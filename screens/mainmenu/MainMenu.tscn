@@ -321,6 +321,7 @@ margin_left = -227.5
 margin_top = 48.9868
 margin_right = 227.5
 margin_bottom = 251.987
+popup_exclusive = true
 window_title = "Join Game"
 __meta__ = {
 "_edit_use_anchors_": false
