@@ -1,9 +1,16 @@
 extends Node
 
-onready var joinDialog := $UiLayer/JoinGameDialog
-onready var serverIpEditText := $UiLayer/JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit
-onready var serverListContainer := $UiLayer/ServerListContainer
-onready var serverList := $UiLayer/ServerListContainer/VBoxContainer/ScrollContainer/ServerList
+export (NodePath) var joinDialogPath: NodePath
+onready var joinDialog: WindowDialog = get_node(joinDialogPath)
+
+export (NodePath) var serverIpEditTextPath: NodePath
+onready var serverIpEditText: TextEdit = get_node(serverIpEditTextPath)
+
+export (NodePath) var serverListContainerPath: NodePath
+onready var serverListContainer: PanelContainer = get_node(serverListContainerPath)
+
+export (NodePath) var serverListPath: NodePath
+onready var serverList: VBoxContainer
 
 export (NodePath) var joiningDialogPath: NodePath
 onready var joiningDialog: WindowDialog = get_node(joiningDialogPath)

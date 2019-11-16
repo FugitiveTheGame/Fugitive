@@ -76,6 +76,10 @@ tracks/0/keys = {
 
 [node name="base" type="Node"]
 script = ExtResource( 1 )
+joinDialogPath = NodePath("UiLayer/JoinGameDialog")
+serverIpEditTextPath = NodePath("UiLayer/JoinGameDialog/CenterContainer/Verticle/ServerIpTextEdit")
+serverListContainerPath = NodePath("UiLayer/ServerListContainer")
+serverListPath = NodePath("UiLayer/ServerListContainer/VBoxContainer/ScrollContainer/ServerList")
 joiningDialogPath = NodePath("UiLayer/JoiningDialog")
 joinFailedDialogPath = NodePath("UiLayer/JoinFailedDialog")
 hostFailedDialogPath = NodePath("UiLayer/HostFailedDialog")
@@ -440,7 +444,6 @@ margin_right = 301.0
 size_flags_horizontal = 3
 
 [node name="JoiningDialog" type="WindowDialog" parent="UiLayer"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
