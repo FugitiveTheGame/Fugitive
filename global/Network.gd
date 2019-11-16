@@ -44,6 +44,10 @@ func get_current_player_id() -> int:
 func disconnect_from_game():
 	reset_game()
 
+remote func disconnect_by_server():
+	print('Disconnected by server')
+	disconnect_from_game()
+
 func broadcast_all_player_data():
 	# Only the network server can update everyone's player data
 	if not get_tree().is_network_server():
@@ -117,7 +121,7 @@ func on_player_disconnect(id):
 func on_connected_to_server():
 	var currentPlayerId = get_tree().get_network_unique_id()
 	print('Connected.  Assigned to player %d' % currentPlayerId)
-	
+
 	var selfData = PlayerLobbyData.new()
 	selfData.name = gameData.playerName
 	selfData.lobby_type = PlayerType.Random
@@ -125,6 +129,9 @@ func on_connected_to_server():
 	# Send the new player to the server for distribution,
 	# await other player info
 	rpc_id(1, 'on_new_player_server', currentPlayerId, selfData.toDTO())
+	
+	# Enforce the correct game version
+	rpc_id(1, 'version_check', currentPlayerId, UserData.GAME_VERSION)
 
 remote func on_new_player_server(newPlayerId: int, playerDataDTO: Dictionary):
 	var orderedPlayers = self.gameData.players.keys()
@@ -146,6 +153,13 @@ remote func on_new_player_client(newPlayerId: int, playerDataDTO: Dictionary):
 	playerDataReal.fromDTO(playerDataDTO)
 	self.gameData.players[newPlayerId] = playerDataReal
 	emit_signal('new_player_registered', newPlayerId, playerDataReal)
+
+# Called by each client as they join, if they have the wrong game version
+# then the server will tell them to disconnect
+remote func version_check(clientId: int, clientVersion: String):
+	if clientVersion != UserData.GAME_VERSION:
+		print('Client had bad game version %s, disconnecting them', clientVersion)
+		rpc_id(clientId, 'disconnect_by_server')
 
 # 1) A client calls this in their Lobby's _ready() function
 func request_lobby_state():
