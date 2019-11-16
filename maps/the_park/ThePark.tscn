@@ -9,7 +9,7 @@
 [ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=7]
 [ext_resource path="res://maps/tilesets/neighborhood/features_shadermaterial.tres" type="Material" id=8]
 
-[node name="base" instance=ExtResource( 4 )]
+[node name="base" index="0" instance=ExtResource( 4 )]
 
 [node name="ground" type="TileMap" parent="map" index="0"]
 position = Vector2( 1, -3 )
@@ -295,63 +295,51 @@ rotation = 0.0227683
 position = Vector2( 4150, -2040 )
 rotation = -3.10303
 
-[node name="MotionSensor14" parent="map/MotionSensors" index="9" instance=ExtResource( 6 )]
-position = Vector2( 3220, -2090 )
-rotation = -3.17324
-
-[node name="MotionSensor15" parent="map/MotionSensors" index="10" instance=ExtResource( 6 )]
-position = Vector2( 3410, -3520 )
-rotation = -6.1677
-
-[node name="MotionSensor18" parent="map/MotionSensors" index="11" instance=ExtResource( 6 )]
+[node name="MotionSensor18" parent="map/MotionSensors" index="9" instance=ExtResource( 6 )]
 position = Vector2( 2650, -4110 )
 rotation = -6.1677
 
-[node name="MotionSensor19" parent="map/MotionSensors" index="12" instance=ExtResource( 6 )]
+[node name="MotionSensor19" parent="map/MotionSensors" index="10" instance=ExtResource( 6 )]
 position = Vector2( 3150, -4110 )
 rotation = -6.29772
 
-[node name="MotionSensor20" parent="map/MotionSensors" index="13" instance=ExtResource( 6 )]
+[node name="MotionSensor20" parent="map/MotionSensors" index="11" instance=ExtResource( 6 )]
 position = Vector2( 3920, -4110 )
 rotation = -6.2071
 
-[node name="MotionSensor21" parent="map/MotionSensors" index="14" instance=ExtResource( 6 )]
+[node name="MotionSensor21" parent="map/MotionSensors" index="12" instance=ExtResource( 6 )]
 position = Vector2( 7950, -4280 )
 rotation = -4.68354
 
-[node name="MotionSensor22" parent="map/MotionSensors" index="15" instance=ExtResource( 6 )]
+[node name="MotionSensor22" parent="map/MotionSensors" index="13" instance=ExtResource( 6 )]
 position = Vector2( 7930, -3760 )
 rotation = -4.68354
 
-[node name="MotionSensor23" parent="map/MotionSensors" index="16" instance=ExtResource( 6 )]
+[node name="MotionSensor23" parent="map/MotionSensors" index="14" instance=ExtResource( 6 )]
 position = Vector2( 7620, -3040 )
 rotation = -3.16873
 
-[node name="MotionSensor24" parent="map/MotionSensors" index="17" instance=ExtResource( 6 )]
+[node name="MotionSensor24" parent="map/MotionSensors" index="15" instance=ExtResource( 6 )]
 position = Vector2( 7100, -3050 )
 rotation = -3.13065
 
-[node name="MotionSensor16" parent="map/MotionSensors" index="18" instance=ExtResource( 6 )]
-position = Vector2( 2140, -3180 )
-rotation = -7.83046
-
-[node name="MotionSensor2" parent="map/MotionSensors" index="19" instance=ExtResource( 6 )]
+[node name="MotionSensor2" parent="map/MotionSensors" index="16" instance=ExtResource( 6 )]
 position = Vector2( 3000, -750 )
 rotation = -3.14159
 
-[node name="MotionSensor3" parent="map/MotionSensors" index="20" instance=ExtResource( 6 )]
+[node name="MotionSensor3" parent="map/MotionSensors" index="17" instance=ExtResource( 6 )]
 position = Vector2( 2370, -1550 )
 rotation = 0.015322
 
-[node name="MotionSensor4" parent="map/MotionSensors" index="21" instance=ExtResource( 6 )]
+[node name="MotionSensor4" parent="map/MotionSensors" index="18" instance=ExtResource( 6 )]
 position = Vector2( 2370, -4120 )
 rotation = 0.015322
 
-[node name="MotionSensor5" parent="map/MotionSensors" index="22" instance=ExtResource( 6 )]
+[node name="MotionSensor5" parent="map/MotionSensors" index="19" instance=ExtResource( 6 )]
 position = Vector2( 3400, -4100 )
 rotation = 0.015322
 
-[node name="MotionSensor6" parent="map/MotionSensors" index="23" instance=ExtResource( 6 )]
+[node name="MotionSensor6" parent="map/MotionSensors" index="20" instance=ExtResource( 6 )]
 position = Vector2( 4180, -4110 )
 rotation = 0.015322
 
