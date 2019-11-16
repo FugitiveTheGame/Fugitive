@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://actors/motion_sensor/MotionSensor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://maps/tilesets/neighborhood/features.tres" type="TileSet" id=2]
@@ -7,10 +7,9 @@
 [ext_resource path="res://maps/tilesets/neighborhood/features_shadermaterial.tres" type="Material" id=5]
 [ext_resource path="res://actors/car/Car.tscn" type="PackedScene" id=6]
 [ext_resource path="res://maps/base/BaseMap.tscn" type="PackedScene" id=7]
-[ext_resource path="res://actors/car_wall/CarWall.tscn" type="PackedScene" id=8]
 [ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=9]
 
-[node name="base" instance=ExtResource( 7 )]
+[node name="base" index="0" instance=ExtResource( 7 )]
 
 [node name="ground" type="TileMap" parent="map" index="0"]
 tile_set = ExtResource( 4 )
@@ -275,9 +274,3 @@ wait_time = 15
 
 [node name="GameTimer" parent="." index="7"]
 wait_time = 600
-
-[node name="CarWall" parent="RoadWalls" index="0" instance=ExtResource( 8 )]
-position = Vector2( 3966.26, -7.96622 )
-
-[node name="CarWall2" parent="RoadWalls" index="1" instance=ExtResource( 8 )]
-position = Vector2( 4479.88, -7.42987 )
