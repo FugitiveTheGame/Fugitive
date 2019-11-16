@@ -458,6 +458,7 @@ window_title = "Joining Game"
 [node name="VBoxContainer" type="VBoxContainer" parent="UiLayer/JoiningDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -477,10 +478,12 @@ __meta__ = {
 }
 
 [node name="CancelJoiningButton" type="Button" parent="UiLayer/JoiningDialog/VBoxContainer"]
+margin_left = 512.0
 margin_top = 683.0
-margin_right = 1280.0
+margin_right = 768.0
 margin_bottom = 720.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 256, 0 )
+size_flags_horizontal = 4
 text = "Cancel"
 
 [node name="JoinFailedDialog" type="AcceptDialog" parent="UiLayer"]
