@@ -32,6 +32,9 @@ A short burst of speed, you must stop moving completely to regenerate your stami
 [u]Car Jacking:[/u]
 Cops should remember to lock the car when they get out! Other wise a fugitive can steal it and drive around picking up their friends. If a fugitive is driving the car, a cop can stand infront of it, and if the car hits the cop, the Fugitive driver will be forced out, locking the car.
 
+[u]Hosting:[/u]
+The host will need to ensure that the port: 31400 is forwarded to their computer.
+
 [b][u]Goal of the game:[/u][/b]
 There are two teams in Fugitive:
 [indent]- Cops[/indent]
