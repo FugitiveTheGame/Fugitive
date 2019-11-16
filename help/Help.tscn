@@ -1,8 +1,8 @@
 [gd_scene format=2]
 
 [node name="HelpDialog" type="WindowDialog"]
-margin_right = 410.0
-margin_bottom = 290.0
+margin_right = 600.0
+margin_bottom = 350.0
 rect_min_size = Vector2( 512, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -29,6 +29,9 @@ bbcode_text = "[center][b]Welcome to Fugitive![/b][/center]
 [u]Sprinting:[/u]
 A short burst of speed, you must stop moving completely to regenerate your stamina.
 
+[u]Car Jacking:[/u]
+Cops should remember to lock the car when they get out! Other wise a fugitive can steal it and drive around picking up their friends. If a fugitive is driving the car, a cop can stand infront of it, and if the car hits the cop, the Fugitive driver will be forced out, locking the car.
+
 [b][u]Goal of the game:[/u][/b]
 There are two teams in Fugitive:
 [indent]- Cops[/indent]
@@ -52,6 +55,9 @@ Lock Car: L (hold for 2 seconds)
 
 Sprinting:
 A short burst of speed, you must stop moving completely to regenerate your stamina.
+
+Car Jacking:
+Cops should remember to lock the car when they get out! Other wise a fugitive can steal it and drive around picking up their friends. If a fugitive is driving the car, a cop can stand infront of it, and if the car hits the cop, the Fugitive driver will be forced out, locking the car.
 
 Goal of the game:
 There are two teams in Fugitive:
