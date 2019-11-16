@@ -307,7 +307,6 @@ margin_bottom = 640.0
 text = "Back to Lobby"
 
 [node name="PlayerHud" type="Control" parent="UiLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.16635
@@ -429,8 +428,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TouchUseButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 158.834, 600 )
+[node name="LeftTouchContainer" type="Control" parent="UiLayer/PlayerHud"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -319.0
+margin_right = 319.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TouchUseButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/LeftTouchContainer"]
+position = Vector2( 168.834, 209 )
 scale = Vector2( 1.5, 1.5 )
 normal = ExtResource( 9 )
 pressed = ExtResource( 8 )
@@ -438,8 +446,8 @@ shape = SubResource( 9 )
 action = "use"
 visibility_mode = 1
 
-[node name="TouchLockButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 158.834, 480 )
+[node name="TouchLockButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/LeftTouchContainer"]
+position = Vector2( 168.834, 99 )
 scale = Vector2( 1.5, 1.5 )
 normal = ExtResource( 20 )
 pressed = ExtResource( 22 )
@@ -447,8 +455,37 @@ shape = SubResource( 9 )
 action = "lock_car"
 visibility_mode = 1
 
-[node name="TouchHornButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 948.834, 600 )
+[node name="TouchUpButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/LeftTouchContainer"]
+position = Vector2( 8.83365, 29 )
+scale = Vector2( 2, 2 )
+normal = ExtResource( 11 )
+pressed = ExtResource( 18 )
+shape = SubResource( 9 )
+action = "ui_up"
+visibility_mode = 1
+
+[node name="TouchDownButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/LeftTouchContainer"]
+position = Vector2( 8.83365, 182 )
+scale = Vector2( 2, 2 )
+normal = ExtResource( 15 )
+pressed = ExtResource( 14 )
+shape = SubResource( 9 )
+action = "ui_down"
+visibility_mode = 1
+
+[node name="RightTouchContainer" type="Control" parent="UiLayer/PlayerHud"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -350.0
+margin_top = -350.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TouchHornButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/RightTouchContainer"]
+position = Vector2( 38.8337, 246 )
 scale = Vector2( 1.5, 1.5 )
 normal = ExtResource( 21 )
 pressed = ExtResource( 19 )
@@ -456,44 +493,26 @@ shape = SubResource( 9 )
 action = "car_horn"
 visibility_mode = 1
 
-[node name="TouchRightButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1170.47, 480 )
-scale = Vector2( 1.5, 1.5 )
+[node name="TouchRightButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/RightTouchContainer"]
+position = Vector2( 208.834, 90 )
+scale = Vector2( 2, 2 )
 normal = ExtResource( 16 )
 pressed = ExtResource( 17 )
 shape = SubResource( 9 )
 action = "ui_right"
 visibility_mode = 1
 
-[node name="TouchLeftButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1048.83, 480 )
-scale = Vector2( 1.5, 1.5 )
+[node name="TouchLeftButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/RightTouchContainer"]
+position = Vector2( 58.8337, 90 )
+scale = Vector2( 2, 2 )
 normal = ExtResource( 12 )
 pressed = ExtResource( 13 )
 shape = SubResource( 9 )
 action = "ui_left"
 visibility_mode = 1
 
-[node name="TouchUpButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 18.8336, 480 )
-scale = Vector2( 1.5, 1.5 )
-normal = ExtResource( 11 )
-pressed = ExtResource( 18 )
-shape = SubResource( 9 )
-action = "ui_up"
-visibility_mode = 1
-
-[node name="TouchDownButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 18.8336, 600 )
-scale = Vector2( 1.5, 1.5 )
-normal = ExtResource( 15 )
-pressed = ExtResource( 14 )
-shape = SubResource( 9 )
-action = "ui_down"
-visibility_mode = 1
-
-[node name="TouchSprintButton" type="TouchScreenButton" parent="UiLayer/PlayerHud"]
-position = Vector2( 1068.83, 600 )
+[node name="TouchSprintButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/RightTouchContainer"]
+position = Vector2( 148.833, 246 )
 scale = Vector2( 1.5, 1.5 )
 normal = ExtResource( 10 )
 pressed = ExtResource( 7 )

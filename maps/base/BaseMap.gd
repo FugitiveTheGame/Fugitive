@@ -10,9 +10,9 @@ onready var staminaBar := $UiLayer/PlayerHud/VBoxContainer/StaminaContainer/HBox
 onready var visibilityBar := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer/HBoxContainer/VisibilityBar
 onready var visibilityContainer := $UiLayer/PlayerHud/VBoxContainer/VisibilityContainer
 onready var safeZoneLabel := $UiLayer/PlayerHud/SafeZoneLabel
-onready var lockCarButton := $UiLayer/PlayerHud/TouchLockButton
-onready var carHornButton := $UiLayer/PlayerHud/TouchHornButton
-onready var useButton := $UiLayer/PlayerHud/TouchUseButton
+onready var lockCarButton := $UiLayer/PlayerHud/LeftTouchContainer/TouchLockButton
+onready var carHornButton := $UiLayer/PlayerHud/RightTouchContainer/TouchHornButton
+onready var useButton := $UiLayer/PlayerHud/LeftTouchContainer/TouchUseButton
 
 var gameOver : bool = false
 var winner : int = Network.PlayerType.Random
