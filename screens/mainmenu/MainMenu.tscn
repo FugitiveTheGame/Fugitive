@@ -405,6 +405,7 @@ __meta__ = {
 }
 
 [node name="ServerListContainer" type="PanelContainer" parent="UiLayer"]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -329.0
@@ -421,11 +422,12 @@ margin_bottom = 342.0
 
 [node name="TitleLabel" type="Label" parent="UiLayer/ServerListContainer/VBoxContainer"]
 margin_right = 301.0
-margin_bottom = 25.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 2 )
 text = "LAN Games"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="UiLayer/ServerListContainer/VBoxContainer"]
-margin_top = 33.0
+margin_top = 60.0
 margin_right = 301.0
 margin_bottom = 328.0
 size_flags_vertical = 3
