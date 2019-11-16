@@ -1,25 +1,40 @@
 extends Node
 
 export (NodePath) var joinDialogPath: NodePath
-onready var joinDialog: WindowDialog = get_node(joinDialogPath)
+onready var joinDialog := get_node(joinDialogPath)
 
 export (NodePath) var serverIpEditTextPath: NodePath
-onready var serverIpEditText: TextEdit = get_node(serverIpEditTextPath)
+onready var serverIpEditText := get_node(serverIpEditTextPath)
 
 export (NodePath) var serverListContainerPath: NodePath
-onready var serverListContainer: PanelContainer = get_node(serverListContainerPath)
+onready var serverListContainer := get_node(serverListContainerPath)
 
 export (NodePath) var serverListPath: NodePath
-onready var serverList: VBoxContainer
+onready var serverList := get_node(serverListPath)
 
 export (NodePath) var joiningDialogPath: NodePath
-onready var joiningDialog: WindowDialog = get_node(joiningDialogPath)
+onready var joiningDialog := get_node(joiningDialogPath)
 
 export (NodePath) var joinFailedDialogPath: NodePath
-onready var joinFailedDialog: AcceptDialog = get_node(joinFailedDialogPath)
+onready var joinFailedDialog := get_node(joinFailedDialogPath)
 
 export (NodePath) var hostFailedDialogPath: NodePath
-onready var hostFailedDialog: AcceptDialog = get_node(hostFailedDialogPath)
+onready var hostFailedDialog := get_node(hostFailedDialogPath)
+
+export (NodePath) var playerNameEditTextPath: NodePath
+onready var playerNameEditText := get_node(playerNameEditTextPath)
+
+export (NodePath) var gameVersionLabelPath: NodePath
+onready var gameVersionLabel := get_node(gameVersionLabelPath)
+
+export (NodePath) var capturesLabelPath: NodePath
+onready var capturesLabel := get_node(capturesLabelPath)
+
+export (NodePath) var escapesLabelPath: NodePath
+onready var escapesLabel := get_node(escapesLabelPath)
+
+export (NodePath) var capturedLabelPath: NodePath
+onready var capturedLabel := get_node(capturedLabelPath)
 
 var playerName: String = ""
 
@@ -61,11 +76,11 @@ func _ready():
 		
 	joiningDialog.get_close_button().hide()
 		
-	$UiLayer/PanelContainer/VBoxContainer/PlayerNameTextEdit.text = playerName
-	$UiLayer/GameVersionLabel.text = "v%s" % UserData.GAME_VERSION
-	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures.text = str(UserData.data.lifetime_stats.seeker_captures)
-	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes.text = str(UserData.data.lifetime_stats.hider_escapes)
-	$UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured.text = str(UserData.data.lifetime_stats.hider_captures)
+	playerNameEditText.text = playerName
+	gameVersionLabel.text = "v%s" % UserData.GAME_VERSION
+	capturesLabel.text = str(UserData.data.lifetime_stats.seeker_captures)
+	escapesLabel.text = str(UserData.data.lifetime_stats.hider_escapes)
+	capturedLabel.text = str(UserData.data.lifetime_stats.hider_captures)
 
 func _exit_tree():
 	# Save any user data that changed

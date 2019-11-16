@@ -18,6 +18,18 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+playerListControlPath = NodePath("OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList")
+startGameButtonPath = NodePath("OuterContainer/StartGameButton")
+upnpButtonPath = NodePath("OuterContainer/HBoxContainer/UPNPButton")
+serverIpContainerPath = NodePath("OuterContainer/ServerIpContainer")
+serverIpLabelPath = NodePath("OuterContainer/ServerIpContainer/ServerIpLabel")
+serverPortLabelPath = NodePath("OuterContainer/ServerIpContainer/PortLabel")
+seekerCountLabelPath = NodePath("OuterContainer/CenterContainer/PlayersContainer/SeekersCount")
+hiderCountLabelPath = NodePath("OuterContainer/CenterContainer/PlayersContainer/HidersCount")
+mapSelectButtonPath = NodePath("OuterContainer/CenterContainer/OptionsContainer/MapSelectButton")
+mapInfoLabelPath = NodePath("OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel")
+gameNumberLabelPath = NodePath("OuterContainer/GameNumberLabel")
+winnerLabelPath = NodePath("OuterContainer/WinnerLabel")
 
 [node name="OuterContainer" type="VBoxContainer" parent="."]
 margin_left = 14.0

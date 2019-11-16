@@ -1,13 +1,40 @@
 extends PanelContainer
 
-onready var playerListControl := $OuterContainer/CenterContainer/PlayersContainer/PlayersScrollContainer/PlayerList
-onready var startGameButton := $OuterContainer/StartGameButton
-onready var upnpButton := $OuterContainer/HBoxContainer/UPNPButton
-onready var serverIpContainer := $OuterContainer/ServerIpContainer
-onready var serverIpLabel := $OuterContainer/ServerIpContainer/ServerIpLabel
-onready var seekerCountLabel := $OuterContainer/CenterContainer/PlayersContainer/SeekersCount
-onready var hiderCountLabel := $OuterContainer/CenterContainer/PlayersContainer/HidersCount
-onready var mapSelectButton := $OuterContainer/CenterContainer/OptionsContainer/MapSelectButton
+export (NodePath) var playerListControlPath: NodePath
+onready var playerListControl := get_node(playerListControlPath)
+
+export (NodePath) var startGameButtonPath: NodePath
+onready var startGameButton := get_node(startGameButtonPath)
+
+export (NodePath) var upnpButtonPath: NodePath
+onready var upnpButton := get_node(upnpButtonPath)
+
+export (NodePath) var serverIpContainerPath: NodePath
+onready var serverIpContainer : = get_node(serverIpContainerPath)
+
+export (NodePath) var serverIpLabelPath: NodePath
+onready var serverIpLabel := get_node(serverIpLabelPath)
+
+export (NodePath) var serverPortLabelPath: NodePath
+onready var serverPortLabel := get_node(serverPortLabelPath)
+
+export (NodePath) var seekerCountLabelPath: NodePath
+onready var seekerCountLabel := get_node(seekerCountLabelPath)
+
+export (NodePath) var hiderCountLabelPath: NodePath
+onready var hiderCountLabel := get_node(hiderCountLabelPath)
+
+export (NodePath) var mapSelectButtonPath: NodePath
+onready var mapSelectButton := get_node(mapSelectButtonPath)
+
+export (NodePath) var mapInfoLabelPath: NodePath
+onready var mapInfoLabel := get_node(mapInfoLabelPath)
+
+export (NodePath) var gameNumberLabelPath: NodePath
+onready var gameNumberLabel := get_node(gameNumberLabelPath)
+
+export (NodePath) var winnerLabelPath: NodePath
+onready var winnerLabel := get_node(winnerLabelPath)
 
 # Production values:
 const MIN_PLAYERS = 2
@@ -53,7 +80,7 @@ func _ready():
 	game_updated()
 	Network.request_lobby_state()
 	
-	$OuterContainer/ServerIpContainer/PortLabel.text = "Port: %d" % Network.gameData.serverPort
+	serverPortLabel.text = "Port: %d" % Network.gameData.serverPort
 	
 	# Update all clients to the server's network state
 	if get_tree().is_network_server():
@@ -100,7 +127,6 @@ func find_winner() -> PlayerLobbyData:
 	return playersByScore[0]
 
 func update_winner():
-	var winnerLabel := $OuterContainer/WinnerLabel
 	if Network.gameData.numGames > 0:
 		var winner = find_winner()
 		
@@ -349,7 +375,7 @@ func _on_MapSelectButton_item_selected(id):
 remotesync func update_map_selection(id):
 	mapSelectButton.selected = id
 	var map = self.maps[id]
-	$OuterContainer/CenterContainer/OptionsContainer/MapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
+	mapInfoLabel.bbcode_text = '[u]Size:[/u] ' + map.size + "\n\n" + map.description
 
 func fetch_external_ip():
 	$HTTPRequest.request("https://api.ipify.org/?format=json")
@@ -369,7 +395,6 @@ func _on_HelpButton_pressed():
 	node.popup_centered()
 
 func game_updated():
-	var gameNumberLabel := $OuterContainer/GameNumberLabel
 	gameNumberLabel.text = "Game: %d" % (Network.gameData.numGames+1)
 
 func _on_CopyServerIpButton_pressed():

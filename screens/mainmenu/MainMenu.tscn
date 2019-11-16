@@ -83,6 +83,11 @@ serverListPath = NodePath("UiLayer/ServerListContainer/VBoxContainer/ScrollConta
 joiningDialogPath = NodePath("UiLayer/JoiningDialog")
 joinFailedDialogPath = NodePath("UiLayer/JoinFailedDialog")
 hostFailedDialogPath = NodePath("UiLayer/HostFailedDialog")
+playerNameEditTextPath = NodePath("UiLayer/PanelContainer/VBoxContainer/PlayerNameTextEdit")
+gameVersionLabelPath = NodePath("UiLayer/GameVersionLabel")
+capturesLabelPath = NodePath("UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptures")
+escapesLabelPath = NodePath("UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelEscapes")
+capturedLabelPath = NodePath("UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer/GridContainer/LabelCaptured")
 
 [node name="Background" type="Node2D" parent="."]
 
