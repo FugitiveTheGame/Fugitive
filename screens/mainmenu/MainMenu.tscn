@@ -405,11 +405,10 @@ __meta__ = {
 }
 
 [node name="ServerListContainer" type="PanelContainer" parent="UiLayer"]
-visible = false
-margin_left = 923.0
-margin_top = 90.0
-margin_right = 1252.0
-margin_bottom = 446.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -329.0
+margin_bottom = 356.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
