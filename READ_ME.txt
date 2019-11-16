@@ -26,6 +26,11 @@ Sprinting:
 A short burst of speed, you must stop moving completely to regenerate your stamina.
 
 
+Car Jacking:
+------------
+Cops should remember to lock the car when they get out! Other wise a fugitive can steal it and drive around picking up their friends. If a fugitive is driving the car, a cop can stand infront of it, and if the car hits the cop, the Fugitive driver will be forced out, locking the car.
+
+
 Hosting:
 --------
 The host will need to ensure that the port: 31400 is forwarded to their computer.
