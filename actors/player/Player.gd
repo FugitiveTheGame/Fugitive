@@ -215,11 +215,7 @@ func on_car_enter(newCar):
 	playersNode.remove_child(self)
 	self.car.add_child(self)
 	
-	if self.car.is_driver(self):
-		self.position = Vector2(15.0, 0.0)
-	else:
-		self.position = Vector2(-15.0, -10.0)
-	
+	self.position = Vector2.ZERO
 	self.rotation = 0
 
 func force_car_exit():
