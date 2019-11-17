@@ -289,9 +289,6 @@ position = Vector2( 385.166, 264.826 )
 [node name="WinZone" parent="." index="4"]
 position = Vector2( 634, -7924 )
 
-[node name="GracePeriodTimer" parent="." index="6"]
-wait_time = 0
-
 [node name="GameTimer" parent="." index="7"]
 wait_time = 600
 
