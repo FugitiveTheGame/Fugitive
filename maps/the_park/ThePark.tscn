@@ -407,3 +407,7 @@ wait_time = 15
 
 [node name="GameTimer" parent="." index="7"]
 wait_time = 600
+
+[node name="PregameCamera" parent="." index="10"]
+position = Vector2( 4183.92, -2216.8 )
+zoom = Vector2( 9, 9 )
