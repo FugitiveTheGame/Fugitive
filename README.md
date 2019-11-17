@@ -18,10 +18,15 @@
 14. Under Cell, set size to: 128x128
 15. Under Colision, set layer to: walls, set mask to nothing
 16. Under the "map" node in your new scene, add a child: TileMap
-17. Rename it to "features"
-18. On the new TileMap node, set it's Tile Set. Click load, and select: res://maps/tilesets/neighborhood/features.tres
+17. Rename it to "seethrough_features"
+18. On the new TileMap node, set it's Tile Set. Click load, and select: res://maps/tilesets/neighborhood/seethrough_features.tres
 19. Under Cell, set size to: 64x64
-20. Under Colision, set layer to: walls, set mask to nothing
+20. Under Colision, set layer to: seethrough_features, set mask to nothing
+21. Under the "map" node in your new scene, add a child: TileMap
+22. Rename it to "features"
+23. On the new TileMap node, set it's Tile Set. Click load, and select: res://maps/tilesets/neighborhood/features.tres
+24. Under Cell, set size to: 64x64
+25. Under Colision, set layer to: walls, set mask to nothing
 
 Now your setup to use the Neighborhood tileset!
 
