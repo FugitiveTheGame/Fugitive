@@ -35,11 +35,12 @@ func get_locked():
 remotesync func lock_the_car():
 	locked = true
 
-puppet func network_update(pos: Vector2, vel: Vector2, targetVelocity: Vector2, rot: float):
+puppet func network_update(pos: Vector2, vel: Vector2, targetVelocity: Vector2, rot: float, isMoving: bool):
 	self.position = pos
 	self.velocity.setCurrentValue(vel)
 	self.velocity.setTarget(targetVelocity)
 	self.rotation = rot
+	self.is_moving = isMoving
 
 func _ready():
 	add_to_group(Groups.CARS)
@@ -81,7 +82,7 @@ func get_input(delta: float) -> float:
 
 func _process(delta):
 	# Make movement noises if moving
-	if is_moving and driver != null:
+	if self.is_moving() and driver != null:
 		if not drivingAudio.playing:
 			drivingAudio.playing = true
 	else:
@@ -108,10 +109,10 @@ func _physics_process(delta: float):
 		self.velocity.setCurrentValue(new_velocity)
 		self.rotation += new_rotation
 		
-		rpc_unreliable("network_update", self.position, self.velocity.getCurrentValue(), self.velocity.getTarget(), self.rotation)
+		rpc_unreliable("network_update", self.position, self.velocity.getCurrentValue(), self.velocity.getTarget(), self.rotation, self.is_moving)
 	# If the server owns this car, send no matter what
 	elif get_network_master() == get_tree().get_network_unique_id():
-		rpc_unreliable("network_update", self.position, self.velocity.getCurrentValue(), self.velocity.getTarget(), self.rotation)
+		rpc_unreliable("network_update", self.position, self.velocity.getCurrentValue(), self.velocity.getTarget(), self.rotation, self.is_moving)
 
 remotesync func new_driver(network_id: int):
 	self.set_network_master(network_id, false)

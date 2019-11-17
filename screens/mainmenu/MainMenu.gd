@@ -153,9 +153,9 @@ func prepare_background():
 	for seeker in seekers:
 		seeker.get_node('LockProgressBar').hide()
 
-func join_game(playerName: String, serverIp: String, serverPort: int = Network.DEFAULT_PORT):
+func join_game(name: String, serverIp: String, serverPort: int = Network.DEFAULT_PORT):
 	
-	if Network.join_game(playerName, serverIp, serverPort):
+	if Network.join_game(name, serverIp, serverPort):
 		joiningDialog.show()
 	else:
 		joinFailedDialog.show()
