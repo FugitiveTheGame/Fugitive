@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://screens/mainmenu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://actors/seeker/Seeker.tscn" type="PackedScene" id=8]
 [ext_resource path="res://actors/street_light/StreetLight.tscn" type="PackedScene" id=9]
 [ext_resource path="res://utilities/server_advertiser/ServerListener.gd" type="Script" id=10]
+[ext_resource path="res://maps/tilesets/neighborhood/seethrough_features.tres" type="TileSet" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "LookAround"
@@ -103,6 +104,13 @@ cell_size = Vector2( 128, 128 )
 format = 1
 tile_data = PoolIntArray( 131066, 2, 0, 131067, 2, 0, 131068, 2, 0, 131069, 2, 0, 131070, 2, 0, 131071, 2, 0, 65536, 2, 0, 65537, 3, 0, 65538, 4, 0, 65539, 2, 0, 65540, 2, 0, 65541, 2, 0, 65542, 2, 0, 65543, 2, 0, 65544, 2, 0, 65545, 2, 0, 65546, 2, 0, 65547, 2, 0, 65548, 2, 0, 65549, 2, 0, 65550, 2, 0, 65551, 2, 0, 65552, 2, 0, 65553, 2, 0, 131079, 5, 0, 131080, 6, 0 )
 
+[node name="seethrough_features" type="TileMap" parent="Background"]
+tile_set = ExtResource( 11 )
+collision_layer = 32
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 262157, -1073741822, 0, 262158, 0, 0, 262160, 1, 0, 262162, -1073741822, 0, 327693, -1073741822, 0, 327698, -1073741822, 0, 393229, -1073741821, 0, 393230, 2, 0, 393231, 2, 0, 393232, 2, 0, 393233, 2, 0, 393234, 1610612739, 0 )
+
 [node name="features" type="TileMap" parent="Background"]
 tile_set = ExtResource( 5 )
 cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
@@ -127,6 +135,7 @@ is_fake = true
 [node name="Seeker" parent="players" instance=ExtResource( 8 )]
 position = Vector2( 149.585, 696.954 )
 rotation = -0.977384
+collision_mask = 15
 is_fake = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="players/Seeker"]
@@ -136,6 +145,7 @@ anims/LookAround = SubResource( 1 )
 [node name="Seeker2" parent="players" instance=ExtResource( 8 )]
 position = Vector2( 1024, 600 )
 rotation = 0.518145
+collision_mask = 15
 is_fake = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="players/Seeker2"]
@@ -145,6 +155,7 @@ anims/WalkAround = SubResource( 2 )
 [node name="Hider" parent="players" instance=ExtResource( 7 )]
 position = Vector2( 210, 350 )
 rotation = 1.20062
+collision_mask = 15
 is_fake = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="players/Hider"]
@@ -154,6 +165,7 @@ anims/HiderTurning = SubResource( 3 )
 [node name="Hider2" parent="players" instance=ExtResource( 7 )]
 position = Vector2( 1250, 350 )
 rotation = 0.261799
+collision_mask = 15
 is_fake = true
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
