@@ -7,7 +7,7 @@ onready var car_lock_timer := $CarLockTimer
 onready var lock_progress_bar := $LockProgressBar
 
 const CONE_WIDTH = deg2rad(45.0)
-const MAX_DETECT_DISTANCE := 64.0
+const MAX_DETECT_DISTANCE := 78.0
 const MAX_VISION_DISTANCE := 1000.0
 const MIN_VISION_DISTANCE := 800.0
 
