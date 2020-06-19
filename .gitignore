@@ -10,3 +10,4 @@ export_presets.cfg
 output/Fugitive.exe
 output/Fugitive.pck
 *.TMP
+release-scripts/releases
