@@ -11,3 +11,5 @@ output/Fugitive.exe
 output/Fugitive.pck
 *.TMP
 release-scripts/releases
+.vscode
+android

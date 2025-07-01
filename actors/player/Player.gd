@@ -128,13 +128,13 @@ func get_input(delta: float) -> float:
 	
 	var rotation_dir: float
 	self.velocity = Vector2()
-	if Input.is_action_pressed('ui_right'):
+	if Input.is_action_pressed("rotate_right"):
 		rotation_dir = 1.0
-	if Input.is_action_pressed('ui_left'):
+	if Input.is_action_pressed("rotate_left"):
 		rotation_dir = -1.0
-	if Input.is_action_pressed('ui_down'):
+	if Input.is_action_pressed("move_backward"):
 		self.velocity = Vector2(-curSpeed, 0).rotated(self.rotation)
-	if Input.is_action_pressed('ui_up'):
+	if Input.is_action_pressed("move_forward"):
 		self.velocity = Vector2(curSpeed, 0).rotated(self.rotation)
 	
 	new_rotation = rotation_dir * self.rotation_speed * delta

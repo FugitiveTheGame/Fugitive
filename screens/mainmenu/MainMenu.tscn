@@ -227,13 +227,13 @@ text = "Your Name:"
 [node name="PlayerNameTextEdit" type="LineEdit" parent="UiLayer/PanelContainer/VBoxContainer"]
 margin_top = 121.0
 margin_right = 484.0
-margin_bottom = 166.0
+margin_bottom = 173.0
 clear_button_enabled = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UiLayer/PanelContainer/VBoxContainer"]
-margin_top = 174.0
+margin_top = 181.0
 margin_right = 484.0
-margin_bottom = 211.0
+margin_bottom = 218.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 alignment = 1
@@ -266,7 +266,7 @@ size_flags_vertical = 0
 text = "Join Game"
 
 [node name="StatsReadoutContainer" type="VBoxContainer" parent="UiLayer/PanelContainer/VBoxContainer"]
-margin_top = 333.0
+margin_top = 336.0
 margin_right = 484.0
 margin_bottom = 484.0
 size_flags_horizontal = 3
@@ -281,7 +281,7 @@ uppercase = true
 [node name="GridContainer" type="GridContainer" parent="UiLayer/PanelContainer/VBoxContainer/StatsReadoutContainer"]
 margin_top = 33.0
 margin_right = 484.0
-margin_bottom = 151.0
+margin_bottom = 148.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
@@ -348,9 +348,9 @@ __meta__ = {
 
 [node name="Verticle" type="VBoxContainer" parent="UiLayer/JoinGameDialog/CenterContainer"]
 margin_left = 112.0
-margin_top = 40.0
+margin_top = 36.0
 margin_right = 343.0
-margin_bottom = 163.0
+margin_bottom = 166.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -526,6 +526,7 @@ dialog_autowrap = true
 
 [node name="ServerListener" type="Node" parent="."]
 script = ExtResource( 10 )
+
 [connection signal="pressed" from="UiLayer/PanelContainer/VBoxContainer/TitleContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="text_changed" from="UiLayer/PanelContainer/VBoxContainer/PlayerNameTextEdit" to="." method="_on_PlayerNameTextEdit_text_changed"]
 [connection signal="pressed" from="UiLayer/PanelContainer/VBoxContainer/HBoxContainer/CenterHost/HostGameButton" to="." method="_on_HostGameButton_pressed"]

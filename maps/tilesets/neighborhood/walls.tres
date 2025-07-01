@@ -59,6 +59,11 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 0/occluder = SubResource( 2 )
 0/navigation_offset = Vector2( 0, 0 )
 0/navigation = SubResource( 1 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 3 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
@@ -77,6 +82,11 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 1/occluder = SubResource( 5 )
 1/navigation_offset = Vector2( 0, 0 )
 1/navigation = SubResource( 4 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 6 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
 1/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
@@ -95,6 +105,11 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 2/occluder = SubResource( 8 )
 2/navigation_offset = Vector2( 0, 0 )
 2/navigation = SubResource( 7 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape = SubResource( 9 )
+2/shape_one_way = false
+2/shape_one_way_margin = 1.0
 2/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
@@ -112,6 +127,11 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 3/occluder_offset = Vector2( 0, 0 )
 3/occluder = SubResource( 10 )
 3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape = SubResource( 11 )
+3/shape_one_way = false
+3/shape_one_way_margin = 1.0
 3/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
@@ -129,6 +149,11 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 4/occluder_offset = Vector2( 0, 0 )
 4/occluder = SubResource( 12 )
 4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape = SubResource( 13 )
+4/shape_one_way = false
+4/shape_one_way_margin = 1.0
 4/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,

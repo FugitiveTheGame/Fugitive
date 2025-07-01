@@ -55,26 +55,21 @@ void vertex() {
 
 void fragment() {
 // Input:2
-	float n_out2p0;
-	n_out2p0 = TIME;
+	float n_out2p0 = TIME;
 
 // Scalar:5
-	float n_out5p0;
-	n_out5p0 = 8.000000;
+	float n_out5p0 = 8.000000;
 
 // ScalarOp:4
-	float n_out4p0;
-	n_out4p0 = n_out2p0 * n_out5p0;
+	float n_out4p0 = n_out2p0 * n_out5p0;
 
 // ScalarFunc:10
-	float n_out10p0;
-	n_out10p0 = sin(n_out4p0);
+	float n_out10p0 = sin(n_out4p0);
 
 // ScalarClamp:13
 	float n_in13p1 = 0.10000;
 	float n_in13p2 = 0.80000;
-	float n_out13p0;
-	n_out13p0 = clamp( n_out10p0, n_in13p1, n_in13p2 );
+	float n_out13p0 = clamp(n_out10p0, n_in13p1, n_in13p2);
 
 // Output:0
 	COLOR.a = n_out13p0;
@@ -186,9 +181,7 @@ team = "hider_spawn"
 
 [node name="players" type="Node" parent="."]
 
-[node name="WinZone" type="Area2D" parent="." groups=[
-"win_zones",
-]]
+[node name="WinZone" type="Area2D" parent="." groups=["win_zones"]]
 position = Vector2( 4224.49, 131.887 )
 collision_layer = 0
 collision_mask = 4
@@ -484,7 +477,7 @@ scale = Vector2( 2, 2 )
 normal = ExtResource( 11 )
 pressed = ExtResource( 18 )
 shape = SubResource( 9 )
-action = "ui_up"
+action = "move_forward"
 visibility_mode = 1
 
 [node name="TouchDownButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/LeftTouchContainer"]
@@ -493,7 +486,7 @@ scale = Vector2( 2, 2 )
 normal = ExtResource( 15 )
 pressed = ExtResource( 14 )
 shape = SubResource( 9 )
-action = "ui_down"
+action = "move_backward"
 visibility_mode = 1
 
 [node name="RightTouchContainer" type="Control" parent="UiLayer/PlayerHud"]
@@ -522,7 +515,7 @@ scale = Vector2( 2, 2 )
 normal = ExtResource( 16 )
 pressed = ExtResource( 17 )
 shape = SubResource( 9 )
-action = "ui_right"
+action = "rotate_right"
 visibility_mode = 1
 
 [node name="TouchLeftButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/RightTouchContainer"]
@@ -531,7 +524,7 @@ scale = Vector2( 2, 2 )
 normal = ExtResource( 12 )
 pressed = ExtResource( 13 )
 shape = SubResource( 9 )
-action = "ui_left"
+action = "rotate_left"
 visibility_mode = 1
 
 [node name="TouchSprintButton" type="TouchScreenButton" parent="UiLayer/PlayerHud/RightTouchContainer"]
@@ -552,6 +545,7 @@ zoom = Vector2( 10, 10 )
 [node name="SeekerReleaseAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -40.0
+
 [connection signal="timeout" from="GameStartTimer" to="." method="_on_GameStartTimer_timeout"]
 [connection signal="timeout" from="GracePeriodTimer" to="." method="_on_GracePeriodTimer_timeout"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_GameTimer_timeout"]
