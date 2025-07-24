@@ -12,24 +12,25 @@ jobs:
       matrix:
         include:
           - preset: "Windows Desktop"
-            out:   Fugitive_Windows.zip
-            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_win64.exe
+            out: Fugitive_Windows.zip
+            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_win64.exe.zip
             archive_output: false
 
           - preset: "Linux/X11"
-            out:   Fugitive_Linux.zip
-            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_linux_headless.64.zip
+            out: Fugitive_Linux.zip
+            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_x11.64.zip
             archive_output: true
 
           - preset: "Mac OSX"
-            out:   Fugitive_OSX.zip
-            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_osx.universal.zip
+            out: Fugitive_OSX.zip
+            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_osx.universal.zip
             archive_output: true
 
           - preset: "Android"
-            out:   Fugitive_Android.apk
-            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_linux_headless.64.zip
+            out: Fugitive_Android.apk
+            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_x11.64.zip
             archive_output: true
+
 
     steps:
       - name: Checkout
@@ -45,11 +46,12 @@ jobs:
         uses: firebelley/godot-export@v6.0.0
         with:
           godot_executable_download_url: ${{ matrix.godot_url }}
-          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_export_templates.tpz
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_export_templates.tpz
           presets_to_export: "${{ matrix.preset }}"
           relative_export_path: build
           use_godot_3: true
           archive_output: ${{ matrix.archive_output }}
+          wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
 
       - name: Rename output
         run: mv build/* "${{ matrix.out }}"
