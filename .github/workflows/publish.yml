@@ -1,0 +1,31 @@
+name: Publish Release → itch.io
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  upload_to_itch:
+    # skip prereleases – remove the line below if you want them as well
+    if: ${{ github.event.release.prerelease == false }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # allows gh to authenticate
+        run: |
+          mkdir dist
+          gh release download ${{ github.event.release.tag_name }} -D dist
+
+      - name: Set up Butler
+        uses: jdno/setup-butler@v1
+
+      - name: Push every build to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
+        run: |
+          butler push dist/Fugitive_Windows.zip  wavesonics/fugitive:windows-release --userversion ${{ github.event.release.tag_name }}
+          butler push dist/Fugitive_Linux.zip    wavesonics/fugitive:linux-release   --userversion ${{ github.event.release.tag_name }}
+          butler push dist/Fugitive_OSX.zip      wavesonics/fugitive:osx-release     --userversion ${{ github.event.release.tag_name }}
+          butler push dist/Fugitive_Android.apk  wavesonics/fugitive:android-release --userversion ${{ github.event.release.tag_name }}

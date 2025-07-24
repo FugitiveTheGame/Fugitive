@@ -1,0 +1,61 @@
+name: Build & Pre-Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  export_game:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    name: Export Game
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install wine
+        id: wine_install
+        run: |
+          sudo apt install wine64
+          echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
+
+      - name: set up Android keystores
+        env:
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+        run: |
+          mkdir -p /home/runner/.android
+          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > /home/runner/.android/release.keystore
+          keytool -genkeypair -v \
+            -keystore /home/runner/.android/debug.keystore \
+            -alias androiddebugkey -storepass android -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA -keysize 2048 -validity 10000
+
+      # Insert the secrets
+      - name: configure export presets
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          sed -i 's|PLACEHOLDER_ALIAS|'"$ANDROID_KEY_ALIAS"'|g' export_presets.cfg
+          sed -i 's|PLACEHOLDER_PASSWORD|'"$ANDROID_KEY_PASSWORD"'|g' export_presets.cfg
+
+      - name: export game
+        id: export
+        uses: firebelley/godot-export@v6.0.0
+        with:
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: true
+          use_godot_3: true
+          wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
+
+      - name: create release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: ${{ github.ref_name }}
+          artifacts: ${{ steps.export.outputs.archive_directory }}/*
