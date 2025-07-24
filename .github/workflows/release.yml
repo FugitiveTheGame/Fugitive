@@ -21,11 +21,6 @@ jobs:
             godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
             archive_output: true
 
-          - preset: "Android"
-            out: Fugitive_Android.apk
-            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
-            archive_output: true
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
