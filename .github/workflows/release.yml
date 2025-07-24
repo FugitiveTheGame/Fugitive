@@ -7,29 +7,29 @@ on:
 
 jobs:
   export:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
-          - os: windows-latest
-            preset: "Windows Desktop"
+          - preset: "Windows Desktop"
             out:   Fugitive_Windows.zip
-            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_win64.exe.zip
+            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_win64.exe
+            archive_output: false
 
-          - os: ubuntu-latest
-            preset: "Linux/X11"
+          - preset: "Linux/X11"
             out:   Fugitive_Linux.zip
             godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_linux_headless.64.zip
+            archive_output: true
 
-          - os: macos-latest
-            preset: "Mac OSX"
+          - preset: "Mac OSX"
             out:   Fugitive_OSX.zip
             godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_osx.universal.zip
+            archive_output: true
 
-          - os: ubuntu-latest
-            preset: "Android"
+          - preset: "Android"
             out:   Fugitive_Android.apk
             godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_linux_headless.64.zip
+            archive_output: true
 
     steps:
       - name: Checkout
@@ -43,6 +43,7 @@ jobs:
           presets_to_export: "${{ matrix.preset }}"
           relative_export_path: build
           use_godot_3: true
+          archive_output: ${{ matrix.archive_output }}
 
       - name: Rename output
         run: mv build/* "${{ matrix.out }}"
