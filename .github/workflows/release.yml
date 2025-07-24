@@ -14,18 +14,22 @@ jobs:
           - os: windows-latest
             preset: "Windows Desktop"
             out:   Fugitive_Windows.zip
+            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_win64.exe.zip
 
           - os: ubuntu-latest
             preset: "Linux/X11"
             out:   Fugitive_Linux.zip
+            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_linux_headless.64.zip
 
           - os: macos-latest
             preset: "Mac OSX"
             out:   Fugitive_OSX.zip
+            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_osx.universal.zip
 
           - os: ubuntu-latest
             preset: "Android"
             out:   Fugitive_Android.apk
+            godot_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_linux_headless.64.zip
 
     steps:
       - name: Checkout
@@ -43,20 +47,19 @@ jobs:
           New-Item -ItemType Directory -Force -Path $godotDir | Out-Null
           $settingsFile = "$godotDir\editor_settings-3.tres"
 
-          Add-Content -Path $settingsFile -Value "`n[export]`nwindows/rcedit=""$rceditPath""`n"
+          Add-Content -Path $settingsFile -Value "`n[export]`nwindows/rcedit=\"$rceditPath\"`n"
 
       - name: Export ${{ matrix.preset }}
         uses: firebelley/godot-export@v6.0.0
         with:
-          godot_version: "3.6.1"
-          use_mono: false
-          export_templates: true
-          export_presets: "${{ matrix.preset }}"
-          output_path: "build"
+          godot_executable_download_url: ${{ matrix.godot_url }}
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/3.6.1/Godot_v3.6.1-stable_export_templates.tpz
+          presets_to_export: "${{ matrix.preset }}"
+          relative_export_path: build
+          use_godot_3: true
 
       - name: Rename output
-        run: |
-          mv build/* "${{ matrix.out }}"
+        run: mv build/* "${{ matrix.out }}"
         shell: bash
 
       - name: Upload artifact
