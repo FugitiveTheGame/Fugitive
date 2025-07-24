@@ -31,8 +31,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # ------------------------------------------------------------------
-      # rcedit is required only for the Windows export (runner is Windows)
       - name: Set up rcedit (Windows only)
         if: matrix.os == 'windows-latest'
         shell: pwsh
@@ -41,29 +39,31 @@ jobs:
           $rceditPath = "$env:RUNNER_TEMP\rcedit.exe"
           Invoke-WebRequest -Uri $rceditUrl -OutFile $rceditPath
 
-          # Create (or open) Godot's settings file and register rcedit
           $godotDir     = "$env:APPDATA\Godot"
           New-Item -ItemType Directory -Force -Path $godotDir | Out-Null
           $settingsFile = "$godotDir\editor_settings-3.tres"
 
           Add-Content -Path $settingsFile -Value "`n[export]`nwindows/rcedit=""$rceditPath""`n"
-      # ------------------------------------------------------------------
 
-      # One-step install **and** export
       - name: Export ${{ matrix.preset }}
-        uses: firebelley/godot-export@v4
+        uses: firebelley/godot-export@v6.0.0
         with:
           godot_version: "3.6.1"
           use_mono: false
           export_templates: true
           export_presets: "${{ matrix.preset }}"
           output_path: "build"
-          output_name: "${{ matrix.out }}"
+
+      - name: Rename output
+        run: |
+          mv build/* "${{ matrix.out }}"
+        shell: bash
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.out }}
-          path: build/${{ matrix.out }}
+          path: ${{ matrix.out }}
 
   release:
     needs: export
