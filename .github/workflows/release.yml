@@ -3,7 +3,7 @@ name: Build & Pre-Release
 on:
   push:
     tags:
-      - 'v*'           # runs only for tags like v1.2.3
+      - 'v*'
 
 jobs:
   export:
@@ -38,7 +38,7 @@ jobs:
           godot --headless --export-release "${{ matrix.preset }}" "build/${{ matrix.out }}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.out }}
           path: build/${{ matrix.out }}
@@ -48,12 +48,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: dist
 
       - name: Create GitHub pre-release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}

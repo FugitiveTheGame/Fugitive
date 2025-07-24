@@ -2,7 +2,7 @@ name: Publish Release → itch.io
 
 on:
   release:
-    types: [published]          # runs only when the release is actually published
+    types: [published]
 
 jobs:
   upload_to_itch:
@@ -19,7 +19,7 @@ jobs:
           gh release download ${{ github.event.release.tag_name }} -D dist
 
       - name: Set up Butler
-        uses: K0F/setup-butler@v1           # installs itch.io’s CLI
+        uses: jdno/setup-butler@v1
 
       - name: Push every build to itch.io
         env:
