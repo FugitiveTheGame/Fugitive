@@ -14,7 +14,6 @@ jobs:
           - preset: "Windows Desktop"
             out: Fugitive_Windows.zip
             godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_win64.exe.zip
-            godot_executable_path: Godot_v3.6.1-stable_win64.exe
             archive_output: true
 
           - preset: "Linux/X11"
@@ -37,6 +36,14 @@ jobs:
           sudo apt install wine64
           echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
 
+      - name: Rename Windows executable if needed
+        if: matrix.preset == 'Windows Desktop'
+        run: |
+          GEXE_DIR="$HOME/.local/share/godot/godot_executable"
+          if [ -f "$GEXE_DIR/Godot_v3.6.1-stable_win64.exe" ]; then
+            mv "$GEXE_DIR/Godot_v3.6.1-stable_win64.exe" "$GEXE_DIR/godot.exe"
+          fi
+
       - name: Export ${{ matrix.preset }}
         uses: firebelley/godot-export@v6.0.0
         with:
@@ -47,7 +54,6 @@ jobs:
           use_godot_3: true
           archive_output: ${{ matrix.archive_output }}
           wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
-          godot_executable_relative_path: ${{ matrix.godot_executable_path }}
 
       - name: Rename output
         run: mv build/* "${{ matrix.out }}"
