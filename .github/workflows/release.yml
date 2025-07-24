@@ -3,65 +3,37 @@ name: Build & Pre-Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
-  export:
+  export_game:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - preset: "Windows Desktop"
-            out: Fugitive_Windows.zip
-            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_win64.exe.zip
-            archive_output: true
-
-          - preset: "Linux/X11"
-            out: Fugitive_Linux.zip
-            godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
-            archive_output: true
-
+    permissions: write-all
+    name: Export Game
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: checkout
+        uses: actions/checkout@v4
 
-      - name: install wine
-        id: wine_install
-        run: |
-          sudo apt install wine64
-          echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
-
-      - name: Rename Windows executable if needed
-        if: matrix.preset == 'Windows Desktop'
-        run: |
-          GEXE_DIR="$HOME/.local/share/godot/godot_executable"
-          if [ -f "$GEXE_DIR/Godot_v3.6.1-stable_win64.exe" ]; then
-            mv "$GEXE_DIR/Godot_v3.6.1-stable_win64.exe" "$GEXE_DIR/godot.exe"
-          fi
-
-      - name: Export ${{ matrix.preset }}
+      - name: export game
+        id: export
         uses: firebelley/godot-export@v6.0.0
         with:
-          godot_executable_download_url: ${{ matrix.godot_url }}
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_export_templates.tpz
-          presets_to_export: "${{ matrix.preset }}"
-          relative_export_path: build
+          relative_project_path: ./
+          archive_output: true
           use_godot_3: true
-          archive_output: ${{ matrix.archive_output }}
-          wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
 
-      - name: Rename output
-        run: mv build/* "${{ matrix.out }}"
-        shell: bash
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: create release
+        uses: ncipollo/release-action@v1.14.0
         with:
-          name: ${{ matrix.out }}
-          path: ${{ matrix.out }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: ${{ github.ref_name }}
+          artifacts: ${{ steps.export.outputs.archive_directory }}/*
 
   release:
-    needs: export
+    needs: export_game
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
