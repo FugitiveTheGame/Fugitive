@@ -30,6 +30,7 @@ jobs:
         with:
           version: 4.2.1
           use-mono: false
+          export-templates: true
 
       # Export the game
       - name: Export ${{ matrix.preset }}
