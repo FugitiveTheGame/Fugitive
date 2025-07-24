@@ -1,0 +1,61 @@
+name: Build & Pre-Release
+
+on:
+  push:
+    tags:
+      - 'v*'           # runs only for tags like v1.2.3
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - preset: "Windows Desktop"
+            out:   Fugitive_Windows.zip
+          - preset: "Linux/X11"
+            out:   Fugitive_Linux.zip
+          - preset: "Mac OSX"
+            out:   Fugitive_OSX.zip
+          - preset: "Android"
+            out:   Fugitive_Android.apk
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Install Godot + export templates (change version / mono if needed)
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.2.1
+          use-mono: false
+
+      # Export the game
+      - name: Export ${{ matrix.preset }}
+        run: |
+          mkdir -p build
+          godot --headless --export-release "${{ matrix.preset }}" "build/${{ matrix.out }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.out }}
+          path: build/${{ matrix.out }}
+
+  release:
+    needs: export
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: dist
+
+      - name: Create GitHub pre-release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          prerelease: true
+          files: dist/**/*
