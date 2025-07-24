@@ -14,7 +14,7 @@ jobs:
           - preset: "Windows Desktop"
             out: Fugitive_Windows.zip
             godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_win64.exe.zip
-            archive_output: false
+            archive_output: true
 
           - preset: "Linux/X11"
             out: Fugitive_Linux.zip
@@ -26,7 +26,7 @@ jobs:
             godot_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
             archive_output: true
 
-            
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
