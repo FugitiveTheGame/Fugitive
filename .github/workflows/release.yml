@@ -35,20 +35,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up rcedit (Windows only)
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          $rceditUrl  = "https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe"
-          $rceditPath = "$env:RUNNER_TEMP\rcedit.exe"
-          Invoke-WebRequest -Uri $rceditUrl -OutFile $rceditPath
-
-          $godotDir     = "$env:APPDATA\Godot"
-          New-Item -ItemType Directory -Force -Path $godotDir | Out-Null
-          $settingsFile = "$godotDir\editor_settings-3.tres"
-
-          Add-Content -Path $settingsFile -Value "`n[export]`nwindows/rcedit=\"$rceditPath\"`n"
-
       - name: Export ${{ matrix.preset }}
         uses: firebelley/godot-export@v6.0.0
         with:
