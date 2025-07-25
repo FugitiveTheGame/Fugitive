@@ -45,14 +45,14 @@ jobs:
 
           # 3) --- Tell Godot where both keystores live -----------------------
           cat >> ~/.config/godot/editor_settings-3.tres <<EOF
-[android]
-debug_keystore="$HOME/.android/debug.keystore"
-debug_keystore_user="androiddebugkey"
-debug_keystore_pass="android"
-release_keystore="$HOME/.android/release.keystore"
-release_keystore_user="$ANDROID_KEY_ALIAS"
-release_keystore_pass="$ANDROID_KEY_PASSWORD"
-EOF
+          [android]
+          debug_keystore="$HOME/.android/debug.keystore"
+          debug_keystore_user="androiddebugkey"
+          debug_keystore_pass="android"
+          release_keystore="$HOME/.android/release.keystore"
+          release_keystore_user="$ANDROID_KEY_ALIAS"
+          release_keystore_pass="$ANDROID_KEY_PASSWORD"
+          EOF
 
 
       - name: export game
