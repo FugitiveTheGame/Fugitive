@@ -20,25 +20,40 @@ jobs:
           sudo apt install wine64
           echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
 
-      - name: setup release keystore for Android export
+      - name: set up Android keystores
         if: always()
         env:
-          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}   # base64‑encoded .keystore
-          ANDROID_KEY_ALIAS:        ${{ secrets.ANDROID_KEY_ALIAS }}                  # e.g. “myreleasekey”
-          ANDROID_KEY_PASSWORD:     ${{ secrets.ANDROID_KEY_PASSWORD }}               # keystore / key password
+          # ‑‑ Release credentials come from repo secrets ‑‑
+          ANDROID_RELEASE_KEYSTORE_B64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_B64 }}
+          ANDROID_KEY_ALIAS:            ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD:         ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          # 1) Write the keystore file
-          mkdir -p ~/.android
-          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > ~/.android/release.keystore
+          mkdir -p ~/.android ~/.config/godot
 
-          # 2) Tell Godot where to find it (3.x editor settings)
-          mkdir -p ~/.config/godot
-          {
-            echo "[android]"
-            echo "release_keystore=\"${HOME}/.android/release.keystore\""
-            echo "release_keystore_user=\"$ANDROID_KEY_ALIAS\""
-            echo "release_keystore_pass=\"$ANDROID_KEY_PASSWORD\""
-          } >> ~/.config/godot/editor_settings-3.tres
+          # 1) --- RELEASE KEYSTORE (decoded from secret) ---------------------
+          echo "$ANDROID_RELEASE_KEYSTORE_B64" | base64 --decode \
+            > ~/.android/release.keystore
+
+          # 2) --- DEBUG KEYSTORE (generate a disposable one) -----------------
+          keytool -genkeypair -v \
+            -keystore ~/.android/debug.keystore \
+            -alias androiddebugkey \
+            -storepass android \
+            -keypass  android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA -keysize 2048 -validity 10000
+
+          # 3) --- Tell Godot where both keystores live -----------------------
+          cat >> ~/.config/godot/editor_settings-3.tres <<EOF
+[android]
+debug_keystore="$HOME/.android/debug.keystore"
+debug_keystore_user="androiddebugkey"
+debug_keystore_pass="android"
+release_keystore="$HOME/.android/release.keystore"
+release_keystore_user="$ANDROID_KEY_ALIAS"
+release_keystore_pass="$ANDROID_KEY_PASSWORD"
+EOF
+
 
       - name: export game
         id: export
