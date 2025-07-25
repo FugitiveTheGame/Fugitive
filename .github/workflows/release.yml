@@ -23,18 +23,17 @@ jobs:
       - name: set up Android keystores
         if: always()
         env:
-          # ‑‑ Release credentials come from repo secrets ‑‑
           ANDROID_RELEASE_KEYSTORE_B64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_B64 }}
-          ANDROID_KEY_ALIAS:            ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD:         ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           mkdir -p ~/.android ~/.config/godot
 
-          # 1) --- RELEASE KEYSTORE (decoded from secret) ---------------------
+          # --- RELEASE KEYSTORE (decoded from secret) ---
           echo "$ANDROID_RELEASE_KEYSTORE_B64" | base64 --decode \
             > ~/.android/release.keystore
 
-          # 2) --- DEBUG KEYSTORE (generate a disposable one) -----------------
+          # --- DEBUG KEYSTORE (generate a disposable one) ---
           keytool -genkeypair -v \
             -keystore ~/.android/debug.keystore \
             -alias androiddebugkey \
@@ -43,17 +42,18 @@ jobs:
             -dname "CN=Android Debug,O=Android,C=US" \
             -keyalg RSA -keysize 2048 -validity 10000
 
-          # 3) --- Tell Godot where both keystores live -----------------------
-          cat >> ~/.config/godot/editor_settings-3.tres <<EOF
-          [android]
-          debug_keystore="$HOME/.android/debug.keystore"
-          debug_keystore_user="androiddebugkey"
-          debug_keystore_pass="android"
-          release_keystore="$HOME/.android/release.keystore"
-          release_keystore_user="$ANDROID_KEY_ALIAS"
-          release_keystore_pass="$ANDROID_KEY_PASSWORD"
-          EOF
+          # --- Tell Godot where both keystores live (using the correct format) ---
+          cat > ~/.config/godot/editor_settings-3.tres <<EOF
+          [gd_resource type="EditorSettings" format=2]
 
+          [resource]
+          android/debug_keystore = "$HOME/.android/debug.keystore"
+          android/debug_keystore_user = "androiddebugkey"
+          android/debug_keystore_pass = "android"
+          android/release_keystore = "$HOME/.android/release.keystore"
+          android/release_keystore_user = "${ANDROID_KEY_ALIAS}"
+          android/release_keystore_pass = "${ANDROID_KEY_PASSWORD}"
+          EOF
 
       - name: export game
         id: export
