@@ -21,43 +21,27 @@ jobs:
           echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
 
       - name: set up Android keystores
-        if: always()
         env:
           ANDROID_RELEASE_KEYSTORE_B64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_B64 }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          mkdir -p ~/.android ~/.config/godot
+          mkdir -p /home/runner/.android
 
-          # --- RELEASE KEYSTORE (decoded from secret) ---
-          echo "$ANDROID_RELEASE_KEYSTORE_B64" | base64 --decode \
-            > ~/.android/release.keystore
+          # Decode release keystore from secrets
+          echo "$ANDROID_RELEASE_KEYSTORE_B64" | base64 --decode > /home/runner/.android/release.keystore
 
-          # --- DEBUG KEYSTORE (generate a disposable one) ---
+          # Generate a disposable debug keystore
           keytool -genkeypair -v \
-            -keystore ~/.android/debug.keystore \
-            -alias androiddebugkey \
-            -storepass android \
-            -keypass  android \
+            -keystore /home/runner/.android/debug.keystore \
+            -alias androiddebugkey -storepass android -keypass android \
             -dname "CN=Android Debug,O=Android,C=US" \
             -keyalg RSA -keysize 2048 -validity 10000
-
-          # --- Tell Godot where both keystores live (using the correct format) ---
-          cat > ~/.config/godot/editor_settings-3.tres <<EOF
-          [gd_resource type="EditorSettings" format=2]
-
-          [resource]
-          android/debug_keystore = "$HOME/.android/debug.keystore"
-          android/debug_keystore_user = "androiddebugkey"
-          android/debug_keystore_pass = "android"
-          android/release_keystore = "$HOME/.android/release.keystore"
-          android/release_keystore_user = "${ANDROID_KEY_ALIAS}"
-          android/release_keystore_pass = "${ANDROID_KEY_PASSWORD}"
-          EOF
 
       - name: export game
         id: export
         uses: firebelley/godot-export@v6.0.0
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         with:
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_linux_headless.64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/3.6.1-stable/Godot_v3.6.1-stable_export_templates.tpz
