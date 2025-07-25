@@ -22,10 +22,10 @@ jobs:
 
       - name: set up Android keystores
         env:
-          ANDROID_RELEASE_KEYSTORE_B64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_B64 }}
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
         run: |
           mkdir -p /home/runner/.android
-          echo "$ANDROID_RELEASE_KEYSTORE_B64" | base64 --decode > /home/runner/.android/release.keystore
+          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > /home/runner/.android/release.keystore
           keytool -genkeypair -v \
             -keystore /home/runner/.android/debug.keystore \
             -alias androiddebugkey -storepass android -keypass android \
