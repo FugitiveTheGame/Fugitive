@@ -20,6 +20,26 @@ jobs:
           sudo apt install wine64
           echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
 
+      - name: setup release keystore for Android export
+        if: always()
+        env:
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}   # base64‑encoded .keystore
+          ANDROID_KEY_ALIAS:        ${{ secrets.ANDROID_KEY_ALIAS }}                  # e.g. “myreleasekey”
+          ANDROID_KEY_PASSWORD:     ${{ secrets.ANDROID_KEY_PASSWORD }}               # keystore / key password
+        run: |
+          # 1) Write the keystore file
+          mkdir -p ~/.android
+          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > ~/.android/release.keystore
+
+          # 2) Tell Godot where to find it (3.x editor settings)
+          mkdir -p ~/.config/godot
+          {
+            echo "[android]"
+            echo "release_keystore=\"${HOME}/.android/release.keystore\""
+            echo "release_keystore_user=\"$ANDROID_KEY_ALIAS\""
+            echo "release_keystore_pass=\"$ANDROID_KEY_PASSWORD\""
+          } >> ~/.config/godot/editor_settings-3.tres
+
       - name: export game
         id: export
         uses: firebelley/godot-export@v6.0.0
