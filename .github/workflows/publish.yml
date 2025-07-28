@@ -32,7 +32,7 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
         run: |
-          butler push dist/fugitive-windows.zip  stumpy-dog-studios/fugitive:windows-release --userversion ${{ github.event.release.tag_name }}
-          butler push dist/fugitive-linux.zip    stumpy-dog-studios/fugitive:linux-release   --userversion ${{ github.event.release.tag_name }}
-          butler push dist/fugitive-osx.zip      stumpy-dog-studios/fugitive:osx-release     --userversion ${{ github.event.release.tag_name }}
-          butler push dist/fugitive-android.apk  stumpy-dog-studios/fugitive:android-release --userversion ${{ github.event.release.tag_name }}
+          butler push dist/fugitive-windows.zip  stumpy-dog-studios/fugitive:windows-prod --userversion ${{ github.event.release.tag_name }}
+          butler push dist/fugitive-linux.zip    stumpy-dog-studios/fugitive:linux-prod   --userversion ${{ github.event.release.tag_name }}
+          butler push dist/fugitive-osx.zip      stumpy-dog-studios/fugitive:osx-prod     --userversion ${{ github.event.release.tag_name }}
+          butler push dist/fugitive-android.apk  stumpy-dog-studios/fugitive:android-prod --userversion ${{ github.event.release.tag_name }}
