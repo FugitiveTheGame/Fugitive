@@ -13,10 +13,12 @@ jobs:
     steps:
       - name: Download release assets
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # allows gh to authenticate
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mkdir dist
-          gh release download ${{ github.event.release.tag_name }} -D dist
+          mkdir -p dist
+          gh release download ${{ github.event.release.tag_name }} \
+            -R ${{ github.repository }} \
+            -D dist
 
       - name: Set up Butler
         uses: jdno/setup-butler@v1
