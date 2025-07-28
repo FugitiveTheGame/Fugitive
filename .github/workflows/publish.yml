@@ -20,6 +20,11 @@ jobs:
             -R ${{ github.repository }} \
             -D dist
 
+      - name: List downloaded assets
+        run: |
+          echo "Contents of dist directory:"
+          ls -R dist
+
       - name: Set up Butler
         uses: jdno/setup-butler@v1
 

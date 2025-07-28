@@ -52,6 +52,7 @@ jobs:
           use_godot_3: true
           wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
 
+      # We just want the bare APK
       - name: unzip android apk
         run: |
           set -e
@@ -65,12 +66,7 @@ jobs:
           done
           shopt -u nocaseglob   # (optional) restore default shell behaviour
 
-      - name: list archive contents
-        run: |
-          ARCHIVE_DIR="${{ steps.export.outputs.archive_directory }}"
-          echo "Contents of $ARCHIVE_DIR:"
-          ls -R "$ARCHIVE_DIR"
-
+      # artifacts must live inside the workspace dir for the github release step
       - name: collect exported builds
         run: |
           ARCHIVE_DIR="${{ steps.export.outputs.archive_directory }}"
