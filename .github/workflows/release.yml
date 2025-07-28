@@ -52,11 +52,41 @@ jobs:
           use_godot_3: true
           wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
 
+      - name: unzip android apk
+        run: |
+          set -e
+          ARCHIVE_DIR="${{ steps.export.outputs.archive_directory }}"
+          # enable case-insensitive globs then extract & delete the archive(s)
+          shopt -s nocaseglob
+          for ZIP in "${ARCHIVE_DIR}"/*android*.zip; do
+            [ -e "$ZIP" ] || { echo "No Android archive found"; exit 1; }
+            unzip -o "$ZIP" -d "$ARCHIVE_DIR"
+            rm "$ZIP"
+          done
+          shopt -u nocaseglob   # (optional) restore default shell behaviour
+
+      - name: list archive contents
+        run: |
+          ARCHIVE_DIR="${{ steps.export.outputs.archive_directory }}"
+          echo "Contents of $ARCHIVE_DIR:"
+          ls -R "$ARCHIVE_DIR"
+
+      - name: collect exported builds
+        run: |
+          ARCHIVE_DIR="${{ steps.export.outputs.archive_directory }}"
+          DEST="$GITHUB_WORKSPACE/release_artifacts"
+          mkdir -p "$DEST"
+          cp "$ARCHIVE_DIR"/*.zip  "$DEST/"
+          cp "$ARCHIVE_DIR"/*.apk  "$DEST/" 2>/dev/null || true
+          ls -R "$DEST"
+
       - name: create release
         uses: ncipollo/release-action@v1.14.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
           tag: ${{ github.ref_name }}
-          artifacts: ${{ steps.export.outputs.archive_directory }}/*
+          artifacts: |
+            release_artifacts/*.zip
+            release_artifacts/*.apk
           draft: true
