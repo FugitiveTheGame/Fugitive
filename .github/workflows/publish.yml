@@ -38,7 +38,7 @@ jobs:
         with:
           ruby-version: '3.1'
 
-      - name: Deploy to Google Play (internal track)
+      - name: Deploy to Google Play
         env:
           APK_PATH: dist/fugitive-android.apk
         run: |
