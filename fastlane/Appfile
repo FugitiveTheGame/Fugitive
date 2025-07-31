@@ -1,2 +1,2 @@
-﻿json_key_file("~google-play-service-account.json")
+﻿json_key_file("~/google-play-service-account.json")
 package_name("com.darkrockstudios.games.fugitive")
