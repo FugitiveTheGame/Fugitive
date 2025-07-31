@@ -1,4 +1,0 @@
-1) Export all (Release) from Godot
-2) pack-releases.bat
-3) update vesion.txt
-4) itch-push-all.bat

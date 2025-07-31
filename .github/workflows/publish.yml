@@ -25,6 +25,21 @@ jobs:
           echo "Contents of dist directory:"
           ls -R dist
 
+      - name: Write Google Play service account
+        env:
+          GOOGLE_PLAY_JSON: ${{ secrets.GOOGLE_PLAY_JSON }}
+        run: echo "$GOOGLE_PLAY_JSON" > $HOME/google-play-service-account.json
+
+      - name: Set up Ruby & Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      - name: Deploy to Google Play (internal track)
+        env:
+          APK_PATH: dist/fugitive-android.apk
+        run: fastlane android deploy
+
       - name: Set up Butler
         uses: jdno/setup-butler@v1
 

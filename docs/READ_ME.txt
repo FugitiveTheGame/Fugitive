@@ -20,6 +20,8 @@ Controls:
 	Honk Car horn: H
 	Lock Car: L (hold for 2 seconds)
 
+OR use a controller
+
 
 Sprinting:
 ----------
