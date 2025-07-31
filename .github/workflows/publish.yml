@@ -1,16 +1,19 @@
-name: Publish Release → itch.io
+name: Publish Release → itch.io/Google Play
 
 on:
   release:
     types: [published]
 
 jobs:
-  upload_to_itch:
+  upload_to_stores:
     # skip prereleases – remove the line below if you want them as well
     if: ${{ github.event.release.prerelease == false }}
     runs-on: ubuntu-latest
 
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
       - name: Download release assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,7 +41,8 @@ jobs:
       - name: Deploy to Google Play (internal track)
         env:
           APK_PATH: dist/fugitive-android.apk
-        run: fastlane android deploy
+        run: |
+          fastlane android deploy
 
       - name: Set up Butler
         uses: jdno/setup-butler@v1
