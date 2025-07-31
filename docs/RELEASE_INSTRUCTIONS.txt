@@ -1,5 +1,5 @@
-1) Increase the Android version code
-2) Upush all changes on main
-3) Push a tag in the form "1.2.3"
+1) Run the version update script: `scripts/update_version.ps1`
+2) Commit and push all changes on main
+3) Push a SEMVAR tag in the form "v1.2.3"
 4) CI will build the release and stage it as a draft on Github
 5) Edit the draft release and publish it, this will trigger further actions to publish to stores

@@ -4,10 +4,11 @@ platform :android do
   desc "Deploy a new version to the Google Play Store"
   lane :deploy do
     upload_to_play_store(
-      track: 'internal',
+      track: 'production',
+      release_status: 'completed',
       apk: ENV.fetch('APK_PATH', 'fugitive-release.apk'),
       skip_upload_metadata: false,
-      skip_upload_images: false,
+      skip_upload_images:   false,
       skip_upload_screenshots: false
     )
   end
