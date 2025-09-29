@@ -1,0 +1,5 @@
+﻿Fugitive is an exciting game where you must escape and evade capture as your friends hunt you down.
+
+A multiplayer, objective based, hide and seek game. Free and open source, available on every platform under the sun.
+
+Great for LAN parties or Discord nights!

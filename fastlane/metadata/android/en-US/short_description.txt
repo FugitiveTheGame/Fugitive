@@ -1,0 +1,1 @@
+﻿A multiplayer, objective based, hide and seek game. Perfect for LAN parties!
