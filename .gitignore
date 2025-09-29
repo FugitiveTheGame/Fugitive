@@ -3,6 +3,8 @@
 .import/
 export/
 
+android/build/outputs
+
 # Mono-specific ignores
 .mono/
 output/Fugitive.exe
