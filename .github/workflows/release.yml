@@ -51,6 +51,7 @@ jobs:
           relative_project_path: ./
           archive_output: true
           use_godot_3: true
+          verbose: true
           wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
 
       # We just want the bare APK
