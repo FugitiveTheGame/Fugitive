@@ -41,5 +41,5 @@ $content = $content `
     -replace 'application/version="[^"]*"',         "application/version=`"$version`""
 
 # --- 4) Save the updated file ------------------------------------------------
-[System.IO.File]::WriteAllText($cfgPath, $content, [System.Text.Encoding]::UTF8)
+[System.IO.File]::WriteAllText($cfgPath, $content, [System.Text.UTF8Encoding]::new($false))
 Write-Host "export_presets.cfg successfully updated to version $version."
