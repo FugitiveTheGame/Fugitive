@@ -1,0 +1,2 @@
+- Update to Godot 3.6.2
+- Androud updates: 16k page size, SDK 35
