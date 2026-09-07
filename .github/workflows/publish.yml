@@ -55,3 +55,28 @@ jobs:
           butler push dist/fugitive-linux.zip    stumpy-dog-studios/fugitive:linux-release   --userversion ${{ github.event.release.tag_name }}
           butler push dist/fugitive-osx.zip      stumpy-dog-studios/fugitive:osx-release     --userversion ${{ github.event.release.tag_name }}
           butler push dist/fugitive-android.apk  stumpy-dog-studios/fugitive:android-release --userversion ${{ github.event.release.tag_name }}
+
+  notify:
+    name: Announce on Discord
+    needs: upload_to_stores
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Post to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          RELEASE_NAME: ${{ github.event.release.name || github.event.release.tag_name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$DISCORD_WEBHOOK" ]]; then
+            echo "::error::DISCORD_WEBHOOK secret is not set"
+            exit 1
+          fi
+          content="$(bash .github/scripts/discord-release-message.sh)"
+          jq -n --arg content "$content" '{content: $content}' \
+            | curl -fsSL -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK"

@@ -1,0 +1,43 @@
+name: Announce Release
+
+# Posts a release's Discord announcement by hand. The notify job in
+# publish.yml is skipped whenever the store upload job fails, so this sends
+# the announcement afterwards for a given tag without re-running the publish
+# jobs.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to announce (e.g. v1.1.4)'
+        type: string
+        required: true
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Post to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$DISCORD_WEBHOOK" ]]; then
+            echo "::error::DISCORD_WEBHOOK secret is not set"
+            exit 1
+          fi
+          release_json="$(gh release view "$TAG" --repo "$REPO" --json name,tagName,body,url)"
+          RELEASE_NAME="$(echo "$release_json" | jq -r 'if (.name // "") == "" then .tagName else .name end')"
+          RELEASE_URL="$(echo "$release_json" | jq -r '.url')"
+          RELEASE_BODY="$(echo "$release_json" | jq -r '.body // ""')"
+          export RELEASE_NAME RELEASE_URL RELEASE_BODY
+
+          content="$(bash .github/scripts/discord-release-message.sh)"
+          jq -n --arg content "$content" '{content: $content}' \
+            | curl -fsSL -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK"
