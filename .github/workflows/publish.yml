@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Download release assets
         env:
@@ -45,7 +45,7 @@ jobs:
           fastlane android deploy
 
       - name: Set up Butler
-        uses: jdno/setup-butler@v1
+        uses: jdno/setup-butler@v2.0.0
 
       - name: Push every build to itch.io
         env:

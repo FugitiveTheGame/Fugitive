@@ -12,7 +12,7 @@ jobs:
     name: Export Game
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: install wine
         id: wine_install
@@ -44,7 +44,7 @@ jobs:
 
       - name: export game
         id: export
-        uses: firebelley/godot-export@v7.0.0
+        uses: firebelley/godot-export@v8.0.0
         with:
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/3.6.3-stable/Godot_v3.6.3-stable_linux_headless.64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/3.6.3-stable/Godot_v3.6.3-stable_export_templates.tpz
@@ -78,7 +78,7 @@ jobs:
           ls -R "$DEST"
 
       - name: create release
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
