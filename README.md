@@ -42,3 +42,13 @@ If you have a section of map where a Car could possibly escape the road, you can
 Other actors you maybe interested in:
 * Street Light
 * Motion Sensor
+
+## 🪨 Dark Rock Studios
+
+[**Dark Rock Studios**](https://darkrock.studio/) is all about building **Free and Open Source Software**.
+
+🐛 Found bugs?  
+💡 Have suggestions?  
+📚 Want to help translate?  
+🎮 Interested in our other apps?  
+👉 Join our community of Open Source enthusiasts on [**Discord**](https://discord.gg/49Kj5mMj6d)!
